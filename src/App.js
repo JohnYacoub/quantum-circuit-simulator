@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-
+//comment
 function App() {
   const [movie, setMovies] = useState("no");
   useEffect(() => {
