@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
+import SpeedIcon from '@material-ui/icons/Speed';
 function MeasureButton(props) {
   return (
     <Button
@@ -7,7 +8,7 @@ function MeasureButton(props) {
       className="button-measure"
       onClick={props.onClick}
     >
-      Measure
+      <SpeedIcon style={{fontSize:35}}/>
     </Button>
   );
 }

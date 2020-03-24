@@ -5,7 +5,7 @@ function BinButton(props) {
   return (
     <IconButton className="bin" onClick={props.onClick}>
       <DeleteOutlinedIcon
-        style={{ color: "black" }}
+        style={{ color: "white" }}
         className="material-icons"
       />
     </IconButton>
