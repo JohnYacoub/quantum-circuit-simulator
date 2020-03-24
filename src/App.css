@@ -1,41 +1,41 @@
 .App {
-  text-align: center;
+
   background-color: #11329e;
   min-height: 100vh;
   display: flex;
+  padding: 1em;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+
   font-size: calc(10px + 2vmin);
   color: white;
 }
 
 
-.not-selected-state {
-  background-color: black;
+div.not-selected-state {
+  display: inline-block;
+  background-color: blue;
   cursor: pointer;
-  width: 5vw;
-  height: 5.5vw;
-  padding: 2px;
+  width: 4em;
+  height: 4em;
   color: white;
   border: 0.5px solid white;
   border-width: 1px;
   border-radius: 10px;
   border-color: white;
   border-style: solid;
-  opacity: 0.7;
   box-shadow: 0px 0px 8px grey;
 }
+
 .not-selected-state:hover {
   box-shadow: 0px 0px 5px #00ffff;
   border: 1px solid #00ffff;
 }
 .selected-state {
+  display: inline-block;
   background-color: white;
   cursor: pointer;
-  width: 5vw;
-  height: 5.5vw;
-  padding: 2px;
+  width: 4em;
+  height: 4em;
   color: blue;
   border: 0.5px dashed blue;
   border-width: 1px;
@@ -94,3 +94,4 @@ button.gate img{
   top:50%;
   left: 50%;
 }
+
