@@ -13,37 +13,27 @@
 
 div.not-selected-state {
   display: inline-block;
-  background-color: blue;
+  background-color: rgb(104, 174, 231);
   cursor: pointer;
-  width: 4em;
-  height: 4em;
+  width: 6em;
+  height: 6em;
   color: white;
-  border: 0.5px solid white;
-  border-width: 1px;
-  border-radius: 10px;
-  border-color: white;
-  border-style: solid;
-  box-shadow: 0px 0px 8px grey;
+  border-radius: 0.5em;
+  box-shadow: 0 3px 5px 2px rgba(33, 203, 243, 0.3);
+  transition: all 0.3s ease 0s;
 }
 
 .not-selected-state:hover {
   box-shadow: 0px 0px 5px #00ffff;
-  border: 1px solid #00ffff;
+  transform: translateY(-7px);
 }
 .selected-state {
   display: inline-block;
   background-color: white;
   cursor: pointer;
-  width: 4em;
-  height: 4em;
-  color: blue;
-  border: 0.5px dashed blue;
-  border-width: 1px;
+  width: 6em;
+  height: 6em;
   border-radius: 10px;
-  border-style: dashed;
-  border-color: blue;
-  opacity: 0.7;
-  box-shadow: 0px 0px 8px white;
 }
 
 button.button-measure {

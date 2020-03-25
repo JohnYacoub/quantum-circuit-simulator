@@ -1,6 +1,6 @@
 import React from "react";
 import Paper from "@material-ui/core/Paper";
-function QbitCard(props) {
+function QubitCard(props) {
   return (
     <Paper
       id={props.state}
@@ -13,4 +13,4 @@ function QbitCard(props) {
     </Paper>
   );
 }
-export default QbitCard;
+export default QubitCard;
