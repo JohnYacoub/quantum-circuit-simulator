@@ -24,10 +24,6 @@ import GateCard from "./GateCard";
 import Title from "./Title";
 import BinButton from "./BinButton";
 import "./App.css";
-import h from "./images/h.jpg";
-import x from "./images/x.jpg";
-import y from "./images/y.jpg";
-import z from "./images/z.jpg";
 
 function Footer() {
   return (
@@ -111,7 +107,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     //display: "flex",
     overflow: "auto",
-    flexDirection: "column",
+    //flexDirection: "column",
     textAlign: "center"
   },
   fixedHeight: {
@@ -119,7 +115,7 @@ const useStyles = makeStyles(theme => ({
   },
   qubitState: {
     fontSize: 30,
-    paddingTop: "20%"
+    verticalAlign: "middle"
   }
 }));
 
@@ -147,7 +143,7 @@ export default function Dashboard() {
       if (oneSelected) startState = 1;
       if (zeroSelected) startState = 0;
       let res = "";
-      fetch(`http://localhost:5000/result/${startState}/${gates}`, {
+      fetch(`http://localhost:5000/result/${startState}/${gates}/90`, {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -281,10 +277,18 @@ export default function Dashboard() {
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
                 <Title>Gates</Title>
-                <GateCard src={h} onClick={() => selectGate("H")} />
-                <GateCard src={x} onClick={() => selectGate("X")} />
-                <GateCard src={y} onClick={() => selectGate("Y")} />
-                <GateCard src={z} onClick={() => selectGate("Z")} />
+                <Grid container spacing={3}>
+                  {["H", "S", "T", "X", "Y", "Z", "Rx", "Ry", "Ry"].map(g => (
+                    <Grid className="gate-wrapper" item xs={18} md={1} lg={1}>
+                      <div
+                        className={`${g} gate`}
+                        onClick={() => selectGate(g)}
+                      >
+                        <div className="gate-text">{g}</div>
+                      </div>
+                    </Grid>
+                  ))}
+                </Grid>
               </Paper>
             </Grid>
             {/* Circuit */}
@@ -293,7 +297,7 @@ export default function Dashboard() {
                 <Title>Circuit</Title>
                 <MeasureButton onClick={getResult} />
                 <BinButton onClick={resetAll} />
-                    <div>Result:  {result}</div>
+                <div>Result: {result}</div>
               </Paper>
             </Grid>
           </Grid>

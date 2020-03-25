@@ -1,10 +1,12 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 function GateCard(props) {
   return (
-    <Button variant="contained" className="gate" onClick={props.onClick}>
-      <img alt="Gate" src={props.src} />
-    </Button>
+    <Grid className="gate-wrapper" item xs={18} md={2} lg={2}>
+      <div className={`${props.gateName} gate`} onClick={() => props.onClick}>
+        <div className="gate-text">{props.gateName}</div>
+      </div>
+    </Grid>
   );
 }
 export default GateCard;
