@@ -9,11 +9,10 @@
 }
 
 div.not-selected-state {
-  display: inline-block;
   background-color: rgb(104, 174, 231);
   cursor: pointer;
-  width: 6em;
-  height: 6em;
+  width: 3.5em;
+  height: 3.5em;
   color: white;
   border-radius: 0.5em;
   box-shadow: 0 3px 5px 2px rgba(33, 203, 243, 0.3);
@@ -22,13 +21,13 @@ div.not-selected-state {
 .not-selected-state:hover {
   box-shadow: 0px 0px 5px #00ffff;
 }
-.selected-state {
-  display: inline-block;
-  background-color: white;
+div.selected-state {
+  border-color: rgb(104, 174, 231);
   cursor: pointer;
-  width: 6em;
-  height: 6em;
+  width: 3.5em;
+  height: 3.5em;
   border-radius: 10px;
+  box-shadow: 0 3px 5px 2px rgba(33, 203, 243, 0.3);
 }
 
 button.button-measure {
@@ -108,4 +107,12 @@ button.MuiButton-root {
 .Ry,
 .Rz {
   background-color: rgb(104, 174, 231);
+}
+
+div.MuiGrid-container {
+  justify-content: center;
+}
+
+div.MuiGrid-grid-xs-8{
+  flex-basis: 0%;
 }

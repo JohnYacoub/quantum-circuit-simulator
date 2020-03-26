@@ -18,11 +18,10 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import { mainListItems, secondaryListItems } from "./listItems";
-import Orders from "./Orders";
 import MeasureButton from "./MeasureButton";
-import GateCard from "./GateCard";
 import Title from "./Title";
 import BinButton from "./BinButton";
+import Circuit from "./Circuit";
 import "./App.css";
 
 function Footer() {
@@ -101,31 +100,30 @@ const useStyles = makeStyles(theme => ({
   },
   container: {
     paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4)
+    paddingBottom: theme.spacing(4),
+    justifyContent: "center",
+    textAlign:"-webkit-center"
   },
   paper: {
     padding: theme.spacing(2),
-    //display: "flex",
-    overflow: "auto",
-    //flexDirection: "column",
     textAlign: "center"
   },
-  fixedHeight: {
-    height: 240
-  },
   qubitState: {
-    fontSize: 30,
-    verticalAlign: "middle"
+    fontSize: 15,
+    fontWeight:"bold",
+    verticalAlign: "middle",
+    paddingTop:'25%',
+    padding:0
   }
 }));
 
 export default function Dashboard() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const [result, setResult] = useState("");
-  const [oneSelected, setOneSelected] = useState(false);
-  const [zeroSelected, setZeroSelected] = useState(false);
-  const [gates, setGate] = useState("");
+  const [selectedState, setSelectedState] = useState(false);
+
+  const [gates, setGate] = useState([]);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -134,22 +132,23 @@ export default function Dashboard() {
   };
 
   const getResult = () => {
-    if (!oneSelected && !zeroSelected) {
+    console.log(selectedState);
+    if (selectedState === false) {
       setResult("Choose a start state!");
     } else if (gates.length === 0) {
       setResult("Select at least 1 gate!");
     } else {
-      let startState;
-      if (oneSelected) startState = 1;
-      if (zeroSelected) startState = 0;
       let res = "";
-      fetch(`http://localhost:5000/result/${startState}/${gates}/90`, {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          charset: "UTF-8"
+      fetch(
+        `http://localhost:5000/result/${selectedState}/${gates.join("")}/90`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            charset: "UTF-8"
+          }
         }
-      })
+      )
         .then(response =>
           response.json().then(data => {
             res = `${data.probability}`;
@@ -157,33 +156,31 @@ export default function Dashboard() {
           })
         )
         .catch(err => {
-          // Do something for an error here
           console.log("Error Reading data " + err);
         });
     }
   };
 
   const selectGate = gateName => {
-    setGate(gates.concat(gateName));
+    setGate([...gates, gateName]);
   };
 
   const handleQubitClick = qubitState => {
-    if (qubitState === 0) {
-      setZeroSelected(!zeroSelected);
+    if (qubitState === selectedState) {
+      setSelectedState(false);
     } else {
-      setOneSelected(!oneSelected);
+      setSelectedState(qubitState);
     }
   };
 
   const resetAll = () => {
-    setZeroSelected(false);
-    setOneSelected(false);
+    setSelectedState(false);
     setGate("");
     setResult("");
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  
   const qubitState = clsx(classes.paper, classes.qubitState);
-
+console.log(selectedState)
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -242,44 +239,48 @@ export default function Dashboard() {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             {/* Qubit States */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
+            <Grid item xs={12} md={3} lg={2}>
+              <Paper className={classes.paper}>
                 <Title>States</Title>
-                <Grid container spacing={3}>
-                  <Grid item xs={12} md={6} lg={6}>
-                    <Paper
-                      key={0}
-                      className={
-                        zeroSelected ? "selected-state" : "not-selected-state"
-                      }
-                      state={0}
-                      onClick={() => handleQubitClick(0)}
+                <Grid container spacing={1}>
+                  {[0, 1].map(q => (
+                    <Grid
+                      key={q}
+                      item
+                      xs={8}
+                      md={0}
+                      lg={0}
                     >
-                      <div className={qubitState}>|0></div>
-                    </Paper>
-                  </Grid>
-                  <Grid item xs={12} md={6} lg={6}>
-                    <Paper
-                      key={1}
-                      className={
-                        oneSelected ? "selected-state" : "not-selected-state"
-                      }
-                      state={1}
-                      onClick={() => handleQubitClick(1)}
-                    >
-                      <div className={qubitState}>|1></div>
-                    </Paper>
-                  </Grid>
+                      <div
+                      
+                        className={`${qubitState} ${
+                          selectedState === q
+                            ? "selected-state"
+                            : "not-selected-state"
+                        }`}
+                        onClick={() => handleQubitClick(q)}
+                      >
+                        <code className={qubitState}>|{q}></code>
+                      </div>
+                    </Grid>
+                  ))}
                 </Grid>
               </Paper>
             </Grid>
             {/* Gate selection */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
+            <Grid item xs={12} md={7} lg={10}>
+              <Paper className={classes.paper}>
                 <Title>Gates</Title>
                 <Grid container spacing={3}>
-                  {["H", "S", "T", "X", "Y", "Z", "Rx", "Ry", "Ry"].map(g => (
-                    <Grid className="gate-wrapper" item xs={18} md={1} lg={1}>
+                  {["H", "S", "T", "X", "Y", "Z", "Rx", "Ry", "Rz"].map(g => (
+                    <Grid
+                      key={g}
+                      className="gate-wrapper"
+                      item
+                      xs={18}
+                      md={1}
+                      lg={1}
+                    >
                       <div
                         className={`${g} gate`}
                         onClick={() => selectGate(g)}
@@ -295,6 +296,7 @@ export default function Dashboard() {
             <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <Title>Circuit</Title>
+                <Circuit gateList={gates} />
                 <MeasureButton onClick={getResult} />
                 <BinButton onClick={resetAll} />
                 <div>Result: {result}</div>
