@@ -49,6 +49,7 @@ const useStyles = makeStyles(theme => ({
     ...theme.mixins.toolbar
   },
   appBar: {
+    backgroundColor:"black",
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
@@ -70,9 +71,12 @@ const useStyles = makeStyles(theme => ({
     display: "none"
   },
   title: {
+    fontWeight:"bold",
     flexGrow: 1
   },
   drawerPaper: {
+    background: "black",
+    color: "white",
     position: "relative",
     whiteSpace: "nowrap",
     width: drawerWidth,
@@ -83,6 +87,7 @@ const useStyles = makeStyles(theme => ({
   },
   drawerPaperClose: {
     overflowX: "hidden",
+    color: "white",
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
@@ -106,10 +111,18 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     padding: theme.spacing(2),
-    textAlign: "center"
+    textAlign: "center",
+    borderRadius:0
   },
   qubitState: {
     fontSize: 15,
+    fontWeight: "bold",
+    verticalAlign: "middle",
+    paddingTop: "25%",
+    padding: 0
+  },
+  qubitInCircuit: {
+    fontSize: 20,
     fontWeight: "bold",
     verticalAlign: "middle",
     paddingTop: "25%",
@@ -157,14 +170,14 @@ export default function Dashboard() {
         .catch(err => {
           console.log("Error Reading data " + err);
         });
-        if(!gates.includes("M")) setGate([...gates, "M"]);
+      if (!gates.includes("M")) setGate([...gates, "M"]);
     }
   };
 
   const selectGate = gateName => {
     let newGates = gates;
-    const myind = gates.findIndex(g => g==="M")
-    if (myind > -1) newGates = gates.splice(myind,1)
+    const myind = gates.findIndex(g => g === "M");
+    if (myind > -1) newGates = gates.splice(myind, 1);
     setGate([...gates, gateName]);
   };
 
@@ -178,12 +191,12 @@ export default function Dashboard() {
 
   const resetAll = () => {
     setSelectedState(false);
-    setGate("");
+    setGate([]);
     setResult("");
   };
 
   const qubitState = clsx(classes.paper, classes.qubitState);
-  
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -207,7 +220,7 @@ export default function Dashboard() {
           <Typography
             component="h1"
             variant="h6"
-            color="inherit"
+            color="white"
             noWrap
             className={classes.title}
           >
@@ -229,7 +242,7 @@ export default function Dashboard() {
       >
         <div className={classes.toolbarIcon}>
           <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
+            <ChevronLeftIcon style={{color:"white"}} />
           </IconButton>
         </div>
         <Divider />
@@ -291,11 +304,26 @@ export default function Dashboard() {
             {/* Circuit */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Title>Circuit</Title>                
-                <Circuit gateList={gates} />
+                <Title>Circuit</Title>
+                <Grid className="circuit" container spacing={3}>
+                  <Grid className="qubitGrid" item xs={12} md={2} lg={2}>
+                    {selectedState !== false ? (
+                      <code className={classes.qubitInCircuit}>
+                        |{selectedState}>
+                      </code>
+                    ) : (
+                      ``
+                    )}
+                  </Grid>
+                  <Grid key="circuit" item xs={12} md={6} lg={6}>
+                    <Circuit gateList={gates} />
+                  </Grid>
+                  <Grid key="result" item xs={12} md={2} lg={2}>
+                    {result !== "" ? <div>Result: {result}</div> : ``}
+                  </Grid>
+                </Grid>
                 <MeasureButton onClick={getResult} />
                 <BinButton onClick={resetAll} />
-                <div>Result: {result}</div>
               </Paper>
             </Grid>
           </Grid>

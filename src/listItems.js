@@ -13,9 +13,9 @@ export const mainListItems = (
   <div>
     <ListItem button>
       <ListItemIcon>
-        <FiberManualRecordRoundedIcon />
+        <FiberManualRecordRoundedIcon/>
       </ListItemIcon>
-      <ListItemText primary="Single Qubit Gates" />
+      <ListItemText color='white' primary="Single Qubit Gates" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>

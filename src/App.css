@@ -44,13 +44,13 @@ button.button-measure {
 }
 
 button.button-measure:hover {
-  background: transparent;
+  background: #07dacf;
   transform: translateY(-7px);
   box-shadow: 0 3px 5px 2px rgba(33, 203, 243, 0.3);
 }
 
 button.bin {
-  background-color: #07dacf;
+  background-color: #38e1d8;
   position: "absolute";
   transition: all 0.3s ease 0s;
   box-shadow: 0 3px 5px 2px rgba(33, 203, 243, 0.3);
@@ -58,7 +58,7 @@ button.bin {
 
 button.bin:hover {
   transform: translateY(-7px);
-  background-color: transparent;
+  background: #38e1d8;
   box-shadow: 0 3px 5px 2px rgba(33, 203, 243, 0.3);
 }
 div.gate-wrapper {
@@ -114,8 +114,8 @@ button.MuiButton-root {
 .H,
 .S,
 .T {
-  background-color: rgb(211, 42, 141);
-  fill: rgb(211, 42, 141);
+  background-color: #FF3E88;
+  fill:#FF3E88;
 }
 
 .X,
@@ -138,4 +138,16 @@ div.MuiGrid-container {
 
 div.MuiGrid-grid-xs-8 {
   flex-basis: 0%;
+}
+
+div.qubitGrid{
+  text-align: end;
+}
+
+div.circuit {
+  margin-top: 2em;
+}
+
+div.MuiListItemIcon-root{
+  color: white;
 }
