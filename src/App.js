@@ -160,7 +160,7 @@ export default function Dashboard() {
         });
     }
   };
-
+//test
   const selectGate = gateName => {
     setGate([...gates, gateName]);
   };
