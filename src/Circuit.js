@@ -1,4 +1,5 @@
 import React from "react";
+//{selectedState? <code className={qubitState}>|{selectedState}></code> :``}
 function Circuit(props) {
   return props.gateList ? (
     <div style={{ overflow: "auto" }}>
@@ -15,6 +16,7 @@ function Circuit(props) {
                 className="gateRect"
                 x={80 * idx} //80*(elemNum-1)
                 y={0}
+                ry={20}
                 width={40}
                 height={40}
                 style={{ fill: "rgb(255, 0, 0)" }}

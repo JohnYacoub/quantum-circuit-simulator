@@ -291,7 +291,7 @@ export default function Dashboard() {
             {/* Circuit */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Title>Circuit</Title>
+                <Title>Circuit</Title>                
                 <Circuit gateList={gates} />
                 <MeasureButton onClick={getResult} />
                 <BinButton onClick={resetAll} />
