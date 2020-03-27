@@ -65,10 +65,30 @@ div.gate-wrapper {
   margin-right: 1em;
   text-align: -webkit-center;
 }
+@keyframes gatesFadeIn {
+  0% {
+    fill: transparent;
+  }
+}
 
+.test{
+  animation: 2s ease-out 0s 1 gatesFadeIn;
+}
+
+@keyframes gateLineFadeIn {
+  0% {
+    stroke: transparent;
+  }
+  
+  
+}
+.testtest{
+  animation: 5s ease-out 0s 1 gateLineFadeIn;
+}
 div.gate {
   width: 4em;
   height: 4em;
+  
 }
 
 div.gate-text {
@@ -113,6 +133,6 @@ div.MuiGrid-container {
   justify-content: center;
 }
 
-div.MuiGrid-grid-xs-8{
+div.MuiGrid-grid-xs-8 {
   flex-basis: 0%;
 }
