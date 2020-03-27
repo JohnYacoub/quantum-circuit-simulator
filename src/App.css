@@ -71,7 +71,7 @@ div.gate-wrapper {
   }
 }
 
-.test{
+.gateRect{
   animation: 2s ease-out 0s 1 gatesFadeIn;
 }
 
@@ -82,7 +82,7 @@ div.gate-wrapper {
   
   
 }
-.testtest{
+.circuitLine{
   animation: 5s ease-out 0s 1 gateLineFadeIn;
 }
 div.gate {
@@ -115,18 +115,21 @@ button.MuiButton-root {
 .S,
 .T {
   background-color: rgb(211, 42, 141);
+  fill: rgb(211, 42, 141);
 }
 
 .X,
 .Y,
 .Z {
   background-color: rgb(253, 184, 19);
+  fill: rgb(253, 184, 19);
 }
 
 .Rx,
 .Ry,
 .Rz {
   background-color: rgb(104, 174, 231);
+  fill: rgb(104, 174, 231);
 }
 
 div.MuiGrid-container {

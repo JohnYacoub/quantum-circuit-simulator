@@ -102,7 +102,7 @@ const useStyles = makeStyles(theme => ({
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
     justifyContent: "center",
-    textAlign:"-webkit-center"
+    textAlign: "-webkit-center"
   },
   paper: {
     padding: theme.spacing(2),
@@ -110,10 +110,10 @@ const useStyles = makeStyles(theme => ({
   },
   qubitState: {
     fontSize: 15,
-    fontWeight:"bold",
+    fontWeight: "bold",
     verticalAlign: "middle",
-    paddingTop:'25%',
-    padding:0
+    paddingTop: "25%",
+    padding: 0
   }
 }));
 
@@ -132,7 +132,6 @@ export default function Dashboard() {
   };
 
   const getResult = () => {
-    console.log(selectedState);
     if (selectedState === false) {
       setResult("Choose a start state!");
     } else if (gates.length === 0) {
@@ -158,10 +157,14 @@ export default function Dashboard() {
         .catch(err => {
           console.log("Error Reading data " + err);
         });
+        if(!gates.includes("M")) setGate([...gates, "M"]);
     }
   };
-//test
+
   const selectGate = gateName => {
+    let newGates = gates;
+    const myind = gates.findIndex(g => g==="M")
+    if (myind > -1) newGates = gates.splice(myind,1)
     setGate([...gates, gateName]);
   };
 
@@ -178,9 +181,9 @@ export default function Dashboard() {
     setGate("");
     setResult("");
   };
-  
+
   const qubitState = clsx(classes.paper, classes.qubitState);
-console.log(selectedState)
+  
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -244,15 +247,8 @@ console.log(selectedState)
                 <Title>States</Title>
                 <Grid container spacing={1}>
                   {[0, 1].map(q => (
-                    <Grid
-                      key={q}
-                      item
-                      xs={8}
-                      md={0}
-                      lg={0}
-                    >
+                    <Grid key={q} item xs={8} md={0} lg={0}>
                       <div
-                      
                         className={`${qubitState} ${
                           selectedState === q
                             ? "selected-state"
