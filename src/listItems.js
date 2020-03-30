@@ -1,8 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import ListSubheader from "@material-ui/core/ListSubheader";
 import FiberManualRecordRoundedIcon from "@material-ui/icons/FiberManualRecordRounded";
 import DialpadRoundedIcon from "@material-ui/icons/DialpadRounded";
 import BubbleChartOutlinedIcon from "@material-ui/icons/BubbleChartOutlined";
@@ -11,25 +11,25 @@ import LibraryBooksOutlinedIcon from "@material-ui/icons/LibraryBooksOutlined";
 
 export const mainListItems = (
   <div>
-    <ListItem button>
+    <ListItem button component={Link} to="/singlequbit">
       <ListItemIcon>
-        <FiberManualRecordRoundedIcon/>
+        <FiberManualRecordRoundedIcon />
       </ListItemIcon>
-      <ListItemText color='white' primary="Single Qubit Gates" />
+      <ListItemText primary="Single Qubit Gates" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component={Link} to="/multiqubit">
       <ListItemIcon>
         <DialpadRoundedIcon />
       </ListItemIcon>
       <ListItemText primary="Multiple Qubits Gates" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component={Link} to="/statistics">
       <ListItemIcon>
         <AllInclusiveOutlinedIcon />
       </ListItemIcon>
       <ListItemText primary="Statistics" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component={Link} to="/physics">
       <ListItemIcon>
         <BubbleChartOutlinedIcon />
       </ListItemIcon>
@@ -40,13 +40,6 @@ export const mainListItems = (
 
 export const secondaryListItems = (
   <div>
-    <ListSubheader inset>Resources</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <LibraryBooksOutlinedIcon />
-      </ListItemIcon>
-      <ListItemText primary="Resource 1" />
-    </ListItem>
     <ListItem button>
       <ListItemIcon>
         <LibraryBooksOutlinedIcon />

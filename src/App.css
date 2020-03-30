@@ -151,3 +151,8 @@ div.circuit {
 div.MuiListItemIcon-root{
   color: white;
 }
+
+hr.MuiDivider-root{
+  background-color: grey;
+  margin: 0 1em 0 1em;
+}
