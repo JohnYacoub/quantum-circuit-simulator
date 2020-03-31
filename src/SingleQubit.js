@@ -61,7 +61,7 @@ export default function SingleQubit() {
         method: "POST",
         body: JSON.stringify({
           state: `${selectedState}`,
-          gates: `${gates}`,
+          gates: gates,
           angle: `${90}`
         })
       })
@@ -156,8 +156,17 @@ export default function SingleQubit() {
                       ``
                     )}
                   </Grid>
-                  <Grid key="circuit" item xs={12} md={6} lg={6}>
-                    <Circuit gateList={gates} />
+                  <Grid
+                    id="circuitGrid"
+                    key="circuit"
+                    item
+                    xs={12}
+                    md={6}
+                    lg={6}
+                  >
+                    <div style={{ overflow: "auto" }}>
+                      <Circuit gateList={gates} />
+                    </div>
                   </Grid>
                   <Grid key="result" item xs={12} md={2} lg={2}>
                     {result !== "" ? <div>Result: {result}</div> : ``}
