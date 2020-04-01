@@ -74,7 +74,7 @@ div.gate-wrapper {
   }
 }
 
-.gateRect{
+.gateRect {
   animation: 2s ease-out 0s 1 gatesFadeIn;
 }
 
@@ -83,7 +83,7 @@ div.gate-wrapper {
     stroke: transparent;
   }
 }
-.circuitLine{
+.circuitLine {
   animation: 5s ease-out 0s 1 gateLineFadeIn;
 }
 
@@ -114,9 +114,10 @@ button.MuiButton-root {
 
 .H,
 .S,
-.T {
-  background-color: #FF3E88;
-  fill:#FF3E88;
+.T,
+.CNOT {
+  background-color: #ff3e88;
+  fill: #ff3e88;
 }
 
 .X,
@@ -141,7 +142,7 @@ div.MuiGrid-grid-xs-8 {
   flex-basis: 0%;
 }
 
-div.qubitGrid{
+div.qubitGrid {
   text-align: end;
 }
 
@@ -149,16 +150,44 @@ div.circuit {
   margin-top: 2em;
 }
 
-div.MuiListItemIcon-root{
+div.MuiListItemIcon-root {
   color: white;
 }
 
-hr.MuiDivider-root{
+hr.MuiDivider-root {
   background-color: grey;
   margin: 0 1em 0 1em;
 }
 
 #circuitGrid {
-  padding:5px;
-  max-width: 60vw
+  padding: 5px;
+  max-width: 60vw;
+}
+
+div.circuitWrapper{
+  overflow: auto
+}
+
+div.paper {
+  padding: 12px;
+  text-align: center;
+  border-radius: 0;
+}
+
+div.container{
+  padding-top:32px;
+  padding-bottom: 32px;
+  justify-content: center;
+  text-align: -webkit-center;
+}
+main {
+  flex-grow: 1; height: 100vh; overflow: auto
+}
+
+div.appBarSpacer{
+  min-height: 64px
+}
+
+div.wrapper{
+  display: flex
 }

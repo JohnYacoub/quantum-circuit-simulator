@@ -6,13 +6,15 @@ const useStyles = makeStyles(theme => ({
     fontSize: 15,
     fontWeight: "bold",
     verticalAlign: "middle",
-    paddingTop: "25%",
+   
     paddingLeft: "1em"
   }
 }));
 export default function CircuitQubit(props) {
   return (
-    <code className={useStyles().qubitInCircuit}>|{props.qubitState}></code>
+    <code id={props.qubitIdx} className={useStyles().qubitInCircuit} 
+    onClick={() => props.onClick(props.qubitIdx)}
+    >|{props.qubitState}></code>
   );
 }
 

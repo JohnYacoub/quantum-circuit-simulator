@@ -16,134 +16,151 @@ import Footer from "./Footer";
 import CircuitQubit, { CircuitQubitLabel } from "./CircuitQubit";
 import "./App.css";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: "flex"
-  },
-  appBarSpacer: theme.mixins.toolbar,
-  content: {
-    flexGrow: 1,
-    height: "100vh",
-    overflow: "auto"
-  },
-  container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
-    justifyContent: "center",
-    textAlign: "-webkit-center"
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    borderRadius: 0
+class MultiQubitPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      result: "",
+      activeQubit: 0,
+      data: [{ idx: 0, gates: [] }]
+    };
   }
-}));
-
-export default function MultiQubitPage() {
-  const classes = useStyles();
+  /*const classes = useStyles();
   const [result, setResult] = useState("");
   const [activeQubit, setActiveQubit] = useState(0);
-  const [qubitIndeces, setQubitIndeces] = useState([0]);
   const [data, setData] = useState([{ idx: 0, gates: [] }]);
-  const getResult = () => {
+  */
+  getResult = () => {
     //if (!gates.includes("M")) setGates([...gates, "M"]);
   };
-  const selectGate = gateName => {
-    let newDataMatrix = data;
-    newDataMatrix[activeQubit].gates.push(gateName);
-    setData(newDataMatrix);
+  selectGate = gateName => {
+    let newDataMatrix = this.state.data;
+   
+    
+    if (gateName === "CNOT") {
+      newDataMatrix[this.state.activeQubit].gates.push("CNOTc");
+      newDataMatrix[this.state.activeQubit + 1].gates.push("CNOTt");
+    } else{
+      newDataMatrix[this.state.activeQubit].gates.push(gateName);
+    }
+
+    this.setState({
+      data: newDataMatrix
+    });
   };
 
-  const resetAll = () => {
-    setData([{ idx: 0, gates: [] }]);
-    setQubitIndeces([0]);
-    setResult("");
+  resetAll = () => {
+    this.setState({
+      result: "",
+      activeQubit: 0,
+      data: [{ idx: 0, gates: [] }]
+    });
   };
 
-  const addQubit = () => {
-    const newQubitIndx = qubitIndeces.length;
-    setData([...data, { idx: newQubitIndx, gates: [] }]);
-    setQubitIndeces(() => [...qubitIndeces, newQubitIndx]);
+  addQubit = () => {
+    const newQubitIndx = this.state.data.length;
+    this.setState({
+      result: "",
+      activeQubit: 0,
+      data: [...this.state.data, { idx: newQubitIndx, gates: [] }]
+    });
   };
-  console.log(data);
-  return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <Menu />
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            {/* Gate selection */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Title>Gates</Title>
-                <Grid container spacing={3}>
-                  {["H", "S", "T", "X", "Y", "Z", "Rx", "Ry", "Rz"].map(g => (
-                    <Grid
-                      key={g}
-                      className="gate-wrapper"
-                      item
-                      xs={18}
-                      md={1}
-                      lg={1}
-                    >
-                      <Gate g={g} selectGate={selectGate} />
-                    </Grid>
-                  ))}
-                </Grid>
-              </Paper>
-            </Grid>
-            {/* Circuit */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Title>Circuit</Title>
-                <Grid className="circuit" container spacing={3}>
-                  <Grid className="qubitGrid" item xs={12} md={2} lg={2}>
-                    <Grid
-                      className="qubitLabelsContainer"
-                      container
-                      spacing={3}
-                    >
-                      {qubitIndeces.map(idx => (
+
+  activateQubit = qubit => {
+    this.setState({
+      activeQubit: qubit
+    });
+  };
+
+  render() {
+    return (
+      <div className="wrapper">
+        <CssBaseline />
+        <Menu />
+        <main>
+          <div className="appBarSpacer" />
+          <Container maxWidth="lg" className="container">
+            <Grid container spacing={3}>
+              {/* Gate selection */}
+              <Grid item xs={12}>
+                <Paper className="paper">
+                  <Title>Gates</Title>
+                  <Grid container spacing={3}>
+                    {["H", "S", "T",, "CNOT", "X", "Y", "Z", "Rx", "Ry", "Rz"].map(g => (
+                      <Grid
+                        key={g}
+                        className="gate-wrapper"
+                        item
+                        xs={18}
+                        md={1}
+                        lg={1}
+                      >
+                        <Gate g={g} selectGate={this.selectGate} />
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Paper>
+              </Grid>
+              {/* Circuit */}
+              <Grid item xs={12}>
+                <Paper className="paper">
+                  <Title>Circuit</Title>
+                  <Grid className="circuit" container spacing={3}>
+                    <Grid className="qubitGrid" item xs={12} md={2} lg={2}>
+                      <Grid
+                        className="qubitLabelsContainer"
+                        container
+                        spacing={3}
+                      >
+                        {this.state.data.map(dataItem => (
+                          <Grid className="qubitGrid" item xs={12}>
+                            <CircuitQubitLabel qubitIdx={dataItem.idx} />
+                            <CircuitQubit
+                              qubitIdx={dataItem.idx}
+                              qubitState={0}
+                              onClick={this.activateQubit}
+                            />
+                          </Grid>
+                        ))}
                         <Grid className="qubitGrid" item xs={12}>
-                          <CircuitQubitLabel qubitIdx={idx} />
-                          <CircuitQubit qubitState={0} />
+                          <AddButton onClick={this.addQubit} />
                         </Grid>
-                      ))}
-                      <Grid className="qubitGrid" item xs={12}>
-                        <AddButton onClick={addQubit} />
                       </Grid>
                     </Grid>
+                    <Grid
+                      key="circuit"
+                      id="circuitGrid"
+                      item
+                      xs={12}
+                      md={6}
+                      lg={6}
+                    >
+                      <div className="circuitWrapper">
+                        {this.state.data.map(qubit => (
+                          <Circuit gateList={qubit.gates} />
+                        ))}
+                      </div>
+                    </Grid>
+                    <Grid key="result" item xs={12} md={2} lg={2}>
+                      {this.state.result !== "" ? (
+                        <div>Result: {this.state.result}</div>
+                      ) : (
+                        ``
+                      )}
+                    </Grid>
                   </Grid>
-                  <Grid
-                    key="circuit"
-                    id="circuitGrid"
-                    item
-                    xs={12}
-                    md={6}
-                    lg={6}
-                  >
-                    <div style={{ overflow: "auto" }}>
-                      {data.map(qubit => (
-                        <Circuit gateList={qubit.gates} />
-                      ))}
-                    </div>
-                  </Grid>
-                  <Grid key="result" item xs={12} md={2} lg={2}>
-                    {result !== "" ? <div>Result: {result}</div> : ``}
-                  </Grid>
-                </Grid>
-                <MeasureButton onClick={getResult} />
-                <BinButton onClick={resetAll} />
-              </Paper>
+                  <MeasureButton onClick={this.getResult} />
+                  <BinButton onClick={this.resetAll} />
+                </Paper>
+              </Grid>
             </Grid>
-          </Grid>
-          <Box pt={4}>
-            <Footer />
-          </Box>
-        </Container>
-      </main>
-    </div>
-  );
+            <Box pt={4}>
+              <Footer />
+            </Box>
+          </Container>
+        </main>
+      </div>
+    );
+  }
 }
+export default MultiQubitPage;
