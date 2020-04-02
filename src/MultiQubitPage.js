@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Box from "@material-ui/core/Box";
 import Menu from "./Menu";
@@ -31,16 +30,95 @@ class MultiQubitPage extends React.Component {
   const [data, setData] = useState([{ idx: 0, gates: [] }]);
   */
   getResult = () => {
-    //if (!gates.includes("M")) setGates([...gates, "M"]);
+    if (this.state.data[0].gates === []) {
+      this.setState({ result: "Select at least 1 gate!" });
+    } else {
+      const maxLength = Math.max(
+        ...this.state.data.map(circuitItem => {
+          return circuitItem.gates.length;
+        })
+      );
+     
+      const gates = this.state.data
+        .map(circuitItem => {
+          return circuitItem.gates;
+        })
+        .map(gatesList => {
+          if (gatesList.length < maxLength) {
+            const diff = maxLength - gatesList.length;
+            console.log([...gatesList, ...new Array(diff).fill("I")])
+            return [...gatesList, ...new Array(diff).fill("I")];
+          } else {
+           
+            return gatesList;
+          }
+        });
+      
+      let res = "";
+      fetch(`http://localhost:5000/circuit-result`, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          charset: "UTF-8"
+        },
+        method: "POST",
+        body: JSON.stringify({
+          qubitNum: `${this.state.data.length}`,
+          gates: gates,
+          angle: `${90}`
+        })
+      })
+        .then(response =>
+          response.json().then(data => {
+            res = `${data.finalResult}`;
+            this.setState({
+              result: res
+            });
+          })
+        )
+        .catch(err => {
+          console.log("Error Reading data " + err);
+        });
+      //if (!gates.includes("M")) setGates([...gates, "M"]);
+    }
   };
   selectGate = gateName => {
     let newDataMatrix = this.state.data;
-   
-    
     if (gateName === "CNOT") {
-      newDataMatrix[this.state.activeQubit].gates.push("CNOTc");
-      newDataMatrix[this.state.activeQubit + 1].gates.push("CNOTt");
-    } else{
+      if (newDataMatrix[this.state.activeQubit + 1] == null) return;
+      if (
+        newDataMatrix[this.state.activeQubit].gates.length >=
+        newDataMatrix[this.state.activeQubit + 1].gates.length
+      ) {
+        const diff =
+          newDataMatrix[this.state.activeQubit].gates.length -
+          newDataMatrix[this.state.activeQubit + 1].gates.length;
+        newDataMatrix[this.state.activeQubit + 1].gates = [
+          ...[
+            ...newDataMatrix[this.state.activeQubit + 1].gates,
+            ...new Array(diff).fill("I")
+          ],
+          "CNOTt"
+        ];
+        newDataMatrix[this.state.activeQubit].gates.push("CNOTc");
+      } else if (
+        newDataMatrix[this.state.activeQubit + 1].gates.length >
+        newDataMatrix[this.state.activeQubit].gates.length
+      ) {
+        const diff =
+          newDataMatrix[this.state.activeQubit + 1].gates.length -
+          newDataMatrix[this.state.activeQubit].gates.length;
+        newDataMatrix[this.state.activeQubit].gates = [
+          ...[
+            ...newDataMatrix[this.state.activeQubit].gates,
+            ...new Array(diff).fill("I")
+          ],
+          "CNOTc"
+        ];
+
+        newDataMatrix[this.state.activeQubit + 1].gates.push("CNOTt");
+      }
+    } else {
       newDataMatrix[this.state.activeQubit].gates.push(gateName);
     }
 
@@ -86,7 +164,18 @@ class MultiQubitPage extends React.Component {
                 <Paper className="paper">
                   <Title>Gates</Title>
                   <Grid container spacing={3}>
-                    {["H", "S", "T",, "CNOT", "X", "Y", "Z", "Rx", "Ry", "Rz"].map(g => (
+                    {[
+                      "H",
+                      "S",
+                      "CNOT",
+                      "X",
+                      "Y",
+                      "Z",
+                      "Rx",
+                      "Ry",
+                      "Rz",
+                      "T"
+                    ].map(g => (
                       <Grid
                         key={g}
                         className="gate-wrapper"

@@ -19,9 +19,6 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: "flex"
   },
-  toolbar: {
-    paddingRight: 24 // keep right padding when drawer closed
-  },
   toolbarIcon: {
     display: "flex",
     alignItems: "center",
@@ -30,6 +27,7 @@ const useStyles = makeStyles(theme => ({
     ...theme.mixins.toolbar
   },
   appBar: {
+    height: '4em',
     backgroundColor: "black",
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(["width", "margin"], {
@@ -46,7 +44,7 @@ const useStyles = makeStyles(theme => ({
     })
   },
   menuButton: {
-    marginRight: 36
+    marginRight: 25
   },
   menuButtonHidden: {
     display: "none"
@@ -73,10 +71,8 @@ const useStyles = makeStyles(theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
     }),
-    width: theme.spacing(7),
-    [theme.breakpoints.up("sm")]: {
-      width: theme.spacing(9)
-    }
+    width: '4em',
+    
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
@@ -128,7 +124,7 @@ export default function Menu() {
         position="absolute"
         className={clsx(classes.appBar, open && classes.appBarShift)}
       >
-        <Toolbar className={classes.toolbar}>
+        <Toolbar>
           <IconButton
             edge="start"
             color="inherit"
@@ -142,8 +138,6 @@ export default function Menu() {
             <MenuIcon />
           </IconButton>
           <Typography
-            component="h1"
-            variant="h6"
             color="white"
             noWrap
             className={classes.title}

@@ -114,10 +114,14 @@ button.MuiButton-root {
 
 .H,
 .S,
-.T,
 .CNOT {
-  background-color: #ff3e88;
-  fill: #ff3e88;
+  background-color: #7c4dff;
+  fill: #7c4dff;
+}
+
+.T {
+  background-color: #e040fb;
+  fill: #e040fb;
 }
 
 .X,
@@ -130,8 +134,8 @@ button.MuiButton-root {
 .Rx,
 .Ry,
 .Rz {
-  background-color: rgb(104, 174, 231);
-  fill: rgb(104, 174, 231);
+  background-color: #40c4ff;
+  fill: #40c4ff;
 }
 
 div.MuiGrid-container {
@@ -164,8 +168,8 @@ hr.MuiDivider-root {
   max-width: 60vw;
 }
 
-div.circuitWrapper{
-  overflow: auto
+div.circuitWrapper {
+  overflow: auto;
 }
 
 div.paper {
@@ -174,20 +178,31 @@ div.paper {
   border-radius: 0;
 }
 
-div.container{
-  padding-top:32px;
+div.container {
+  padding-top: 32px;
   padding-bottom: 32px;
   justify-content: center;
   text-align: -webkit-center;
 }
 main {
-  flex-grow: 1; height: 100vh; overflow: auto
+  flex-grow: 1;
+  height: 100vh;
+  overflow: auto;
 }
 
-div.appBarSpacer{
-  min-height: 64px
+div.appBarSpacer {
+  min-height: 64px;
 }
 
-div.wrapper{
-  display: flex
+div.wrapper {
+  display: flex;
+}
+
+div.MuiToolbar-gutters,
+a.MuiListItem-gutters {
+  padding-left: 1em;
+}
+
+svg.MuiSvgIcon-root {
+  font-size: 1.4rem;
 }

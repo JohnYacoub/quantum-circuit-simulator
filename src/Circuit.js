@@ -21,7 +21,6 @@ function Circuit(props) {
         }}
       ></line>
       {props.gateList.map((gate, idx) => {
-        console.log(gate);
         if (gate === "M") {
           return (
             <g key={gate} style={{ maxWidth: "60vw" }}>
@@ -32,11 +31,6 @@ function Circuit(props) {
                 y1={20}
                 y2={20}
                 fill="none"
-                style={{
-                  stroke: "grey",
-                  strokeWidth: 2,
-                  strokeLinecap: "round"
-                }}
               ></line>
               <rect
                 className="gateRect"
@@ -63,6 +57,19 @@ function Circuit(props) {
               </text>
             </g>
           );
+        } else if (gate === "I") {
+          return (
+            <g key={gate} style={{ maxWidth: "60vw" }}>
+              <line
+                className="fillerLine"
+                x1={40 + 80 * idx}
+                x2={40 + 80 * idx + 80}
+                y1={20}
+                y2={20}
+                fill="none"
+              ></line>
+            </g>
+          );
         } else if (gate === "CNOTc") {
           return (
             <g key={gate}>
@@ -73,24 +80,14 @@ function Circuit(props) {
                 y1={20}
                 y2={20}
                 fill="none"
-                style={{
-                  stroke: "grey",
-                  strokeWidth: 2,
-                  strokeLinecap: "round"
-                }}
               ></line>
               <line
                 className="fillGapLine"
                 x1={80 * idx + 40}
-                x2={80 * idx + 40 + 40 -20}
+                x2={80 * idx + 40 + 40 - 20}
                 y1={20}
                 y2={20}
                 fill="none"
-                style={{
-                  stroke: "grey",
-                  strokeWidth: 2,
-                  strokeLinecap: "round"
-                }}
               ></line>
               <line
                 className="circuitLine"
@@ -99,11 +96,6 @@ function Circuit(props) {
                 y1={20}
                 y2={20}
                 fill="none"
-                style={{
-                  stroke: "grey",
-                  strokeWidth: 2,
-                  strokeLinecap: "round"
-                }}
               ></line>
               <line
                 className="cnotGate"
@@ -118,14 +110,7 @@ function Circuit(props) {
                   strokeLinecap: "round"
                 }}
               ></line>
-              <circle
-                cx={20 + 40 + 80 * idx}
-                cy={20}
-                r={10}
-                stroke="black"
-                stroke-width="3"
-                fill="blue"
-              />
+              <circle cx={20 + 40 + 80 * idx} cy={20} r={10} className="CNOT" />
             </g>
           );
         } else if (gate === "CNOTt") {
@@ -138,11 +123,6 @@ function Circuit(props) {
                 y1={20}
                 y2={20}
                 fill="none"
-                style={{
-                  stroke: "grey",
-                  strokeWidth: 2,
-                  strokeLinecap: "round"
-                }}
               ></line>
               <line
                 className="circuitLine"
@@ -151,21 +131,22 @@ function Circuit(props) {
                 y1={20}
                 y2={20}
                 fill="none"
-                style={{
-                  stroke: "grey",
-                  strokeWidth: 2,
-                  strokeLinecap: "round"
-                }}
               ></line>
 
-              <circle
-                cx={20 + 40 + 80 * idx}
-                cy={20}
-                r={15}
-                stroke="black"
-                stroke-width="3"
-                fill="blue"
-              />
+              <circle cx={20 + 40 + 80 * idx} cy={20} r={15} className="CNOT" />
+              <text
+                className="gateRect"
+                dominantBaseline="alphabetical"
+                x={20 + 40 + 80 * idx} //20+80*elemNum
+                y={30}
+                style={{
+                  fontSize: 30,
+                  fontStyle: "normal",
+                  fill: "white"
+                }}
+              >
+                <tspan textAnchor="middle">{"+"}</tspan>
+              </text>
             </g>
           );
         } else {
@@ -178,11 +159,6 @@ function Circuit(props) {
                 y1={20}
                 y2={20}
                 fill="none"
-                style={{
-                  stroke: "grey",
-                  strokeWidth: 2,
-                  strokeLinecap: "round"
-                }}
               ></line>
               <line
                 className="circuitLine"
@@ -191,11 +167,6 @@ function Circuit(props) {
                 y1={20}
                 y2={20}
                 fill="none"
-                style={{
-                  stroke: "grey",
-                  strokeWidth: 2,
-                  strokeLinecap: "round"
-                }}
               ></line>
               <rect
                 className={`${gate} gateRect`}
@@ -228,21 +199,4 @@ function Circuit(props) {
   );
 }
 
-const baseLine = () => {
-  return (
-    <line
-      className="circuitLine"
-      x1={0}
-      x2={6000}
-      y1={20}
-      y2={20}
-      fill="none"
-      style={{
-        stroke: "lightGrey",
-        strokeWidth: 2,
-        strokeLinecap: "round"
-      }}
-    ></line>
-  );
-};
 export default Circuit;
