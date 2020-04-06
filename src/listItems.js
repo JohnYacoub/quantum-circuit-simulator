@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import ListItem from "@material-ui/core/ListItem";
+import Tooltip from "@material-ui/core/Tooltip";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import FiberManualRecordRoundedIcon from "@material-ui/icons/FiberManualRecordRounded";
@@ -18,10 +19,12 @@ export const mainListItems = (
       <ListItemText primary="Single Qubit Gates" />
     </ListItem>
     <ListItem button component={Link} to="/multiqubit">
-      <ListItemIcon>
-        <DialpadRoundedIcon />
-      </ListItemIcon>
-      <ListItemText primary="Multiple Qubits Gates" />
+      <Tooltip title="Multiple Qubit System">
+        <ListItemIcon>
+          <DialpadRoundedIcon />
+        </ListItemIcon>
+      </Tooltip>
+      <ListItemText primary="Multiple Qubit System" />
     </ListItem>
     <ListItem button component={Link} to="/statistics">
       <ListItemIcon>

@@ -6,7 +6,6 @@ const useStyles = makeStyles(theme => ({
   addButton: {
     padding:"6px",
     position: "relative",
-    margin: "1em",
     transition: "all 0.3s ease 0s",
     boxShadow: "0 3px 5px 2px rgba(33, 203, 243, 0.3)"
   }

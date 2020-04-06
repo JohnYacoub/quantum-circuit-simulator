@@ -146,8 +146,8 @@ div.MuiGrid-grid-xs-8 {
   flex-basis: 0%;
 }
 
-div.qubitGrid {
-  text-align: end;
+div.MuiGrid-root.qubitGrid {
+  padding-left:3em;
 }
 
 div.circuit {
@@ -170,6 +170,7 @@ hr.MuiDivider-root {
 
 div.circuitWrapper {
   overflow: auto;
+  padding-bottom: 2em;
 }
 
 div.paper {
@@ -205,4 +206,24 @@ a.MuiListItem-gutters {
 
 svg.MuiSvgIcon-root {
   font-size: 1.4rem;
+}
+
+
+.not-selected-qubit {
+  padding-right:1em;
+  cursor: pointer;
+}
+
+.not-selected-qubit:hover {
+  box-shadow: 0px 0px 5px rgb(56, 225, 216);
+  padding-right:1em;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.selected-qubit {
+  cursor: pointer;
+  padding-right:1em;
+  border-radius: 3px;
+  box-shadow: 0 3px 6px 0 rgb(56, 225, 216);
 }

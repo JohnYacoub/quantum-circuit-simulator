@@ -5,6 +5,7 @@ import Menu from "./Menu";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
+import Tooltip from "@material-ui/core/Tooltip";
 import MeasureButton from "./MeasureButton";
 import Title from "./Title";
 import BinButton from "./BinButton";
@@ -14,13 +15,24 @@ import Gate from "./Gate";
 import Footer from "./Footer";
 import CircuitQubit, { CircuitQubitLabel } from "./CircuitQubit";
 import "./App.css";
-
+const availableGatesList = [
+  "H",
+  "S",
+  "CNOT",
+  "X",
+  "Y",
+  "Z",
+  "Rx",
+  "Ry",
+  "Rz",
+  "T"
+];
 class MultiQubitPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       result: "",
-      activeQubit: 0,
+      activeQubit: null,
       data: [{ idx: 0, gates: [] }]
     };
   }
@@ -38,7 +50,6 @@ class MultiQubitPage extends React.Component {
           return circuitItem.gates.length;
         })
       );
-     
       const gates = this.state.data
         .map(circuitItem => {
           return circuitItem.gates;
@@ -46,16 +57,15 @@ class MultiQubitPage extends React.Component {
         .map(gatesList => {
           if (gatesList.length < maxLength) {
             const diff = maxLength - gatesList.length;
-            console.log([...gatesList, ...new Array(diff).fill("I")])
+            console.log([...gatesList, ...new Array(diff).fill("I")]);
             return [...gatesList, ...new Array(diff).fill("I")];
           } else {
-           
             return gatesList;
           }
         });
-      
+
       let res = "";
-      fetch(`http://localhost:5000/circuit-result`, {
+      fetch(`https://flask-env.eba-crhpybfe.eu-west-2.elasticbeanstalk.com/circuit-result`, {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -79,11 +89,28 @@ class MultiQubitPage extends React.Component {
         .catch(err => {
           console.log("Error Reading data " + err);
         });
-      //if (!gates.includes("M")) setGates([...gates, "M"]);
+      
+      const newDataState = this.state.data.map(dataItem => {
+        return {
+          idx: dataItem.idx,
+          gates: !dataItem.gates.includes("M")
+            ? [...dataItem.gates, "M"]
+            : dataItem.gates
+        };
+      });
+      
+      this.setState({
+        activeQubit: 0,
+        data: newDataState
+      });
     }
   };
   selectGate = gateName => {
-    let newDataMatrix = this.state.data;
+    const cleanMatrix = this.state.data.map((dataItem)=>{
+      return dataItem.gates.includes("M")? { idx: dataItem.idx, gates: dataItem.gates.slice(0,-1) } : { idx: dataItem.idx, gates: dataItem.gates }
+    })
+    console.log(cleanMatrix)
+    let newDataMatrix = cleanMatrix;
     if (gateName === "CNOT") {
       if (newDataMatrix[this.state.activeQubit + 1] == null) return;
       if (
@@ -164,18 +191,7 @@ class MultiQubitPage extends React.Component {
                 <Paper className="paper">
                   <Title>Gates</Title>
                   <Grid container spacing={3}>
-                    {[
-                      "H",
-                      "S",
-                      "CNOT",
-                      "X",
-                      "Y",
-                      "Z",
-                      "Rx",
-                      "Ry",
-                      "Rz",
-                      "T"
-                    ].map(g => (
+                    {availableGatesList.map(g => (
                       <Grid
                         key={g}
                         className="gate-wrapper"
@@ -203,12 +219,29 @@ class MultiQubitPage extends React.Component {
                       >
                         {this.state.data.map(dataItem => (
                           <Grid className="qubitGrid" item xs={12}>
-                            <CircuitQubitLabel qubitIdx={dataItem.idx} />
-                            <CircuitQubit
-                              qubitIdx={dataItem.idx}
-                              qubitState={0}
-                              onClick={this.activateQubit}
-                            />
+                            <Tooltip
+                              title={
+                                this.state.activeQubit === dataItem.idx
+                                  ? "Active"
+                                  : "Click to activate"
+                              }
+                            >
+                              <div
+                                className={
+                                  this.state.activeQubit === dataItem.idx
+                                    ? "selected-qubit"
+                                    : "not-selected-qubit"
+                                }
+                              >
+                                <CircuitQubitLabel qubitIdx={dataItem.idx} />
+                                <CircuitQubit
+                                  activeQubit={this.state.activeQubit}
+                                  qubitIdx={dataItem.idx}
+                                  qubitState={0}
+                                  onClick={this.activateQubit}
+                                />
+                              </div>
+                            </Tooltip>
                           </Grid>
                         ))}
                         <Grid className="qubitGrid" item xs={12}>

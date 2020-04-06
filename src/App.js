@@ -22,7 +22,7 @@ export default function App() {
                 )}
               />
               <Route
-                path={"/multiqubit"}
+                path={"/"}
                 render={renderProps => (
                   <div>
                     <MultiQubitPage/>
