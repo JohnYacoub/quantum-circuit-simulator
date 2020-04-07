@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import SingleQubit from "./SingleQubit";
 import MultiQubitPage from "./MultiQubitPage";
 
 export default function App() {
@@ -13,14 +12,6 @@ export default function App() {
           />
           <Router>
             <Switch>
-              <Route
-                path="/singlequbit"
-                render={renderProps => (
-                  <div>
-                    <SingleQubit/>
-                  </div>
-                )}
-              />
               <Route
                 path={"/"}
                 render={renderProps => (

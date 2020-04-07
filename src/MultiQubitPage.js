@@ -13,6 +13,7 @@ import AddButton from "./AddButton";
 import Circuit from "./Circuit";
 import Gate from "./Gate";
 import Footer from "./Footer";
+import ChartTabs from "./ChartTabs";
 import CircuitQubit, { CircuitQubitLabel } from "./CircuitQubit";
 import "./App.css";
 const availableGatesList = [
@@ -25,7 +26,7 @@ const availableGatesList = [
   "Rx",
   "Ry",
   "Rz",
-  "T"
+  "T",
 ];
 class MultiQubitPage extends React.Component {
   constructor(props) {
@@ -33,28 +34,24 @@ class MultiQubitPage extends React.Component {
     this.state = {
       result: "",
       activeQubit: null,
-      data: [{ idx: 0, gates: [] }]
+      data: [{ idx: 0, gates: [] }],
     };
   }
-  /*const classes = useStyles();
-  const [result, setResult] = useState("");
-  const [activeQubit, setActiveQubit] = useState(0);
-  const [data, setData] = useState([{ idx: 0, gates: [] }]);
-  */
+  
   getResult = () => {
     if (this.state.data[0].gates === []) {
       this.setState({ result: "Select at least 1 gate!" });
     } else {
       const maxLength = Math.max(
-        ...this.state.data.map(circuitItem => {
+        ...this.state.data.map((circuitItem) => {
           return circuitItem.gates.length;
         })
       );
       const gates = this.state.data
-        .map(circuitItem => {
+        .map((circuitItem) => {
           return circuitItem.gates;
         })
-        .map(gatesList => {
+        .map((gatesList) => {
           if (gatesList.length < maxLength) {
             const diff = maxLength - gatesList.length;
             console.log([...gatesList, ...new Array(diff).fill("I")]);
@@ -65,51 +62,53 @@ class MultiQubitPage extends React.Component {
         });
 
       let res = "";
-      fetch(`https://flask-env.eba-crhpybfe.eu-west-2.elasticbeanstalk.com/circuit-result`, {
+      fetch(`http://localhost:5000/circuit-result`, {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          charset: "UTF-8"
+          charset: "UTF-8",
         },
         method: "POST",
         body: JSON.stringify({
           qubitNum: `${this.state.data.length}`,
           gates: gates,
-          angle: `${90}`
-        })
+          angle: `${90}`,
+        }),
       })
-        .then(response =>
-          response.json().then(data => {
-            res = `${data.finalResult}`;
+        .then((response) =>
+          response.json().then((data) => {
+            res = data.finalResult;
             this.setState({
-              result: res
+              result: res,
             });
           })
         )
-        .catch(err => {
+        .catch((err) => {
           console.log("Error Reading data " + err);
         });
-      
-      const newDataState = this.state.data.map(dataItem => {
+
+      const newDataState = this.state.data.map((dataItem) => {
         return {
           idx: dataItem.idx,
           gates: !dataItem.gates.includes("M")
             ? [...dataItem.gates, "M"]
-            : dataItem.gates
+            : dataItem.gates,
         };
       });
-      
+
       this.setState({
         activeQubit: 0,
-        data: newDataState
+        data: newDataState,
       });
     }
   };
-  selectGate = gateName => {
-    const cleanMatrix = this.state.data.map((dataItem)=>{
-      return dataItem.gates.includes("M")? { idx: dataItem.idx, gates: dataItem.gates.slice(0,-1) } : { idx: dataItem.idx, gates: dataItem.gates }
-    })
-    console.log(cleanMatrix)
+  selectGate = (gateName) => {
+    const cleanMatrix = this.state.data.map((dataItem) => {
+      return dataItem.gates.includes("M")
+        ? { idx: dataItem.idx, gates: dataItem.gates.slice(0, -1) }
+        : { idx: dataItem.idx, gates: dataItem.gates };
+    });
+    console.log(cleanMatrix);
     let newDataMatrix = cleanMatrix;
     if (gateName === "CNOT") {
       if (newDataMatrix[this.state.activeQubit + 1] == null) return;
@@ -123,9 +122,9 @@ class MultiQubitPage extends React.Component {
         newDataMatrix[this.state.activeQubit + 1].gates = [
           ...[
             ...newDataMatrix[this.state.activeQubit + 1].gates,
-            ...new Array(diff).fill("I")
+            ...new Array(diff).fill("I"),
           ],
-          "CNOTt"
+          "CNOTt",
         ];
         newDataMatrix[this.state.activeQubit].gates.push("CNOTc");
       } else if (
@@ -138,9 +137,9 @@ class MultiQubitPage extends React.Component {
         newDataMatrix[this.state.activeQubit].gates = [
           ...[
             ...newDataMatrix[this.state.activeQubit].gates,
-            ...new Array(diff).fill("I")
+            ...new Array(diff).fill("I"),
           ],
-          "CNOTc"
+          "CNOTc",
         ];
 
         newDataMatrix[this.state.activeQubit + 1].gates.push("CNOTt");
@@ -150,7 +149,7 @@ class MultiQubitPage extends React.Component {
     }
 
     this.setState({
-      data: newDataMatrix
+      data: newDataMatrix,
     });
   };
 
@@ -158,7 +157,7 @@ class MultiQubitPage extends React.Component {
     this.setState({
       result: "",
       activeQubit: 0,
-      data: [{ idx: 0, gates: [] }]
+      data: [{ idx: 0, gates: [] }],
     });
   };
 
@@ -167,19 +166,23 @@ class MultiQubitPage extends React.Component {
     this.setState({
       result: "",
       activeQubit: 0,
-      data: [...this.state.data, { idx: newQubitIndx, gates: [] }]
+      data: [...this.state.data, { idx: newQubitIndx, gates: [] }],
     });
   };
 
-  activateQubit = qubit => {
+  activateQubit = (qubit) => {
     this.setState({
-      activeQubit: qubit
+      activeQubit: qubit,
     });
   };
 
   render() {
     return (
       <div className="wrapper">
+        <link
+          href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+          rel="stylesheet"
+        />
         <CssBaseline />
         <Menu />
         <main>
@@ -191,7 +194,7 @@ class MultiQubitPage extends React.Component {
                 <Paper className="paper">
                   <Title>Gates</Title>
                   <Grid container spacing={3}>
-                    {availableGatesList.map(g => (
+                    {availableGatesList.map((g) => (
                       <Grid
                         key={g}
                         className="gate-wrapper"
@@ -217,7 +220,7 @@ class MultiQubitPage extends React.Component {
                         container
                         spacing={3}
                       >
-                        {this.state.data.map(dataItem => (
+                        {this.state.data.map((dataItem) => (
                           <Grid className="qubitGrid" item xs={12}>
                             <Tooltip
                               title={
@@ -258,14 +261,50 @@ class MultiQubitPage extends React.Component {
                       lg={6}
                     >
                       <div className="circuitWrapper">
-                        {this.state.data.map(qubit => (
+                        {this.state.data.map((qubit) => (
                           <Circuit gateList={qubit.gates} />
                         ))}
                       </div>
                     </Grid>
                     <Grid key="result" item xs={12} md={2} lg={2}>
                       {this.state.result !== "" ? (
-                        <div>Result: {this.state.result}</div>
+                        <div>
+                          <Grid className="results" container spacing={2}>
+                            <Grid
+                              className="title"
+                              item
+                              xs={12}
+                              className="resultsHeader"
+                            >
+                              Results
+                            </Grid>
+                            <Grid className="title" item xs={12} sm={6}>
+                              Input{" "}
+                              <div>
+                                |
+                                {new Array(this.state.data.length)
+                                  .fill(0)
+                                  .map((item) => {
+                                    return item;
+                                  })}
+                                >
+                              </div>
+                            </Grid>
+                            <Grid className="title" item xs={12} sm={6}>
+                              Output{" "}
+                              <div>
+                                |
+                                {this.state.result.map((bit) => {
+                                  return bit;
+                                })}
+                                >
+                              </div>
+                            </Grid>
+                            <Grid className="title" item xs={12}>
+                              <ChartTabs />
+                            </Grid>
+                          </Grid>
+                        </div>
                       ) : (
                         ``
                       )}

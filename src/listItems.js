@@ -12,12 +12,6 @@ import LibraryBooksOutlinedIcon from "@material-ui/icons/LibraryBooksOutlined";
 
 export const mainListItems = (
   <div>
-    <ListItem button component={Link} to="/singlequbit">
-      <ListItemIcon>
-        <FiberManualRecordRoundedIcon />
-      </ListItemIcon>
-      <ListItemText primary="Single Qubit Gates" />
-    </ListItem>
     <ListItem button component={Link} to="/multiqubit">
       <Tooltip title="Multiple Qubit System">
         <ListItemIcon>

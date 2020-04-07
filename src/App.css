@@ -6,6 +6,7 @@
   flex-direction: column;
   font-size: calc(10px + 2vmin);
   color: white;
+  font-family: 'Special Elite';
 }
 
 div.not-selected-state {
@@ -165,7 +166,7 @@ hr.MuiDivider-root {
 
 #circuitGrid {
   padding: 5px;
-  max-width: 60vw;
+  max-width: 40vw;
 }
 
 div.circuitWrapper {
@@ -226,4 +227,51 @@ svg.MuiSvgIcon-root {
   padding-right:1em;
   border-radius: 3px;
   box-shadow: 0 3px 6px 0 rgb(56, 225, 216);
+}
+
+div.results{
+  
+  width: 20vw;
+  margin-top: -4em;
+  font-family: 'Source Code Pro', monospace;
+}
+div.resultsHeader{
+  border-radius:1em;
+  background-color: grey;
+  color:white;
+  height:2em;
+}
+
+h2.MuiTypography-root{
+  font-family: 'Source Code Pro', monospace;
+  font-weight:bold;
+  letter-spacing: -0.03em;
+}
+
+button.MuiTab-root {
+  background-color: transparent;
+  min-width: 9em;
+  min-height:2em;
+  font-family: 'Source Code Pro', monospace;
+  font-weight:bold;
+  letter-spacing: -0.03em;
+  text-transform: none;
+  opacity:1;
+  color: black;
+  border-radius: 0em;
+}
+
+div.MuiTabs-root {
+  min-height: 0em;
+}
+
+span.MuiTabs-indicator{
+  background-color:#07dacf;
+  left: 1em;
+  width: 7em;
+}
+
+div.MuiTypography-root  {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 1em;
 }
