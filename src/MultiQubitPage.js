@@ -37,7 +37,7 @@ class MultiQubitPage extends React.Component {
       data: [{ idx: 0, gates: [] }],
     };
   }
-  
+
   getResult = () => {
     if (this.state.data[0].gates === []) {
       this.setState({ result: "Select at least 1 gate!" });
@@ -61,7 +61,7 @@ class MultiQubitPage extends React.Component {
           }
         });
 
-      let res = "";
+      let resultAsString = "";
       fetch(`http://localhost:5000/circuit-result`, {
         headers: {
           "Content-Type": "application/json",
@@ -77,9 +77,9 @@ class MultiQubitPage extends React.Component {
       })
         .then((response) =>
           response.json().then((data) => {
-            res = data.finalResult;
+            resultAsString = data.finalResult.join("");
             this.setState({
-              result: res,
+              result: resultAsString,
             });
           })
         )
@@ -266,7 +266,7 @@ class MultiQubitPage extends React.Component {
                         ))}
                       </div>
                     </Grid>
-                    <Grid key="result" item xs={12} md={2} lg={2}>
+                    <Grid key="result" item xs={12} md={this.state.result !== "" ? 4 : 2} lg={this.state.result !== "" ? 4 : 2}>
                       {this.state.result !== "" ? (
                         <div>
                           <Grid className="results" container spacing={2}>
@@ -294,14 +294,12 @@ class MultiQubitPage extends React.Component {
                               Output{" "}
                               <div>
                                 |
-                                {this.state.result.map((bit) => {
-                                  return bit;
-                                })}
+                                {this.state.result}
                                 >
                               </div>
                             </Grid>
                             <Grid className="title" item xs={12}>
-                              <ChartTabs />
+                              <ChartTabs qubitNum={this.state.data.length} result={this.state.result} />
                             </Grid>
                           </Grid>
                         </div>

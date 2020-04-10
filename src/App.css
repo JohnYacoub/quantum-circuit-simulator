@@ -231,7 +231,7 @@ svg.MuiSvgIcon-root {
 
 div.results{
   
-  width: 20vw;
+  width: 30vw;
   margin-top: -4em;
   font-family: 'Source Code Pro', monospace;
 }
@@ -262,6 +262,7 @@ button.MuiTab-root {
 }
 
 div.MuiTabs-root {
+  width:30vw;
   min-height: 0em;
 }
 

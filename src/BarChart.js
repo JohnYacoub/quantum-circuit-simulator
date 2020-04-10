@@ -6,12 +6,18 @@ import {
   Hint,
   VerticalBarSeries,
   GradientDefs,
-  MarkSeries
+  MarkSeries,
 } from "react-vis";
 
 function BarChart(props) {
   const [value, setValue] = useState(false);
   const BarSeries = VerticalBarSeries;
+  const possibleStates = permutations("", "01", props.qubitNum, []);
+  console.log(`Result is: ${props.result}`)
+  const barData = possibleStates.map((state)=>{
+   return {x:state,y: state==props.result?1:0 }
+  })
+  console.log(barData);
   /*conditional gradient depending on whether we have a mineral chosen or not */
   const gradient =
     props.point == null ? (
@@ -47,31 +53,42 @@ function BarChart(props) {
     <div>
       <XYPlot
         xType="ordinal"
-        width={230}
+        width={300}
         height={200}
         xDistance={100}
         color={"url(#myGradient)"}
       >
         {gradient}
-        <XAxis />
+        <XAxis tickLabelAngle={-45} />
         <YAxis />
         <BarSeries
           data={barData}
-          onValueMouseOver={v => setValue(v)}
+          onValueMouseOver={(v) => setValue(v)}
           onSeriesMouseOut={() => setValue(false)}
         />
-       
-       
       </XYPlot>
     </div>
   );
 }
 
-
-const barData = [
+/*const barData = [
   { x: "00", y: 0 },
   { x: "01", y: 1 },
   { x: "10", y: 0 },
-  { x: "11", y: 0 }
-];
+  { x: "11", y: 0 },
+];*/
+
+function permutations(c, r, targetLength, resultArray) {
+  if (c.length == targetLength) {
+    resultArray.push(c);
+    return 1;
+  }
+
+  let sum = 0;
+  for (let i = 0; i < r.length; i++) {
+    sum += permutations(c + r.charAt(i), r, targetLength, resultArray);
+  }
+  return resultArray;
+}
+
 export default BarChart;
