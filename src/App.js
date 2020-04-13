@@ -24,7 +24,7 @@ export default function App() {
                 path={"/statistics"}
                 render={renderProps => (
                   <div>
-                    C
+                   S
                   </div>
                 )}
               />
