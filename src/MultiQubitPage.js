@@ -16,6 +16,7 @@ import Footer from "./Footer";
 import ChartTabs from "./ChartTabs";
 import CircuitQubit, { CircuitQubitLabel } from "./CircuitQubit";
 import "./App.css";
+import CalculateCircuit from "./CalculateCircuit";
 const availableGatesList = [
   "H",
   "S",
@@ -99,6 +100,7 @@ class MultiQubitPage extends React.Component {
       this.setState({
         activeQubit: 0,
         data: newDataState,
+        result: CalculateCircuit(this.state.data.length, gates)
       });
     }
   };

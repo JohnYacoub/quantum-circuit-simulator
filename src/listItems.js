@@ -4,7 +4,6 @@ import ListItem from "@material-ui/core/ListItem";
 import Tooltip from "@material-ui/core/Tooltip";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import FiberManualRecordRoundedIcon from "@material-ui/icons/FiberManualRecordRounded";
 import DialpadRoundedIcon from "@material-ui/icons/DialpadRounded";
 import BubbleChartOutlinedIcon from "@material-ui/icons/BubbleChartOutlined";
 import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
