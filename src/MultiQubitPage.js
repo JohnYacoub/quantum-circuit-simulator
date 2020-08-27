@@ -5,7 +5,6 @@ import Menu from "./Menu";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import Tooltip from "@material-ui/core/Tooltip";
 import MeasureButton from "./MeasureButton";
 import Title from "./Title";
 import BinButton from "./BinButton";
@@ -14,7 +13,7 @@ import Circuit from "./Circuit";
 import Gate from "./Gate";
 import Footer from "./Footer";
 import ChartTabs from "./ChartTabs";
-import CircuitQubit, { CircuitQubitLabel } from "./CircuitQubit";
+import CircuitQubit from "./CircuitQubit";
 import "./App.css";
 import CalculateCircuit from "./CalculateCircuit";
 const availableGatesList = [
@@ -62,31 +61,32 @@ class MultiQubitPage extends React.Component {
           }
         });
 
-      let resultAsString = "";
-      fetch(`http://localhost:5000/circuit-result`, {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          charset: "UTF-8",
-        },
-        method: "POST",
-        body: JSON.stringify({
-          qubitNum: `${this.state.data.length}`,
-          gates: gates,
-          angle: `${90}`,
-        }),
-      })
-        .then((response) =>
-          response.json().then((data) => {
-            resultAsString = data.finalResult.join("");
-            this.setState({
-              result: resultAsString,
-            });
-          })
-        )
-        .catch((err) => {
-          console.log("Error Reading data " + err);
-        });
+      // fetch result from backend
+      // let resultAsString = "";
+      // fetch(`http://localhost:5000/circuit-result`, {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Accept: "application/json",
+      //     charset: "UTF-8",
+      //   },
+      //   method: "POST",
+      //   body: JSON.stringify({
+      //     qubitNum: `${this.state.data.length}`,
+      //     gates: gates,
+      //     angle: `${90}`,
+      //   }),
+      // })
+      //   .then((response) =>
+      //     response.json().then((data) => {
+      //       resultAsString = data.finalResult.join("");
+      //       this.setState({
+      //         result: resultAsString,
+      //       });
+      //     })
+      //   )
+      //   .catch((err) => {
+      //     console.log("Error Reading data " + err);
+      //   });
 
       const newDataState = this.state.data.map((dataItem) => {
         return {
@@ -100,12 +100,16 @@ class MultiQubitPage extends React.Component {
       this.setState({
         activeQubit: 0,
         data: newDataState,
-        result: CalculateCircuit(this.state.data.length, gates)
+        result: CalculateCircuit(this.state.data.length, gates).join(""),
       });
     }
   };
   selectGate = (gateName) => {
     const cleanMatrix = this.state.data.map((dataItem) => {
+      if (dataItem.gates.includes("M"))
+        this.setState({
+          result: "",
+        });
       return dataItem.gates.includes("M")
         ? { idx: dataItem.idx, gates: dataItem.gates.slice(0, -1) }
         : { idx: dataItem.idx, gates: dataItem.gates };
@@ -201,7 +205,7 @@ class MultiQubitPage extends React.Component {
                         key={g}
                         className="gate-wrapper"
                         item
-                        xs={18}
+                       
                         md={1}
                         lg={1}
                       >
@@ -223,30 +227,21 @@ class MultiQubitPage extends React.Component {
                         spacing={3}
                       >
                         {this.state.data.map((dataItem) => (
-                          <Grid className="qubitGrid" item xs={12}>
-                            <Tooltip
-                              title={
+                          <Grid className="qubitGrid" item xs={12} key={dataItem.idx}>
+                            <div
+                              className={
                                 this.state.activeQubit === dataItem.idx
-                                  ? "Active"
-                                  : "Click to activate"
+                                  ? "selected-qubit"
+                                  : "not-selected-qubit"
                               }
+                              onClick={() => this.activateQubit(dataItem.idx)}
                             >
-                              <div
-                                className={
-                                  this.state.activeQubit === dataItem.idx
-                                    ? "selected-qubit"
-                                    : "not-selected-qubit"
-                                }
-                              >
-                                <CircuitQubitLabel qubitIdx={dataItem.idx} />
-                                <CircuitQubit
-                                  activeQubit={this.state.activeQubit}
-                                  qubitIdx={dataItem.idx}
-                                  qubitState={0}
-                                  onClick={this.activateQubit}
-                                />
-                              </div>
-                            </Tooltip>
+                              <CircuitQubit
+                                activeQubit={this.state.activeQubit}
+                                qubitIdx={dataItem.idx}
+                                qubitState={0}
+                              />
+                            </div>
                           </Grid>
                         ))}
                         <Grid className="qubitGrid" item xs={12}>
@@ -264,11 +259,17 @@ class MultiQubitPage extends React.Component {
                     >
                       <div className="circuitWrapper">
                         {this.state.data.map((qubit) => (
-                          <Circuit gateList={qubit.gates} />
+                          <Circuit key={qubit} gateList={qubit.gates} />
                         ))}
                       </div>
                     </Grid>
-                    <Grid key="result" item xs={12} md={this.state.result !== "" ? 4 : 2} lg={this.state.result !== "" ? 4 : 2}>
+                    <Grid
+                      key="result"
+                      item
+                      xs={12}
+                      md={this.state.result !== "" ? 4 : 2}
+                      lg={this.state.result !== "" ? 4 : 2}
+                    >
                       {this.state.result !== "" ? (
                         <div>
                           <Grid className="results" container spacing={2}>
@@ -283,25 +284,23 @@ class MultiQubitPage extends React.Component {
                             <Grid className="title" item xs={12} sm={6}>
                               Input{" "}
                               <div>
-                                |
-                                {new Array(this.state.data.length)
+                                {`|
+                                ${new Array(this.state.data.length)
                                   .fill(0)
                                   .map((item) => {
                                     return item;
                                   })}
-                                >
+                                >`}
                               </div>
                             </Grid>
                             <Grid className="title" item xs={12} sm={6}>
-                              Output{" "}
-                              <div>
-                                |
-                                {this.state.result}
-                                >
-                              </div>
+                              Output <div>{`|${this.state.result}>`}</div>
                             </Grid>
                             <Grid className="title" item xs={12}>
-                              <ChartTabs qubitNum={this.state.data.length} result={this.state.result} />
+                              <ChartTabs
+                                qubitNum={this.state.data.length}
+                                result={this.state.result}
+                              />
                             </Grid>
                           </Grid>
                         </div>

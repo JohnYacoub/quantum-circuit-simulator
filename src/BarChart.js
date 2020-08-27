@@ -10,12 +10,11 @@ import {
 function BarChart(props) {
   const BarSeries = VerticalBarSeries;
   const possibleStates = permutations("", "01", props.qubitNum, []);
-  console.log(`Result is: ${props.result}`)
-  const barData = possibleStates.map((state)=>{
-   return {x:state,y: state===props.result.join("")?1:0 }
-  })
-  console.log(barData);
-  /*conditional gradient depending on whether we have a mineral chosen or not */
+  console.log(`Result is: ${props.result}`);
+  const barData = possibleStates.map((state) => {
+    return { x: state, y: state === props.result.toString() ? 1 : 0 };
+  });
+
   const gradient =
     props.point == null ? (
       <GradientDefs>
@@ -58,20 +57,11 @@ function BarChart(props) {
         {gradient}
         <XAxis tickLabelAngle={-45} />
         <YAxis />
-        <BarSeries
-          data={barData}
-        />
+        <BarSeries data={barData} />
       </XYPlot>
     </div>
   );
 }
-
-/*const barData = [
-  { x: "00", y: 0 },
-  { x: "01", y: 1 },
-  { x: "10", y: 0 },
-  { x: "11", y: 0 },
-];*/
 
 function permutations(c, r, targetLength, resultArray) {
   if (c.length === targetLength) {
@@ -79,7 +69,7 @@ function permutations(c, r, targetLength, resultArray) {
     return 1;
   }
 
-  let sum = 0;
+  let sum;
   for (let i = 0; i < r.length; i++) {
     sum += permutations(c + r.charAt(i), r, targetLength, resultArray);
   }

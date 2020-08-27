@@ -11,7 +11,7 @@ import LibraryBooksOutlinedIcon from "@material-ui/icons/LibraryBooksOutlined";
 
 export const mainListItems = (
   <div>
-    <ListItem button component={Link} to="/multiqubit">
+    <ListItem button component={Link} to="/">
       <Tooltip title="Multiple Qubit System">
         <ListItemIcon>
           <DialpadRoundedIcon />
