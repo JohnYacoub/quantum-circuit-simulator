@@ -10,7 +10,7 @@ import {
 function BarChart(props) {
   const BarSeries = VerticalBarSeries;
   const possibleStates = permutations("", "01", props.qubitNum, []);
-  console.log(`Result is: ${props.result}`);
+  
   const barData = possibleStates.map((state) => {
     return { x: state, y: state === props.result.toString() ? 1 : 0 };
   });

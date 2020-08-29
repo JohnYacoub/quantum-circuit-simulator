@@ -140,7 +140,7 @@ export default function Menu() {
             noWrap
             className={classes.title}
           >
-            Quantum Circuits
+            Quantum Circuit Simulator
           </Typography>
         </Toolbar>
       </AppBar>

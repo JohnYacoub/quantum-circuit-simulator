@@ -1,4 +1,15 @@
 import React from "react";
+import styled from "styled-components/macro";
+
+const StyledCircuitWrapper = styled.div`
+  overflow: auto;
+  padding-bottom: 2em;
+`;
+
+export const CircuitWrapper = ({ children }) => {
+  return <StyledCircuitWrapper children={children} />;
+};
+
 function Circuit(props) {
   return props.gateList ? (
     <svg
