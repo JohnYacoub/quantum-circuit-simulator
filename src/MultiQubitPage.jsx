@@ -1,20 +1,22 @@
 import React from "react";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Box from "@material-ui/core/Box";
-import Menu from "./Menu";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Tooltip from "@material-ui/core/Tooltip";
-import MeasureButton from "./MeasureButton";
-import Title from "./Title";
-import BinButton from "./BinButton";
 import AddButton from "./AddButton";
-import Circuit from "./Circuit";
-import Gate from "./Gate";
+import BinButton from "./BinButton";
+import Box from "@material-ui/core/Box";
+import CalculateCircuit from "./CalculateCircuit";
+import Circuit, {CircuitWrapper} from "./Circuit";
+import CircuitQubit from "./CircuitQubit";
+import Container from "@material-ui/core/Container";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import Footer from "./Footer";
-import ChartTabs from "./ChartTabs";
-import CircuitQubit, { CircuitQubitLabel } from "./CircuitQubit";
+import Gate from "./Gate";
+import Grid from "@material-ui/core/Grid";
+import MeasureButton from "./MeasureButton";
+import Menu from "./Menu";
+import PageWrapper from "./PageWrapper";
+import Paper from "@material-ui/core/Paper";
+import Title from "./Title";
+import ResultsBox from "./ResultsBox";
+import styled from "styled-components/macro";
 import "./App.css";
 const availableGatesList = [
   "H",
@@ -28,12 +30,14 @@ const availableGatesList = [
   "Rz",
   "T",
 ];
+
+
 class MultiQubitPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       result: "",
-      activeQubit: null,
+      activeQubit: 0,
       data: [{ idx: 0, gates: [] }],
     };
   }
@@ -61,31 +65,32 @@ class MultiQubitPage extends React.Component {
           }
         });
 
-      let resultAsString = "";
-      fetch(`http://localhost:5000/circuit-result`, {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          charset: "UTF-8",
-        },
-        method: "POST",
-        body: JSON.stringify({
-          qubitNum: `${this.state.data.length}`,
-          gates: gates,
-          angle: `${90}`,
-        }),
-      })
-        .then((response) =>
-          response.json().then((data) => {
-            resultAsString = data.finalResult.join("");
-            this.setState({
-              result: resultAsString,
-            });
-          })
-        )
-        .catch((err) => {
-          console.log("Error Reading data " + err);
-        });
+      // fetch result from backend
+      // let resultAsString = "";
+      // fetch(`http://localhost:5000/circuit-result`, {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Accept: "application/json",
+      //     charset: "UTF-8",
+      //   },
+      //   method: "POST",
+      //   body: JSON.stringify({
+      //     qubitNum: `${this.state.data.length}`,
+      //     gates: gates,
+      //     angle: `${90}`,
+      //   }),
+      // })
+      //   .then((response) =>
+      //     response.json().then((data) => {
+      //       resultAsString = data.finalResult.join("");
+      //       this.setState({
+      //         result: resultAsString,
+      //       });
+      //     })
+      //   )
+      //   .catch((err) => {
+      //     console.log("Error Reading data " + err);
+      //   });
 
       const newDataState = this.state.data.map((dataItem) => {
         return {
@@ -99,11 +104,17 @@ class MultiQubitPage extends React.Component {
       this.setState({
         activeQubit: 0,
         data: newDataState,
+        result: CalculateCircuit(this.state.data.length, gates).join(""),
       });
     }
   };
+
   selectGate = (gateName) => {
     const cleanMatrix = this.state.data.map((dataItem) => {
+      if (dataItem.gates.includes("M"))
+        this.setState({
+          result: "",
+        });
       return dataItem.gates.includes("M")
         ? { idx: dataItem.idx, gates: dataItem.gates.slice(0, -1) }
         : { idx: dataItem.idx, gates: dataItem.gates };
@@ -165,7 +176,7 @@ class MultiQubitPage extends React.Component {
     const newQubitIndx = this.state.data.length;
     this.setState({
       result: "",
-      activeQubit: 0,
+      activeQubit: newQubitIndx,
       data: [...this.state.data, { idx: newQubitIndx, gates: [] }],
     });
   };
@@ -178,7 +189,7 @@ class MultiQubitPage extends React.Component {
 
   render() {
     return (
-      <div className="wrapper">
+      <PageWrapper>
         <link
           href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
           rel="stylesheet"
@@ -195,14 +206,7 @@ class MultiQubitPage extends React.Component {
                   <Title>Gates</Title>
                   <Grid container spacing={3}>
                     {availableGatesList.map((g) => (
-                      <Grid
-                        key={g}
-                        className="gate-wrapper"
-                        item
-                        xs={18}
-                        md={1}
-                        lg={1}
-                      >
+                      <Grid key={g} className="gate-wrapper" item md={1} lg={1}>
                         <Gate g={g} selectGate={this.selectGate} />
                       </Grid>
                     ))}
@@ -221,30 +225,23 @@ class MultiQubitPage extends React.Component {
                         spacing={3}
                       >
                         {this.state.data.map((dataItem) => (
-                          <Grid className="qubitGrid" item xs={12}>
-                            <Tooltip
-                              title={
+                          <Grid
+                            className="qubitGrid"
+                            item
+                            xs={12}
+                            key={dataItem.idx}
+                          >
+                            <CircuitQubit
+                              className={
                                 this.state.activeQubit === dataItem.idx
-                                  ? "Active"
-                                  : "Click to activate"
+                                  ? "selected-qubit"
+                                  : "not-selected-qubit"
                               }
-                            >
-                              <div
-                                className={
-                                  this.state.activeQubit === dataItem.idx
-                                    ? "selected-qubit"
-                                    : "not-selected-qubit"
-                                }
-                              >
-                                <CircuitQubitLabel qubitIdx={dataItem.idx} />
-                                <CircuitQubit
-                                  activeQubit={this.state.activeQubit}
-                                  qubitIdx={dataItem.idx}
-                                  qubitState={0}
-                                  onClick={this.activateQubit}
-                                />
-                              </div>
-                            </Tooltip>
+                              activeQubit={this.state.activeQubit}
+                              qubitIdx={dataItem.idx}
+                              qubitState={0}
+                              onClick={() => this.activateQubit(dataItem.idx)}
+                            />
                           </Grid>
                         ))}
                         <Grid className="qubitGrid" item xs={12}>
@@ -260,53 +257,16 @@ class MultiQubitPage extends React.Component {
                       md={6}
                       lg={6}
                     >
-                      <div className="circuitWrapper">
+                      <CircuitWrapper>
                         {this.state.data.map((qubit) => (
-                          <Circuit gateList={qubit.gates} />
+                          <Circuit key={qubit} gateList={qubit.gates} />
                         ))}
-                      </div>
+                      </CircuitWrapper>
                     </Grid>
-                    <Grid key="result" item xs={12} md={this.state.result !== "" ? 4 : 2} lg={this.state.result !== "" ? 4 : 2}>
-                      {this.state.result !== "" ? (
-                        <div>
-                          <Grid className="results" container spacing={2}>
-                            <Grid
-                              className="title"
-                              item
-                              xs={12}
-                              className="resultsHeader"
-                            >
-                              Results
-                            </Grid>
-                            <Grid className="title" item xs={12} sm={6}>
-                              Input{" "}
-                              <div>
-                                |
-                                {new Array(this.state.data.length)
-                                  .fill(0)
-                                  .map((item) => {
-                                    return item;
-                                  })}
-                                >
-                              </div>
-                            </Grid>
-                            <Grid className="title" item xs={12} sm={6}>
-                              Output{" "}
-                              <div>
-                                |
-                                {this.state.result}
-                                >
-                              </div>
-                            </Grid>
-                            <Grid className="title" item xs={12}>
-                              <ChartTabs qubitNum={this.state.data.length} result={this.state.result} />
-                            </Grid>
-                          </Grid>
-                        </div>
-                      ) : (
-                        ``
-                      )}
-                    </Grid>
+                    <ResultsBox
+                      data={this.state.data}
+                      result={this.state.result}
+                    />
                   </Grid>
                   <MeasureButton onClick={this.getResult} />
                   <BinButton onClick={this.resetAll} />
@@ -318,7 +278,7 @@ class MultiQubitPage extends React.Component {
             </Box>
           </Container>
         </main>
-      </div>
+      </PageWrapper>
     );
   }
 }
