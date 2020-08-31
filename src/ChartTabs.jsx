@@ -28,43 +28,16 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     minWidth: 0,
-  },
-  tabsBar: {
-    height: "2em",
-    width: "18em",
-    borderRadius: "2em",
-    backgroundColor: "transparent",
-    boxShadow: "none",
+    overflow: "scroll",
   },
 }));
 
 export default function ChartTabs(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
 
   return (
     <div className={classes.root}>
-      <AppBar className={classes.tabsBar} position="static">
-        <Tabs
-          className={classes.tabs}
-          value={value}
-          onChange={handleChange}
-          aria-label="simple tabs example"
-        >
-          <Tab style={{ width: "6em" }} label="State vector" />
-          <Tab style={{ width: "6em" }} label="Density" />
-        </Tabs>
-      </AppBar>
-      <TabPanel value={value} index={0}>
-        <BarChart qubitNum={props.qubitNum} result={props.result} />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        Density
-      </TabPanel>
+      <BarChart qubitNum={props.qubitNum} result={props.result} />
     </div>
   );
 }

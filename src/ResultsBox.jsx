@@ -5,7 +5,6 @@ import styled from "styled-components/macro";
 
 const StyledResultBox = styled.div`
   div.results {
-    width: 30vw;
     margin-top: -3em;
     font-family: Source Code Pro, monospace;
   }
@@ -14,6 +13,9 @@ const StyledResultBox = styled.div`
     background-color: grey;
     color: white;
     height: 2em;
+  }
+  div.results > div.itemTitle {
+    flex-basis:0%;
   }
 `;
 
@@ -32,7 +34,7 @@ export default function ResultsBox(props) {
             <Grid item xs={12} className="resultsHeader">
               Results
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid className="itemTitle" item xs={12} sm={6}>
               Input
               <div>
                 {`|
@@ -42,7 +44,7 @@ export default function ResultsBox(props) {
               >`}
               </div>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid className="itemTitle" item xs={12} sm={6}>
               Output <div>{`|${props.result}>`}</div>
             </Grid>
             <Grid item xs={12}>
