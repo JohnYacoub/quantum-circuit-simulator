@@ -6,8 +6,8 @@ import styled from "styled-components/macro";
 const StyledResultBox = styled.div`
   div.results {
     width: 30vw;
-    margin-top: -4em;
-    font-family: "Source Code Pro", monospace;
+    margin-top: -3em;
+    font-family: Source Code Pro, monospace;
   }
   div.resultsHeader {
     border-radius: 1em;

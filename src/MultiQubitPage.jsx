@@ -3,7 +3,7 @@ import AddButton from "./AddButton";
 import BinButton from "./BinButton";
 import Box from "@material-ui/core/Box";
 import CalculateCircuit from "./CalculateCircuit";
-import Circuit, {CircuitWrapper} from "./Circuit";
+import Circuit, { CircuitWrapper } from "./Circuit";
 import CircuitQubit from "./CircuitQubit";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -30,7 +30,6 @@ const availableGatesList = [
   "Rz",
   "T",
 ];
-
 
 class MultiQubitPage extends React.Component {
   constructor(props) {
@@ -202,11 +201,21 @@ class MultiQubitPage extends React.Component {
             <Grid container spacing={3}>
               {/* Gate selection */}
               <Grid item xs={12}>
-                <Paper className="paper">
+                <Paper>
                   <Title>Gates</Title>
                   <Grid container spacing={3}>
                     {availableGatesList.map((g) => (
-                      <Grid key={g} className="gate-wrapper" item md={1} lg={1}>
+                      <Grid
+                        key={g}
+                        className="gate-wrapper"
+                        item
+                        md={1}
+                        lg={1}
+                        style={{
+                          marginRight: "1em",
+                          textAlign: "-webkit-center",
+                        }}
+                      >
                         <Gate g={g} selectGate={this.selectGate} />
                       </Grid>
                     ))}
@@ -215,22 +224,13 @@ class MultiQubitPage extends React.Component {
               </Grid>
               {/* Circuit */}
               <Grid item xs={12}>
-                <Paper className="paper">
+                <Paper>
                   <Title>Circuit</Title>
                   <Grid className="circuit" container spacing={3}>
-                    <Grid className="qubitGrid" item xs={12} md={2} lg={2}>
-                      <Grid
-                        className="qubitLabelsContainer"
-                        container
-                        spacing={3}
-                      >
+                    <Grid item xs={12} md={2} lg={2}>
+                      <Grid container spacing={3}>
                         {this.state.data.map((dataItem) => (
-                          <Grid
-                            className="qubitGrid"
-                            item
-                            xs={12}
-                            key={dataItem.idx}
-                          >
+                          <Grid item xs={12} key={dataItem.idx}>
                             <CircuitQubit
                               className={
                                 this.state.activeQubit === dataItem.idx
@@ -244,7 +244,7 @@ class MultiQubitPage extends React.Component {
                             />
                           </Grid>
                         ))}
-                        <Grid className="qubitGrid" item xs={12}>
+                        <Grid item xs={12}>
                           <AddButton onClick={this.addQubit} />
                         </Grid>
                       </Grid>

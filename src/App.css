@@ -1,8 +1,3 @@
-div.gate-wrapper {
-  margin-right: 1em;
-  text-align: -webkit-center;
-}
-
 @keyframes gatesFadeIn {
   0% {
     fill: transparent;
@@ -48,79 +43,19 @@ div.gate-wrapper {
   fill: #40c4ff;
 }
 
-div.paper {
-  padding: 2em;
-  text-align: center;
-  border-radius: 0;
-}
-
-div.MuiGrid-container {
-  justify-content: center;
-}
-
 div.MuiGrid-grid-xs-8 {
   flex-basis: 0%;
 }
 
-div.MuiGrid-root.qubitGrid {
-  padding-left:3em;
-}
-
-div.circuit {
-  margin-top: 2em;
-}
-
-div.MuiListItemIcon-root {
-  color: white;
-}
-
-hr.MuiDivider-root {
-  background-color: grey;
-  margin: 0 1em 0 1em;
-}
 
 #circuitGrid {
-  padding: 5px;
+  padding: 0.5em;
   max-width: 40vw;
 }
 
 div.MuiToolbar-gutters,
 a.MuiListItem-gutters {
   padding-left: 1em;
-}
-
-svg.MuiSvgIcon-root {
-  font-size: 1.4rem;
-}
-
-h2.MuiTypography-root{
-  font-family: 'Source Code Pro', monospace;
-  font-weight:bold;
-  letter-spacing: -0.03em;
-}
-
-button.MuiTab-root {
-  background-color: transparent;
-  min-width: 9em;
-  min-height:2em;
-  font-family: 'Source Code Pro', monospace;
-  font-weight:bold;
-  letter-spacing: -0.03em;
-  text-transform: none;
-  opacity:1;
-  color: black;
-  border-radius: 0em;
-}
-
-div.MuiTabs-root {
-  width:30vw;
-  min-height: 0em;
-}
-
-span.MuiTabs-indicator{
-  background-color:#07dacf;
-  left: 1em;
-  width: 7em;
 }
 
 div.MuiTypography-root  {

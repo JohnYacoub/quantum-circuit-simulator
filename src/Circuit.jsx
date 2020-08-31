@@ -17,7 +17,6 @@ function Circuit(props) {
       width={3000}
       style={{ overflow: "visible" }}
       xmlns="http://www.w3.org/2000/svg"
-      //viewBox="0 0 841.9 595.3"
     >
       <line
         x1={0}
