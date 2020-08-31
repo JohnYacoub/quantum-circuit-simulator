@@ -19,13 +19,13 @@ export const mainListItems = (
       </Tooltip>
       <ListItemText primary="Multiple Qubit System" />
     </ListItem>
-    <ListItem button component={Link} to="/statistics">
+    <ListItem button >
       <ListItemIcon>
         <AllInclusiveOutlinedIcon />
       </ListItemIcon>
       <ListItemText primary="Statistics" />
     </ListItem>
-    <ListItem button component={Link} to="/physics">
+    <ListItem button >
       <ListItemIcon>
         <BubbleChartOutlinedIcon />
       </ListItemIcon>

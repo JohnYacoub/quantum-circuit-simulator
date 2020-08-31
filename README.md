@@ -4,7 +4,7 @@ A web application that allows the user to graphically build quantum circuits and
 
 I rewrote the backend logic in JavaScript and you can visit the deployed, fully functional app at https://master.d2fi7ys7p5ku9u.amplifyapp.com/.
 
-![app](https://quantumcircuitsimulator.s3.eu-west-2.amazonaws.com/app.png)
+![app](https://quantumcircuitsimulator.s3.eu-west-2.amazonaws.com/quantumapp.gif)
 
 Backend source code can be found [here](https://github.com/XandraV/quantum-python-backend/).
 
