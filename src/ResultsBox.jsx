@@ -1,6 +1,6 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import ChartTabs from "./ChartTabs";
+import ChartBox from "./ChartBox";
 import styled from "styled-components/macro";
 
 const StyledResultBox = styled.div`
@@ -15,8 +15,12 @@ const StyledResultBox = styled.div`
     height: 2em;
   }
   div.results > div.itemTitle {
-    flex-basis:0%;
+    flex-basis: 0%;
   }
+`;
+
+const Div = styled.div`
+  padding-right: 1em;
 `;
 
 export default function ResultsBox(props) {
@@ -34,21 +38,19 @@ export default function ResultsBox(props) {
             <Grid item xs={12} className="resultsHeader">
               Results
             </Grid>
-            <Grid className="itemTitle" item xs={12} sm={6}>
+            <Div>
               Input
               <div>
                 {`|
-              ${new Array(props.data.length).fill(0).map((item) => {
-                return item;
-              })}
+              ${"0".repeat(props.data.length)}
               >`}
               </div>
-            </Grid>
-            <Grid className="itemTitle" item xs={12} sm={6}>
+            </Div>
+            <Div>
               Output <div>{`|${props.result}>`}</div>
-            </Grid>
+            </Div>
             <Grid item xs={12}>
-              <ChartTabs qubitNum={props.data.length} result={props.result} />
+              <ChartBox qubitNum={props.data.length} result={props.result} />
             </Grid>
           </Grid>
         </StyledResultBox>
