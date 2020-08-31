@@ -11,11 +11,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ChartBox(props) {
+const ChartBox = ({ ...props }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <BarChart qubitNum={props.qubitNum} result={props.result} />
     </div>
   );
-}
+};
+
+export default ChartBox;

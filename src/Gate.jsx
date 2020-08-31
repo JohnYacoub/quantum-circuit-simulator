@@ -2,24 +2,24 @@ import React from "react";
 import styled from "styled-components/macro";
 
 const StyledGate = styled.div`
-div.gate {
-  width: 4em;
-  height: 4em;
-}
+  div.gate {
+    width: 4em;
+    height: 4em;
+  }
 
-div.gate-text {
-  padding-top: 30%;
-  font-weight: bold;
-  color: white;
-}
+  div.gate-text {
+    padding-top: 30%;
+    font-weight: bold;
+    color: white;
+  }
 
-div.gate:hover {
-  background: #3f51b5;
-  box-shadow: 0 3px 5px 2px rgba(33, 203, 243, 0.3);
-}
+  div.gate:hover {
+    background: #3f51b5;
+    box-shadow: 0 3px 5px 2px rgba(33, 203, 243, 0.3);
+  }
 `;
 
-export default function Gate(props) {
+const Gate = ({ ...props }) => {
   return (
     <StyledGate>
       <div
@@ -30,4 +30,5 @@ export default function Gate(props) {
       </div>
     </StyledGate>
   );
-}
+};
+export default Gate;

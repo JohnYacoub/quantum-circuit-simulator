@@ -23,7 +23,7 @@ const StyledMeasureButton = styled.div`
     box-shadow: 0 3px 5px 2px rgba(33, 203, 243, 0.3);
   }
 `;
-function MeasureButton(props) {
+const MeasureButton = ({ ...props }) => {
   return (
     <StyledMeasureButton>
       <Button
@@ -35,5 +35,5 @@ function MeasureButton(props) {
       </Button>
     </StyledMeasureButton>
   );
-}
+};
 export default MeasureButton;
