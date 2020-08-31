@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import AddButton from "./AddButton";
 import BinButton from "./BinButton";
 import Box from "@material-ui/core/Box";
@@ -18,6 +18,7 @@ import Title from "./Title";
 import ResultsBox from "./ResultsBox";
 import styled from "styled-components/macro";
 import "./App.css";
+
 const availableGatesList = [
   "H",
   "S",
@@ -31,26 +32,22 @@ const availableGatesList = [
   "T",
 ];
 
-class MultiQubitPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      result: "",
-      activeQubit: 0,
-      data: [{ idx: 0, gates: [] }],
-    };
-  }
 
-  getResult = () => {
-    if (this.state.data[0].gates === []) {
-      this.setState({ result: "Select at least 1 gate!" });
+function MultiQubitPage() {
+  const [result, setResult] = useState("");
+  const [activeQubit, setActiveQubit] = useState(0);
+  const [data, setData] = useState([{ idx: 0, gates: [] }]);
+  
+  const getResult = () => {
+    if (data[0].gates === []) {
+      setResult("Select at least 1 gate!");
     } else {
       const maxLength = Math.max(
-        ...this.state.data.map((circuitItem) => {
+        ...data.map((circuitItem) => {
           return circuitItem.gates.length;
         })
       );
-      const gates = this.state.data
+      const gates = data
         .map((circuitItem) => {
           return circuitItem.gates;
         })
@@ -74,7 +71,7 @@ class MultiQubitPage extends React.Component {
       //   },
       //   method: "POST",
       //   body: JSON.stringify({
-      //     qubitNum: `${this.state.data.length}`,
+      //     qubitNum: `${data.length}`,
       //     gates: gates,
       //     angle: `${90}`,
       //   }),
@@ -91,7 +88,7 @@ class MultiQubitPage extends React.Component {
       //     console.log("Error Reading data " + err);
       //   });
 
-      const newDataState = this.state.data.map((dataItem) => {
+      const newDataState = data.map((dataItem) => {
         return {
           idx: dataItem.idx,
           gates: !dataItem.gates.includes("M")
@@ -100,20 +97,15 @@ class MultiQubitPage extends React.Component {
         };
       });
 
-      this.setState({
-        activeQubit: 0,
-        data: newDataState,
-        result: CalculateCircuit(this.state.data.length, gates).join(""),
-      });
+      setActiveQubit(0);
+      setData(newDataState);
+      setResult(CalculateCircuit(data.length, gates).join(""));
     }
   };
 
-  selectGate = (gateName) => {
-    const cleanMatrix = this.state.data.map((dataItem) => {
-      if (dataItem.gates.includes("M"))
-        this.setState({
-          result: "",
-        });
+  const selectGate = (gateName) => {
+    const cleanMatrix = data.map((dataItem) => {
+      if (dataItem.gates.includes("M")) setResult("");
       return dataItem.gates.includes("M")
         ? { idx: dataItem.idx, gates: dataItem.gates.slice(0, -1) }
         : { idx: dataItem.idx, gates: dataItem.gates };
@@ -121,165 +113,149 @@ class MultiQubitPage extends React.Component {
     console.log(cleanMatrix);
     let newDataMatrix = cleanMatrix;
     if (gateName === "CNOT") {
-      if (newDataMatrix[this.state.activeQubit + 1] == null) return;
+      if (newDataMatrix[activeQubit + 1] == null) return;
       if (
-        newDataMatrix[this.state.activeQubit].gates.length >=
-        newDataMatrix[this.state.activeQubit + 1].gates.length
+        newDataMatrix[activeQubit].gates.length >=
+        newDataMatrix[activeQubit + 1].gates.length
       ) {
         const diff =
-          newDataMatrix[this.state.activeQubit].gates.length -
-          newDataMatrix[this.state.activeQubit + 1].gates.length;
-        newDataMatrix[this.state.activeQubit + 1].gates = [
+          newDataMatrix[activeQubit].gates.length -
+          newDataMatrix[activeQubit + 1].gates.length;
+        newDataMatrix[activeQubit + 1].gates = [
           ...[
-            ...newDataMatrix[this.state.activeQubit + 1].gates,
+            ...newDataMatrix[activeQubit + 1].gates,
             ...new Array(diff).fill("I"),
           ],
           "CNOTt",
         ];
-        newDataMatrix[this.state.activeQubit].gates.push("CNOTc");
+        newDataMatrix[activeQubit].gates.push("CNOTc");
       } else if (
-        newDataMatrix[this.state.activeQubit + 1].gates.length >
-        newDataMatrix[this.state.activeQubit].gates.length
+        newDataMatrix[activeQubit + 1].gates.length >
+        newDataMatrix[activeQubit].gates.length
       ) {
         const diff =
-          newDataMatrix[this.state.activeQubit + 1].gates.length -
-          newDataMatrix[this.state.activeQubit].gates.length;
-        newDataMatrix[this.state.activeQubit].gates = [
+          newDataMatrix[activeQubit + 1].gates.length -
+          newDataMatrix[activeQubit].gates.length;
+        newDataMatrix[activeQubit].gates = [
           ...[
-            ...newDataMatrix[this.state.activeQubit].gates,
+            ...newDataMatrix[activeQubit].gates,
             ...new Array(diff).fill("I"),
           ],
           "CNOTc",
         ];
 
-        newDataMatrix[this.state.activeQubit + 1].gates.push("CNOTt");
+        newDataMatrix[activeQubit + 1].gates.push("CNOTt");
       }
     } else {
-      newDataMatrix[this.state.activeQubit].gates.push(gateName);
+      newDataMatrix[activeQubit].gates.push(gateName);
     }
 
-    this.setState({
-      data: newDataMatrix,
-    });
+    setData(newDataMatrix);
   };
 
-  resetAll = () => {
-    this.setState({
-      result: "",
-      activeQubit: 0,
-      data: [{ idx: 0, gates: [] }],
-    });
+  const resetAll = () => {
+    setResult("");
+    setActiveQubit(0);
+    setData([{ idx: 0, gates: [] }]);
   };
 
-  addQubit = () => {
-    const newQubitIndx = this.state.data.length;
-    this.setState({
-      result: "",
-      activeQubit: newQubitIndx,
-      data: [...this.state.data, { idx: newQubitIndx, gates: [] }],
-    });
+  const addQubit = () => {
+    const newQubitIndx = data.length;
+    setResult("");
+    setActiveQubit(newQubitIndx);
+    setData([...data, { idx: newQubitIndx, gates: [] }]);
   };
 
-  activateQubit = (qubit) => {
-    this.setState({
-      activeQubit: qubit,
-    });
-  };
-
-  render() {
-    return (
-      <PageWrapper>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-          rel="stylesheet"
-        />
-        <CssBaseline />
-        <Menu />
-        <main>
-          <div className="appBarSpacer" />
-          <Container maxWidth="lg" className="container">
-            <Grid container spacing={3}>
-              {/* Gate selection */}
-              <Grid item xs={12}>
-                <Paper>
-                  <Title>Gates</Title>
-                  <Grid container spacing={3}>
-                    {availableGatesList.map((g) => (
-                      <Grid
-                        key={g}
-                        className="gate-wrapper"
-                        item
-                        md={1}
-                        lg={1}
-                        style={{
-                          marginRight: "1em",
-                          textAlign: "-webkit-center",
-                        }}
-                      >
-                        <Gate g={g} selectGate={this.selectGate} />
-                      </Grid>
-                    ))}
-                  </Grid>
-                </Paper>
-              </Grid>
-              {/* Circuit */}
-              <Grid item xs={12}>
-                <Paper>
-                  <Title>Circuit</Title>
-                  <Grid className="circuit" container spacing={3}>
-                    <Grid item xs={12} md={2} lg={2}>
-                      <Grid container spacing={3}>
-                        {this.state.data.map((dataItem) => (
-                          <Grid item xs={12} key={dataItem.idx}>
-                            <CircuitQubit
-                              className={
-                                this.state.activeQubit === dataItem.idx
-                                  ? "selected-qubit"
-                                  : "not-selected-qubit"
-                              }
-                              activeQubit={this.state.activeQubit}
-                              qubitIdx={dataItem.idx}
-                              qubitState={0}
-                              onClick={() => this.activateQubit(dataItem.idx)}
-                            />
-                          </Grid>
-                        ))}
-                        <Grid item xs={12}>
-                          <AddButton onClick={this.addQubit} />
-                        </Grid>
-                      </Grid>
-                    </Grid>
+  return (
+    <PageWrapper>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+        rel="stylesheet"
+      />
+      <CssBaseline />
+      <Menu />
+      <main>
+        <div className="appBarSpacer" />
+        <Container maxWidth="lg" className="container">
+          <Grid container spacing={3}>
+            {/* Gate selection */}
+            <Grid item xs={12}>
+              <Paper>
+                <Title>Gates</Title>
+                <Grid container spacing={3}>
+                  {availableGatesList.map((g) => (
                     <Grid
-                      key="circuit"
-                      id="circuitGrid"
+                      key={g}
+                      className="gate-wrapper"
                       item
-                      xs={12}
-                      md={6}
-                      lg={6}
+                      md={1}
+                      lg={1}
+                      style={{
+                        marginRight: "1em",
+                        textAlign: "-webkit-center",
+                      }}
                     >
-                      <CircuitWrapper>
-                        {this.state.data.map((qubit) => (
-                          <Circuit key={qubit} gateList={qubit.gates} />
-                        ))}
-                      </CircuitWrapper>
+                      <Gate g={g} selectGate={selectGate} />
                     </Grid>
-                    <ResultsBox
-                      data={this.state.data}
-                      result={this.state.result}
-                    />
-                  </Grid>
-                  <MeasureButton onClick={this.getResult} />
-                  <BinButton onClick={this.resetAll} />
-                </Paper>
-              </Grid>
+                  ))}
+                </Grid>
+              </Paper>
             </Grid>
-            <Box pt={4}>
-              <Footer />
-            </Box>
-          </Container>
-        </main>
-      </PageWrapper>
-    );
-  }
+            {/* Circuit */}
+            <Grid item xs={12}>
+              <Paper>
+                <Title>Circuit</Title>
+                <Grid className="circuit" container spacing={3}>
+                  <Grid item xs={12} md={2} lg={2}>
+                    <Grid container spacing={3}>
+                      {data.map((dataItem) => (
+                        <Grid item xs={12} key={dataItem.idx}>
+                          <CircuitQubit
+                            className={
+                              activeQubit === dataItem.idx
+                                ? "selected-qubit"
+                                : "not-selected-qubit"
+                            }
+                            activeQubit={activeQubit}
+                            qubitIdx={dataItem.idx}
+                            qubitState={0}
+                            onClick={() => setActiveQubit(dataItem.idx)}
+                          />
+                        </Grid>
+                      ))}
+                      <Grid item xs={12}>
+                        <AddButton onClick={addQubit} />
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid
+                    key="circuit"
+                    id="circuitGrid"
+                    item
+                    xs={12}
+                    md={6}
+                    lg={6}
+                  >
+                    <CircuitWrapper>
+                      {data.map((qubit) => (
+                        <Circuit key={qubit} gateList={qubit.gates} />
+                      ))}
+                    </CircuitWrapper>
+                  </Grid>
+                  <ResultsBox data={data} result={result} />
+                </Grid>
+                <MeasureButton onClick={getResult} />
+                <BinButton onClick={resetAll} />
+              </Paper>
+            </Grid>
+          </Grid>
+          <Box pt={4}>
+            <Footer />
+          </Box>
+        </Container>
+      </main>
+    </PageWrapper>
+  );
 }
+
 export default MultiQubitPage;

@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CircuitQubit(props) {
+const CircuitQubit = ({ ...props }) => {
   return (
     <StyledQubit>
       <div className={props.className} onClick={props.onClick}>
@@ -38,4 +38,6 @@ export default function CircuitQubit(props) {
       </div>
     </StyledQubit>
   );
-}
+};
+
+export default CircuitQubit;

@@ -21,7 +21,7 @@ const StyledBin = styled.div`
   }
 `;
 
-function BinButton(props) {
+const BinButton = ({ ...props }) => {
   return (
     <StyledBin>
       <IconButton className="bin" onClick={props.onClick}>
@@ -29,5 +29,5 @@ function BinButton(props) {
       </IconButton>
     </StyledBin>
   );
-}
+};
 export default BinButton;

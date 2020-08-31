@@ -23,7 +23,7 @@ const Div = styled.div`
   padding-right: 1em;
 `;
 
-export default function ResultsBox(props) {
+const ResultsBox = ({...props}) => {
   return (
     <Grid
       key="result"
@@ -60,3 +60,4 @@ export default function ResultsBox(props) {
     </Grid>
   );
 }
+export default ResultsBox;
