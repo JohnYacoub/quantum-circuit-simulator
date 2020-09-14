@@ -18,6 +18,7 @@ import Title from "./Title";
 import ResultsBox from "./ResultsBox";
 import styled from "styled-components/macro";
 import "./App.css";
+import { QuantumContext } from "./QuantumContext";
 
 const availableGatesList = [
   "H",
@@ -34,13 +35,14 @@ const availableGatesList = [
 
 
 function MultiQubitPage() {
-  const [result, setResult] = useState("");
-  const [activeQubit, setActiveQubit] = useState(0);
+  const {activeQubit, result } = useContext(QuantumContext);
+  const [ myActiveQubit, setMyActiveQubit] = activeQubit;
+  const [ myResult, setMyResult] = result;
   const [data, setData] = useState([{ idx: 0, gates: [] }]);
   
   const getResult = () => {
     if (data[0].gates === []) {
-      setResult("Select at least 1 gate!");
+      setMyResult("Select at least 1 gate!");
     } else {
       const maxLength = Math.max(
         ...data.map((circuitItem) => {
@@ -62,11 +64,11 @@ function MultiQubitPage() {
         });
 
       // fetch result from backend
-      // let resultAsString = "";
-      // fetch(`http://localhost:5000/circuit-result`, {
+      //let resultAsString = "";
+      // fetch(`https://xz4bq7qk86.execute-api.us-east-1.amazonaws.com/first`, {
       //   headers: {
       //     "Content-Type": "application/json",
-      //     Accept: "application/json",
+      //     "Accept": "application/json",
       //     charset: "UTF-8",
       //   },
       //   method: "POST",
@@ -79,9 +81,7 @@ function MultiQubitPage() {
       //   .then((response) =>
       //     response.json().then((data) => {
       //       resultAsString = data.finalResult.join("");
-      //       this.setState({
-      //         result: resultAsString,
-      //       });
+      //       setMyResult(resultAsString);
       //     })
       //   )
       //   .catch((err) => {
@@ -97,15 +97,15 @@ function MultiQubitPage() {
         };
       });
 
-      setActiveQubit(0);
+      setMyActiveQubit(0);
       setData(newDataState);
-      setResult(CalculateCircuit(data.length, gates).join(""));
+      setMyResult(CalculateCircuit(data.length, gates).join(""));
     }
   };
 
   const selectGate = (gateName) => {
     const cleanMatrix = data.map((dataItem) => {
-      if (dataItem.gates.includes("M")) setResult("");
+      if (dataItem.gates.includes("M")) setMyResult("");
       return dataItem.gates.includes("M")
         ? { idx: dataItem.idx, gates: dataItem.gates.slice(0, -1) }
         : { idx: dataItem.idx, gates: dataItem.gates };
@@ -113,56 +113,56 @@ function MultiQubitPage() {
     console.log(cleanMatrix);
     let newDataMatrix = cleanMatrix;
     if (gateName === "CNOT") {
-      if (newDataMatrix[activeQubit + 1] == null) return;
+      if (newDataMatrix[myActiveQubit + 1] == null) return;
       if (
-        newDataMatrix[activeQubit].gates.length >=
-        newDataMatrix[activeQubit + 1].gates.length
+        newDataMatrix[myActiveQubit].gates.length >=
+        newDataMatrix[myActiveQubit + 1].gates.length
       ) {
         const diff =
-          newDataMatrix[activeQubit].gates.length -
-          newDataMatrix[activeQubit + 1].gates.length;
-        newDataMatrix[activeQubit + 1].gates = [
+          newDataMatrix[myActiveQubit].gates.length -
+          newDataMatrix[myActiveQubit + 1].gates.length;
+        newDataMatrix[myActiveQubit + 1].gates = [
           ...[
-            ...newDataMatrix[activeQubit + 1].gates,
+            ...newDataMatrix[myActiveQubit + 1].gates,
             ...new Array(diff).fill("I"),
           ],
           "CNOTt",
         ];
-        newDataMatrix[activeQubit].gates.push("CNOTc");
+        newDataMatrix[myActiveQubit].gates.push("CNOTc");
       } else if (
-        newDataMatrix[activeQubit + 1].gates.length >
-        newDataMatrix[activeQubit].gates.length
+        newDataMatrix[myActiveQubit + 1].gates.length >
+        newDataMatrix[myActiveQubit].gates.length
       ) {
         const diff =
-          newDataMatrix[activeQubit + 1].gates.length -
-          newDataMatrix[activeQubit].gates.length;
-        newDataMatrix[activeQubit].gates = [
+          newDataMatrix[myActiveQubit + 1].gates.length -
+          newDataMatrix[myActiveQubit].gates.length;
+        newDataMatrix[myActiveQubit].gates = [
           ...[
-            ...newDataMatrix[activeQubit].gates,
+            ...newDataMatrix[myActiveQubit].gates,
             ...new Array(diff).fill("I"),
           ],
           "CNOTc",
         ];
 
-        newDataMatrix[activeQubit + 1].gates.push("CNOTt");
+        newDataMatrix[myActiveQubit + 1].gates.push("CNOTt");
       }
     } else {
-      newDataMatrix[activeQubit].gates.push(gateName);
+      newDataMatrix[myActiveQubit].gates.push(gateName);
     }
 
     setData(newDataMatrix);
   };
 
   const resetAll = () => {
-    setResult("");
-    setActiveQubit(0);
+    setMyResult("");
+    setMyActiveQubit(0);
     setData([{ idx: 0, gates: [] }]);
   };
 
   const addQubit = () => {
     const newQubitIndx = data.length;
-    setResult("");
-    setActiveQubit(newQubitIndx);
+    setMyResult("");
+    setMyActiveQubit(newQubitIndx);
     setData([...data, { idx: newQubitIndx, gates: [] }]);
   };
 
@@ -212,14 +212,14 @@ function MultiQubitPage() {
                         <Grid item xs={12} key={dataItem.idx}>
                           <CircuitQubit
                             className={
-                              activeQubit === dataItem.idx
+                              myActiveQubit === dataItem.idx
                                 ? "selected-qubit"
                                 : "not-selected-qubit"
                             }
-                            activeQubit={activeQubit}
+                            activeQubit={myActiveQubit}
                             qubitIdx={dataItem.idx}
                             qubitState={0}
-                            onClick={() => setActiveQubit(dataItem.idx)}
+                            onClick={() => setMyActiveQubit(dataItem.idx)}
                           />
                         </Grid>
                       ))}
@@ -242,7 +242,7 @@ function MultiQubitPage() {
                       ))}
                     </CircuitWrapper>
                   </Grid>
-                  <ResultsBox data={data} result={result} />
+                  <ResultsBox data={data} result={myResult} />
                 </Grid>
                 <MeasureButton onClick={getResult} />
                 <BinButton onClick={resetAll} />
