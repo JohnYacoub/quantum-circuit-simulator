@@ -4,6 +4,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(theme => ({
   addButton: {
+    marginTop:"1rem",
     padding:"6px",
     position: "relative",
     transition: "all 0.3s ease 0s",

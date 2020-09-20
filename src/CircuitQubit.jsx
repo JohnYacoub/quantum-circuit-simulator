@@ -3,11 +3,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import styled from "styled-components/macro";
 
 const StyledQubit = styled.div`
-  padding-left: 2em;
-  padding-right: 2em;
+  width:7rem;
   div {
     border-radius: 3px;
-    padding-right: 1em;
+    padding-right: 1rem;
     cursor: pointer;
   }
   div.not-selected-qubit:hover {

@@ -5,12 +5,15 @@ import {
   YAxis,
   VerticalBarSeries,
   GradientDefs,
+  makeWidthFlexible,
+  HorizontalGridLines,
 } from "react-vis";
+import * as d3 from "d3";
 
 function BarChart(props) {
   const BarSeries = VerticalBarSeries;
   const possibleStates = permutations("", "01", props.qubitNum, []);
-  
+
   const barData = possibleStates.map((state) => {
     return { x: state, y: state === props.result.toString() ? 1 : 0 };
   });
@@ -45,20 +48,25 @@ function BarChart(props) {
         </linearGradient>
       </GradientDefs>
     );
+
+  const FlexibleXYPlot = makeWidthFlexible(XYPlot);
   return (
     <div>
-      <XYPlot
+      <FlexibleXYPlot
         xType="ordinal"
-        width={300}
         height={200}
         xDistance={100}
         color={"url(#myGradient)"}
       >
+        <HorizontalGridLines />
         {gradient}
-        <XAxis tickLabelAngle={-45} />
-        <YAxis />
+        <XAxis
+          tickLabelAngle={-45}
+          style={{ line: { stroke: "#b5b5b5", strokeWidth: 2 } }}
+        />
+        <YAxis style={{ line: { stroke: "#b5b5b5", strokeWidth: 2 } }} />
         <BarSeries data={barData} />
-      </XYPlot>
+      </FlexibleXYPlot>
     </div>
   );
 }

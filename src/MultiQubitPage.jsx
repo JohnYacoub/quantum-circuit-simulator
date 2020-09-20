@@ -33,13 +33,12 @@ const availableGatesList = [
   "T",
 ];
 
-
 function MultiQubitPage() {
-  const {activeQubit, result } = useContext(QuantumContext);
-  const [ myActiveQubit, setMyActiveQubit] = activeQubit;
-  const [ myResult, setMyResult] = result;
+  const { activeQubit, result } = useContext(QuantumContext);
+  const [myActiveQubit, setMyActiveQubit] = activeQubit;
+  const [myResult, setMyResult] = result;
   const [data, setData] = useState([{ idx: 0, gates: [] }]);
-  
+
   const getResult = () => {
     if (data[0].gates === []) {
       setMyResult("Select at least 1 gate!");
@@ -205,47 +204,43 @@ function MultiQubitPage() {
             <Grid item xs={12}>
               <Paper>
                 <Title>Circuit</Title>
-                <Grid className="circuit" container spacing={3}>
-                  <Grid item xs={12} md={2} lg={2}>
-                    <Grid container spacing={3}>
-                      {data.map((dataItem) => (
-                        <Grid item xs={12} key={dataItem.idx}>
-                          <CircuitQubit
-                            className={
-                              myActiveQubit === dataItem.idx
-                                ? "selected-qubit"
-                                : "not-selected-qubit"
-                            }
-                            activeQubit={myActiveQubit}
-                            qubitIdx={dataItem.idx}
-                            qubitState={0}
-                            onClick={() => setMyActiveQubit(dataItem.idx)}
-                          />
-                        </Grid>
-                      ))}
-                      <Grid item xs={12}>
-                        <AddButton onClick={addQubit} />
+                <Grid container spacing={3}>
+                  <Grid item xs={2}>
+                    {data.map((dataItem) => (
+                      <Grid item xs={12} key={dataItem.idx} style={{marginBottom:"1.5rem"}}>
+                        <CircuitQubit
+                          className={
+                            myActiveQubit === dataItem.idx
+                              ? "selected-qubit"
+                              : "not-selected-qubit"
+                          }
+                          activeQubit={myActiveQubit}
+                          qubitIdx={dataItem.idx}
+                          qubitState={0}
+                          onClick={() => setMyActiveQubit(dataItem.idx)}
+                        />
                       </Grid>
-                    </Grid>
+                    ))}
+                    
+                      <AddButton onClick={addQubit} />
+                   
                   </Grid>
-                  <Grid
-                    key="circuit"
-                    id="circuitGrid"
-                    item
-                    xs={12}
-                    md={6}
-                    lg={6}
-                  >
+                  <Grid key="circuit" item xs={10}>
                     <CircuitWrapper>
                       {data.map((qubit) => (
                         <Circuit key={qubit} gateList={qubit.gates} />
                       ))}
                     </CircuitWrapper>
                   </Grid>
-                  <ResultsBox data={data} result={myResult} />
+                  <Grid item xs={12} style={{textAlign: 'center'}}>
+                    {" "}
+                    <ResultsBox data={data} result={myResult} />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <MeasureButton onClick={getResult} />
+                    <BinButton onClick={resetAll} />{" "}
+                  </Grid>
                 </Grid>
-                <MeasureButton onClick={getResult} />
-                <BinButton onClick={resetAll} />
               </Paper>
             </Grid>
           </Grid>

@@ -3,7 +3,7 @@ import styled from "styled-components/macro";
 
 const StyledCircuitWrapper = styled.div`
   overflow: auto;
-  padding-bottom: 2em;
+  padding-bottom: 2rem;
 `;
 
 export const CircuitWrapper = ({ children }) => {
@@ -16,7 +16,6 @@ function Circuit(props) {
       height={40}
       width={3000}
       style={{ overflow: "visible" }}
-      xmlns="http://www.w3.org/2000/svg"
     >
       <line
         x1={0}
