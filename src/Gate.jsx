@@ -1,4 +1,5 @@
 import React from "react";
+import Grid from "@material-ui/core/Grid";
 import styled from "styled-components/macro";
 
 const StyledGate = styled.div`
@@ -21,14 +22,26 @@ const StyledGate = styled.div`
 
 const Gate = ({ ...props }) => {
   return (
-    <StyledGate>
-      <div
-        className={`${props.g} gate`}
-        onClick={() => props.selectGate(props.g)}
-      >
-        <div className="gate-text">{props.g}</div>
-      </div>
-    </StyledGate>
+    <Grid
+      key={props.g}
+      className="gate-wrapper"
+      item
+      md={1}
+      lg={1}
+      style={{
+        marginRight: "1em",
+        textAlign: "-webkit-center",
+      }}
+    >
+      <StyledGate>
+        <div
+          className={`${props.g} gate`}
+          onClick={() => props.selectGate(props.g)}
+        >
+          <div className="gate-text">{props.g}</div>
+        </div>
+      </StyledGate>
+    </Grid>
   );
 };
 export default Gate;

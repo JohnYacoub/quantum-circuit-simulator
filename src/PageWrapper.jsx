@@ -7,15 +7,10 @@ const StyledPageWrapper = styled.div`
     flex-grow: 1;
     height: 100vh;
     overflow: auto;
+    padding-bottom: 2rem;
   }
   main > div.appBarSpacer {
-    min-height: 64px;
-  }
-  main > div.container {
-    padding-top: 32px;
-    padding-bottom: 32px;
-    justify-content: center;
-    text-align: -webkit-center;
+    min-height: 6rem;
   }
 `;
 

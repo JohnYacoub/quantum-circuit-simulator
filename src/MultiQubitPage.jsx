@@ -3,7 +3,7 @@ import AddButton from "./AddButton";
 import BinButton from "./BinButton";
 import Box from "@material-ui/core/Box";
 import CalculateCircuit from "./CalculateCircuit";
-import Circuit, { CircuitWrapper } from "./Circuit";
+import Circuit from "./Circuit";
 import CircuitQubit from "./CircuitQubit";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -16,7 +16,6 @@ import PageWrapper from "./PageWrapper";
 import Paper from "@material-ui/core/Paper";
 import Title from "./Title";
 import ResultsBox from "./ResultsBox";
-import styled from "styled-components/macro";
 import "./App.css";
 import { QuantumContext } from "./QuantumContext";
 
@@ -55,7 +54,6 @@ function MultiQubitPage() {
         .map((gatesList) => {
           if (gatesList.length < maxLength) {
             const diff = maxLength - gatesList.length;
-            console.log([...gatesList, ...new Array(diff).fill("I")]);
             return [...gatesList, ...new Array(diff).fill("I")];
           } else {
             return gatesList;
@@ -175,7 +173,7 @@ function MultiQubitPage() {
       <Menu />
       <main>
         <div className="appBarSpacer" />
-        <Container maxWidth="lg" className="container">
+        <Container maxWidth="lg">
           <Grid container spacing={3}>
             {/* Gate selection */}
             <Grid item xs={12}>
@@ -183,19 +181,7 @@ function MultiQubitPage() {
                 <Title>Gates</Title>
                 <Grid container spacing={3}>
                   {availableGatesList.map((g) => (
-                    <Grid
-                      key={g}
-                      className="gate-wrapper"
-                      item
-                      md={1}
-                      lg={1}
-                      style={{
-                        marginRight: "1em",
-                        textAlign: "-webkit-center",
-                      }}
-                    >
-                      <Gate g={g} selectGate={selectGate} />
-                    </Grid>
+                    <Gate g={g} selectGate={selectGate} />
                   ))}
                 </Grid>
               </Paper>
@@ -207,7 +193,7 @@ function MultiQubitPage() {
                 <Grid container spacing={3}>
                   <Grid item xs={2}>
                     {data.map((dataItem) => (
-                      <Grid item xs={12} key={dataItem.idx} style={{marginBottom:"1.5rem"}}>
+                      
                         <CircuitQubit
                           className={
                             myActiveQubit === dataItem.idx
@@ -219,26 +205,19 @@ function MultiQubitPage() {
                           qubitState={0}
                           onClick={() => setMyActiveQubit(dataItem.idx)}
                         />
-                      </Grid>
+                      
                     ))}
-                    
-                      <AddButton onClick={addQubit} />
-                   
+                    <AddButton onClick={addQubit} />
                   </Grid>
                   <Grid key="circuit" item xs={10}>
-                    <CircuitWrapper>
-                      {data.map((qubit) => (
-                        <Circuit key={qubit} gateList={qubit.gates} />
-                      ))}
-                    </CircuitWrapper>
+                    <Circuit key={"c"} data={data} />
                   </Grid>
-                  <Grid item xs={12} style={{textAlign: 'center'}}>
-                    {" "}
+                  <Grid item xs={12} style={{ textAlign: "center" }}>
                     <ResultsBox data={data} result={myResult} />
                   </Grid>
                   <Grid item xs={12}>
                     <MeasureButton onClick={getResult} />
-                    <BinButton onClick={resetAll} />{" "}
+                    <BinButton onClick={resetAll} />
                   </Grid>
                 </Grid>
               </Paper>

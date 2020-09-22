@@ -13,9 +13,7 @@
     stroke: transparent;
   }
 }
-.circuitLine {
-  animation: 5s ease-out 0s 1 gateLineFadeIn;
-}
+
 
 .H,
 .S,
@@ -47,12 +45,6 @@ div.MuiGrid-grid-xs-8 {
   flex-basis: 0%;
 }
 
-
-#circuitGrid {
-  padding: 0.5em;
- 
-}
-
 div.MuiToolbar-gutters,
 a.MuiListItem-gutters {
   padding-left: 1em;
@@ -65,5 +57,5 @@ div.MuiTypography-root  {
 
 .rv-xy-plot__grid-lines__line {
   stroke: gray;
-  stroke-width: 0.5;
+  stroke-width: 0.3;
 }

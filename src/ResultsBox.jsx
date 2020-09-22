@@ -1,7 +1,18 @@
 import React from "react";
+import BarChart from "./BarChart";
 import Grid from "@material-ui/core/Grid";
-import ChartBox from "./ChartBox";
+import Typography from "@material-ui/core/Typography";
 import styled from "styled-components/macro";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(() => ({
+  legend: {
+    paddingTop: "1rem",
+    fontSize: "1rem",
+    color: "#b5b0b0",
+    fontWeight: "bold",
+  },
+}));
 
 const StyledResultBox = styled.div`
   div.results {
@@ -10,12 +21,16 @@ const StyledResultBox = styled.div`
 `;
 
 const ResultsBox = ({ ...props }) => {
+  const classes = useStyles();
   return (
     <div>
       {props.result !== "" ? (
         <StyledResultBox>
           <Grid item className="results" xs={12} spacing={2}>
-            <ChartBox qubitNum={props.data.length} result={props.result} />
+            <BarChart qubitNum={props.data.length} result={props.result} />
+            <Typography className={classes.legend} noWrap>
+              Computational basis states
+            </Typography>
           </Grid>
         </StyledResultBox>
       ) : (

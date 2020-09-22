@@ -1,9 +1,10 @@
 import React from "react";
+import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import styled from "styled-components/macro";
 
 const StyledQubit = styled.div`
-  width:7rem;
+  width: 7rem;
   div {
     border-radius: 3px;
     padding-right: 1rem;
@@ -28,14 +29,18 @@ const useStyles = makeStyles((theme) => ({
 
 const CircuitQubit = ({ ...props }) => {
   return (
-    <StyledQubit>
-      <div className={props.className} onClick={props.onClick}>
-        <code className={useStyles().qubitInCircuit}>q[{props.qubitIdx}]</code>
-        <code id={props.qubitIdx} className={`${useStyles().qubitInCircuit}`}>
-          {`|${props.qubitState}>`}
-        </code>
-      </div>
-    </StyledQubit>
+    <Grid item xs={12} key={props.qubitIdx} style={{ marginBottom: "1.5rem" }}>
+      <StyledQubit>
+        <div className={props.className} onClick={props.onClick}>
+          <code className={useStyles().qubitInCircuit}>
+            q[{props.qubitIdx}]
+          </code>
+          <code id={props.qubitIdx} className={`${useStyles().qubitInCircuit}`}>
+            {`|${props.qubitState}>`}
+          </code>
+        </div>
+      </StyledQubit>
+    </Grid>
   );
 };
 
