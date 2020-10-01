@@ -44,8 +44,8 @@ const StyledCircuitWrapper = styled.div`
 function Circuit(props) {
   return props.data ? (
     <StyledCircuitWrapper>
-      {props.data.map((qubit) => (
-        <svg height={40} width={3000} style={{ overflow: "visible" }}>
+      {props.data.map((qubit, i) => (
+        <svg key={i} height={40} width={3000} style={{ overflow: "visible" }}>
           <line
             x1={0}
             x2={6000}

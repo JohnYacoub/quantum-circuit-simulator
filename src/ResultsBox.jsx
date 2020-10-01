@@ -15,6 +15,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 const StyledResultBox = styled.div`
+  overflow-x: auto;
+  padding: 2rem;
   div.results {
     font-family: Source Code Pro, monospace;
   }
@@ -26,7 +28,7 @@ const ResultsBox = ({ ...props }) => {
     <div>
       {props.result !== "" ? (
         <StyledResultBox>
-          <Grid item className="results" xs={12} spacing={2}>
+          <Grid item className="results" xs={12}>
             <BarChart qubitNum={props.data.length} result={props.result} />
             <Typography className={classes.legend} noWrap>
               Computational basis states

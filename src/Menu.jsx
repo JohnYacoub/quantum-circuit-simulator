@@ -41,7 +41,7 @@ export default function Menu() {
           zIndex: 1201,
         }}
       >
-        <Toolbar>
+        <Toolbar style={{ paddingLeft: "0.9rem" }}>
           <IconButton
             edge="start"
             color="primary"
@@ -60,27 +60,27 @@ export default function Menu() {
         </Toolbar>
       </AppBar>
       <StyledDrawer variant="permanent">
-        <List style={{ marginTop: "4.5em" }}>
+        <List style={{ marginTop: "4.5em", overflow: "hidden" }}>
           <ListItem button component={Link} to="/">
             <Tooltip title="Multiple Qubit System">
-            <ListItemIcon style={listIconStyle}>
-              <DialpadRoundedIcon />
-            </ListItemIcon>
+              <ListItemIcon style={listIconStyle}>
+                <DialpadRoundedIcon />
+              </ListItemIcon>
             </Tooltip>
           </ListItem>
           <ListItem button>
             <Tooltip title="Statistics">
-            <ListItemIcon style={listIconStyle}>
-              <AllInclusiveOutlinedIcon />
-            </ListItemIcon>
+              <ListItemIcon style={listIconStyle}>
+                <AllInclusiveOutlinedIcon />
+              </ListItemIcon>
             </Tooltip>
             <ListItemText primary="Statistics" />
           </ListItem>
-          <ListItem button style={listIconStyle}>
+          <ListItem button>
             <Tooltip title="Physics">
-            <ListItemIcon>
-              <BubbleChartOutlinedIcon />
-            </ListItemIcon>
+              <ListItemIcon style={listIconStyle}>
+                <BubbleChartOutlinedIcon />
+              </ListItemIcon>
             </Tooltip>
           </ListItem>
         </List>

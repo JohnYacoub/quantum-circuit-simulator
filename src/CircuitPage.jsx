@@ -181,7 +181,7 @@ function CircuitPage() {
                 <Title>Gates</Title>
                 <Grid container spacing={3}>
                   {availableGatesList.map((g) => (
-                    <Gate g={g} selectGate={selectGate} />
+                    <Gate key={g} g={g} selectGate={selectGate} />
                   ))}
                 </Grid>
               </Paper>
@@ -193,19 +193,18 @@ function CircuitPage() {
                 <Grid container spacing={3}>
                   <Grid item xs={2}>
                     {data.map((dataItem) => (
-                      
-                        <CircuitQubit
-                          className={
-                            myActiveQubit === dataItem.idx
-                              ? "selected-qubit"
-                              : "not-selected-qubit"
-                          }
-                          activeQubit={myActiveQubit}
-                          qubitIdx={dataItem.idx}
-                          qubitState={0}
-                          onClick={() => setMyActiveQubit(dataItem.idx)}
-                        />
-                      
+                      <CircuitQubit
+                        key={dataItem.idx}
+                        className={
+                          myActiveQubit === dataItem.idx
+                            ? "selected-qubit"
+                            : "not-selected-qubit"
+                        }
+                        activeQubit={myActiveQubit}
+                        qubitIdx={dataItem.idx}
+                        qubitState={0}
+                        onClick={() => setMyActiveQubit(dataItem.idx)}
+                      />
                     ))}
                     <AddButton onClick={addQubit} />
                   </Grid>
