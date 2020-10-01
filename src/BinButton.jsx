@@ -7,7 +7,6 @@ const StyledBin = styled.div`
   display: inline;
   button.bin {
     background-color: #38e1d8;
-
     transition: all 0.3s ease 0s;
     box-shadow: 0 3px 5px 2px rgba(33, 203, 243, 0.3);
   }
@@ -21,7 +20,7 @@ const StyledBin = styled.div`
   }
 `;
 
-const BinButton = ({ ...props }) => {
+const BinButton = (props) => {
   return (
     <StyledBin>
       <IconButton className="bin" onClick={props.onClick}>

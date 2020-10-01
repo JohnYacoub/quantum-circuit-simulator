@@ -1,60 +1,8 @@
-@keyframes gatesFadeIn {
-  0% {
-    fill: transparent;
-  }
-}
-
-.gateRect {
-  animation: 2s ease-out 0s 1 gatesFadeIn;
-}
-
-@keyframes gateLineFadeIn {
-  0% {
-    stroke: transparent;
-  }
-}
-
-
-.H,
-.S,
-.CNOT {
-  background-color: #7c4dff;
-  fill: #7c4dff;
-}
-
-.T {
-  background-color: #e040fb;
-  fill: #e040fb;
-}
-
-.X,
-.Y,
-.Z {
-  background-color: rgb(253, 184, 19);
-  fill: rgb(253, 184, 19);
-}
-
-.Rx,
-.Ry,
-.Rz {
-  background-color: #40c4ff;
-  fill: #40c4ff;
-}
-
-div.MuiGrid-grid-xs-8 {
-  flex-basis: 0%;
-}
 
 div.MuiToolbar-gutters,
 a.MuiListItem-gutters {
   padding-left: 1em;
 }
-
-div.MuiTypography-root  {
-  font-family: 'Source Code Pro', monospace;
-  font-size: 1em;
-}
-
 .rv-xy-plot__grid-lines__line {
   stroke: gray;
   stroke-width: 0.3;

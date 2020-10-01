@@ -18,6 +18,31 @@ const StyledGate = styled.div`
     background: #3f51b5;
     box-shadow: 0 3px 5px 2px rgba(33, 203, 243, 0.3);
   }
+  .H,
+  .S,
+  .CNOT {
+    background-color: #7c4dff;
+    fill: #7c4dff;
+  }
+
+  .T {
+    background-color: #e040fb;
+    fill: #e040fb;
+  }
+
+  .X,
+  .Y,
+  .Z {
+    background-color: rgb(253, 184, 19);
+    fill: rgb(253, 184, 19);
+  }
+
+  .Rx,
+  .Ry,
+  .Rz {
+    background-color: #40c4ff;
+    fill: #40c4ff;
+  }
 `;
 
 const Gate = ({ ...props }) => {

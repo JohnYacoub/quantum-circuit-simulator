@@ -1,165 +1,90 @@
 import React from "react";
-import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import { mainListItems, secondaryListItems } from "./listItems";
+import { Link } from "react-router-dom";
+import ListItem from "@material-ui/core/ListItem";
+import Tooltip from "@material-ui/core/Tooltip";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import DialpadRoundedIcon from "@material-ui/icons/DialpadRounded";
+import BubbleChartOutlinedIcon from "@material-ui/icons/BubbleChartOutlined";
+import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
 import "./App.css";
-const drawerWidth = 240;
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: "flex"
-  },
-  toolbarIcon: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    padding: "0 8px",
-    ...theme.mixins.toolbar
-  },
-  appBar: {
-    height: '4em',
-    backgroundColor: "black",
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    })
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
-  },
-  menuButton: {
-    marginRight: 25
-  },
-  menuButtonHidden: {
-    display: "none"
-  },
-  title: {
-    fontWeight: "bold",
-    flexGrow: 1
-  },
-  drawerPaper: {
-    background: "black",
-    color: "white",
-    position: "relative",
-    whiteSpace: "nowrap",
-    width: drawerWidth,
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
-  },
-  drawerPaperClose: {
-    overflowX: "hidden",
-    color: "white",
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    }),
-    width: '4em',
-    
-  },
-  appBarSpacer: theme.mixins.toolbar,
-  content: {
-    flexGrow: 1,
-    height: "100vh",
-    overflow: "auto"
-  },
-  container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
-    justifyContent: "center",
-    textAlign: "-webkit-center"
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    borderRadius: 0
-  },
-  qubitState: {
-    fontSize: 15,
-    fontWeight: "bold",
-    verticalAlign: "middle",
-    paddingTop: "25%",
-    padding: 0
-  },
-  qubitInCircuit: {
-    fontSize: 20,
-    fontWeight: "bold",
-    verticalAlign: "middle",
-    paddingTop: "25%",
-    padding: 0
+import styled from "styled-components/macro";
+
+const StyledDrawer = styled(Drawer)`
+  div.MuiDrawer-paper {
+    background: black;
+    position: relative;
+    -moz-only-whitespace: nowrap;
+    width: 3.5rem;
   }
-}));
+`;
+
+const listIconStyle = { minWidth: 0, paddingRight: 8, color: "white" };
 
 export default function Menu() {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
   return (
-    <div className={classes.root}>
+    <div style={{ display: "flex" }}>
       <AppBar
         position="absolute"
-        className={clsx(classes.appBar, open && classes.appBarShift)}
+        style={{
+          fontFamily: "Source Code Pro, monospace",
+          fontSize: "1em",
+          height: "4em",
+          backgroundColor: "black",
+          zIndex: 1201,
+        }}
       >
         <Toolbar>
           <IconButton
             edge="start"
             color="primary"
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(
-              classes.menuButton,
-              open && classes.menuButtonHidden
-            )}
+            style={{ marginRight: 25 }}
           >
             <MenuIcon />
           </IconButton>
           <Typography
             color="primary"
             noWrap
-            className={classes.title}
+            style={{ fontWeight: "bold", flexGrow: 1 }}
           >
             Quantum Circuit Simulator
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
-        }}
-        open={open}
-      >
-        <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon style={{ color: "white" }} />
-          </IconButton>
-        </div>
-        <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
-      </Drawer>
+      <StyledDrawer variant="permanent">
+        <List style={{ marginTop: "4.5em" }}>
+          <ListItem button component={Link} to="/">
+            <Tooltip title="Multiple Qubit System">
+            <ListItemIcon style={listIconStyle}>
+              <DialpadRoundedIcon />
+            </ListItemIcon>
+            </Tooltip>
+          </ListItem>
+          <ListItem button>
+            <Tooltip title="Statistics">
+            <ListItemIcon style={listIconStyle}>
+              <AllInclusiveOutlinedIcon />
+            </ListItemIcon>
+            </Tooltip>
+            <ListItemText primary="Statistics" />
+          </ListItem>
+          <ListItem button style={listIconStyle}>
+            <Tooltip title="Physics">
+            <ListItemIcon>
+              <BubbleChartOutlinedIcon />
+            </ListItemIcon>
+            </Tooltip>
+          </ListItem>
+        </List>
+      </StyledDrawer>
     </div>
   );
 }

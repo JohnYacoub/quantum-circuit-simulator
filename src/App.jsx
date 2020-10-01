@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import MultiQubitPage from "./MultiQubitPage";
+import CircuitPage from "./CircuitPage";
 import { ThemeProvider } from "@material-ui/styles";
 import QuantumTheme from "./QuantumTheme";
 import {QuantumContextContainer} from "./QuantumContextContainer";
@@ -17,7 +17,7 @@ const App = () => {
           <Switch>
             <QuantumContextContainer>
               <Route exact path="/">
-                <MultiQubitPage />
+                <CircuitPage />
               </Route>
               <Route path="/statistics">
                 <div>S</div>

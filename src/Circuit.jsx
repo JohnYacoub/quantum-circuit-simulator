@@ -4,6 +4,41 @@ import styled from "styled-components/macro";
 const StyledCircuitWrapper = styled.div`
   overflow: auto;
   padding-bottom: 2rem;
+
+  svg > g > rect.gateRect {
+    @keyframes gatesFadeIn {
+      0% {
+        fill: transparent;
+      }
+    }
+    animation: 2s ease-out 0s 1 gatesFadeIn;
+    }
+    .H,
+    .S,
+    .CNOT {
+      background-color: #7c4dff;
+      fill: #7c4dff;
+    }
+  
+    .T {
+      background-color: #e040fb;
+      fill: #e040fb;
+    }
+  
+    .X,
+    .Y,
+    .Z {
+      background-color: rgb(253, 184, 19);
+      fill: rgb(253, 184, 19);
+    }
+  
+    .Rx,
+    .Ry,
+    .Rz {
+      background-color: #40c4ff;
+      fill: #40c4ff;
+    }
+  }
 `;
 
 function Circuit(props) {

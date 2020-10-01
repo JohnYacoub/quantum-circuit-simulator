@@ -32,7 +32,7 @@ const availableGatesList = [
   "T",
 ];
 
-function MultiQubitPage() {
+function CircuitPage() {
   const { activeQubit, result } = useContext(QuantumContext);
   const [myActiveQubit, setMyActiveQubit] = activeQubit;
   const [myResult, setMyResult] = result;
@@ -232,4 +232,4 @@ function MultiQubitPage() {
   );
 }
 
-export default MultiQubitPage;
+export default CircuitPage;
