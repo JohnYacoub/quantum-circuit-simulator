@@ -14,7 +14,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import DialpadRoundedIcon from "@material-ui/icons/DialpadRounded";
 import BubbleChartOutlinedIcon from "@material-ui/icons/BubbleChartOutlined";
 import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
-import "./App.css";
 import styled from "styled-components/macro";
 
 const StyledDrawer = styled(Drawer)`

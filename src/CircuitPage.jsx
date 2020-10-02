@@ -16,7 +16,6 @@ import PageWrapper from "./PageWrapper";
 import Paper from "@material-ui/core/Paper";
 import Title from "./Title";
 import ResultsBox from "./ResultsBox";
-import "./App.css";
 import { QuantumContext } from "./QuantumContext";
 
 const availableGatesList = [
