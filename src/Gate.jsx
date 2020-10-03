@@ -46,9 +46,10 @@ const StyledGate = styled.div`
 `;
 
 const Gate = ({ ...props }) => {
+  const { g, selectGate } = props;
   return (
     <Grid
-      key={props.g}
+      key={g}
       className="gate-wrapper"
       item
       md={1}
@@ -59,11 +60,8 @@ const Gate = ({ ...props }) => {
       }}
     >
       <StyledGate>
-        <div
-          className={`${props.g} gate`}
-          onClick={() => props.selectGate(props.g)}
-        >
-          <div className="gate-text">{props.g}</div>
+        <div className={`${g} gate`} onClick={() => selectGate(g)}>
+          <div className="gate-text">{g}</div>
         </div>
       </StyledGate>
     </Grid>

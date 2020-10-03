@@ -28,15 +28,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CircuitQubit = ({ ...props }) => {
+  const { className, onClick, qubitIdx, qubitState } = props;
   return (
-    <Grid item xs={12} key={props.qubitIdx} style={{ marginBottom: "1.5rem" }}>
+    <Grid item xs={12} key={qubitIdx} style={{ marginBottom: "1.5rem" }}>
       <StyledQubit>
-        <div className={props.className} onClick={props.onClick}>
-          <code className={useStyles().qubitInCircuit}>
-            q[{props.qubitIdx}]
-          </code>
-          <code id={props.qubitIdx} className={`${useStyles().qubitInCircuit}`}>
-            {`|${props.qubitState}>`}
+        <div className={className} onClick={onClick}>
+          <code className={useStyles().qubitInCircuit}>q[{qubitIdx}]</code>
+          <code id={qubitIdx} className={`${useStyles().qubitInCircuit}`}>
+            {`|${qubitState}>`}
           </code>
         </div>
       </StyledQubit>

@@ -11,17 +11,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const QubitCard = ({ ...props }) => {
+const QubitCard = (props) => {
+  const { selectedState, q } = props;
   return (
     <div
       className={`${useStyles().qubitState} ${
-        props.selectedState === props.q
+        selectedState === q
           ? "selected-state"
           : "not-selected-state"
       }`}
-      onClick={() => props.handleQubitClick(props.q)}
+      onClick={() => props.handleQubitClick(q)}
     >
-      <code className={useStyles().qubitState}>{`|${props.q}>`}</code>
+      <code className={useStyles().qubitState}>{`|${q}>`}</code>
     </div>
   );
 };

@@ -23,13 +23,14 @@ const StyledResultBox = styled.div`
 `;
 
 const ResultsBox = ({ ...props }) => {
+  const { data, result } = props;
   const classes = useStyles();
   return (
     <div>
-      {props.result !== "" ? (
+      {result !== "" ? (
         <StyledResultBox>
           <Grid item className="results" xs={12}>
-            <BarChart qubitNum={props.data.length} result={props.result} />
+            <BarChart qubitNum={data.length} result={result} />
             <Typography className={classes.legend} noWrap>
               Computational basis states
             </Typography>

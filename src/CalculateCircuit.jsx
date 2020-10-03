@@ -62,8 +62,8 @@ function ApplyGate(q, gate) {
   }
 }
 
-export default function CalculateCircuit(qubitNum, gatesMatrix) {
-  let qs = new Array(qubitNum).fill(0);
+export default function CalculateCircuit(gatesMatrix) {
+  let qs = new Array(gatesMatrix.length).fill(0);
   for (let i = 0; i <= gatesMatrix[0].length - 1; i++) {
     for (let j = 0; j <= gatesMatrix.length - 1; j++) {
       if (gatesMatrix[j][i] === "CNOTc") {

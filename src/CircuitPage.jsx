@@ -33,13 +33,13 @@ const availableGatesList = [
 
 function CircuitPage() {
   const { activeQubit, result } = useContext(QuantumContext);
-  const [myActiveQubit, setMyActiveQubit] = activeQubit;
-  const [myResult, setMyResult] = result;
+  const [newActiveQubit, setNewActiveQubit] = activeQubit;
+  const [newResult, setNewResult] = result;
   const [data, setData] = useState([{ idx: 0, gates: [] }]);
 
-  const getResult = () => {
+  async function getResult() {
     if (data[0].gates === []) {
-      setMyResult("Select at least 1 gate!");
+      setNewResult("Select at least 1 gate!");
     } else {
       const maxLength = Math.max(
         ...data.map((circuitItem) => {
@@ -59,31 +59,6 @@ function CircuitPage() {
           }
         });
 
-      // fetch result from backend
-      //let resultAsString = "";
-      // fetch(`https://xz4bq7qk86.execute-api.us-east-1.amazonaws.com/first`, {
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     "Accept": "application/json",
-      //     charset: "UTF-8",
-      //   },
-      //   method: "POST",
-      //   body: JSON.stringify({
-      //     qubitNum: `${data.length}`,
-      //     gates: gates,
-      //     angle: `${90}`,
-      //   }),
-      // })
-      //   .then((response) =>
-      //     response.json().then((data) => {
-      //       resultAsString = data.finalResult.join("");
-      //       setMyResult(resultAsString);
-      //     })
-      //   )
-      //   .catch((err) => {
-      //     console.log("Error Reading data " + err);
-      //   });
-
       const newDataState = data.map((dataItem) => {
         return {
           idx: dataItem.idx,
@@ -93,72 +68,80 @@ function CircuitPage() {
         };
       });
 
-      setMyActiveQubit(0);
+      setNewActiveQubit(0);
       setData(newDataState);
-      setMyResult(CalculateCircuit(data.length, gates).join(""));
+
+      // works with python backend
+      // const response = await fetchResult(data, gates);
+      // const body = await response.json();
+      // const newRes = body.finalResult.join("");
+
+      const newRes = CalculateCircuit(gates).join("");
+
+      setNewResult(newRes);
+
     }
-  };
+  }
 
   const selectGate = (gateName) => {
     const cleanMatrix = data.map((dataItem) => {
-      if (dataItem.gates.includes("M")) setMyResult("");
+      if (dataItem.gates.includes("M")) setNewResult("");
       return dataItem.gates.includes("M")
         ? { idx: dataItem.idx, gates: dataItem.gates.slice(0, -1) }
         : { idx: dataItem.idx, gates: dataItem.gates };
     });
-    console.log(cleanMatrix);
     let newDataMatrix = cleanMatrix;
     if (gateName === "CNOT") {
-      if (newDataMatrix[myActiveQubit + 1] == null) return;
+      if (newDataMatrix[newActiveQubit + 1] == null) return;
       if (
-        newDataMatrix[myActiveQubit].gates.length >=
-        newDataMatrix[myActiveQubit + 1].gates.length
+        newDataMatrix[newActiveQubit].gates.length >=
+        newDataMatrix[newActiveQubit + 1].gates.length
       ) {
         const diff =
-          newDataMatrix[myActiveQubit].gates.length -
-          newDataMatrix[myActiveQubit + 1].gates.length;
-        newDataMatrix[myActiveQubit + 1].gates = [
+          newDataMatrix[newActiveQubit].gates.length -
+          newDataMatrix[newActiveQubit + 1].gates.length;
+        newDataMatrix[newActiveQubit + 1].gates = [
           ...[
-            ...newDataMatrix[myActiveQubit + 1].gates,
+            ...newDataMatrix[newActiveQubit + 1].gates,
             ...new Array(diff).fill("I"),
           ],
           "CNOTt",
         ];
-        newDataMatrix[myActiveQubit].gates.push("CNOTc");
+        newDataMatrix[newActiveQubit].gates.push("CNOTc");
       } else if (
-        newDataMatrix[myActiveQubit + 1].gates.length >
-        newDataMatrix[myActiveQubit].gates.length
+        newDataMatrix[newActiveQubit + 1].gates.length >
+        newDataMatrix[newActiveQubit].gates.length
       ) {
         const diff =
-          newDataMatrix[myActiveQubit + 1].gates.length -
-          newDataMatrix[myActiveQubit].gates.length;
-        newDataMatrix[myActiveQubit].gates = [
+          newDataMatrix[newActiveQubit + 1].gates.length -
+          newDataMatrix[newActiveQubit].gates.length;
+        newDataMatrix[newActiveQubit].gates = [
           ...[
-            ...newDataMatrix[myActiveQubit].gates,
+            ...newDataMatrix[newActiveQubit].gates,
             ...new Array(diff).fill("I"),
           ],
           "CNOTc",
         ];
 
-        newDataMatrix[myActiveQubit + 1].gates.push("CNOTt");
+        newDataMatrix[newActiveQubit + 1].gates.push("CNOTt");
       }
     } else {
-      newDataMatrix[myActiveQubit].gates.push(gateName);
+      newDataMatrix[newActiveQubit].gates.push(gateName);
     }
 
     setData(newDataMatrix);
   };
 
   const resetAll = () => {
-    setMyResult("");
-    setMyActiveQubit(0);
+    setNewResult("");
+    setNewActiveQubit(0);
     setData([{ idx: 0, gates: [] }]);
   };
 
   const addQubit = () => {
     const newQubitIndx = data.length;
-    setMyResult("");
-    setMyActiveQubit(newQubitIndx);
+    setNewResult("");
+    setNewActiveQubit(newQubitIndx);
     setData([...data, { idx: newQubitIndx, gates: [] }]);
   };
 
@@ -195,14 +178,14 @@ function CircuitPage() {
                       <CircuitQubit
                         key={dataItem.idx}
                         className={
-                          myActiveQubit === dataItem.idx
+                          newActiveQubit === dataItem.idx
                             ? "selected-qubit"
                             : "not-selected-qubit"
                         }
-                        activeQubit={myActiveQubit}
+                        activeQubit={newActiveQubit}
                         qubitIdx={dataItem.idx}
                         qubitState={0}
-                        onClick={() => setMyActiveQubit(dataItem.idx)}
+                        onClick={() => setNewActiveQubit(dataItem.idx)}
                       />
                     ))}
                     <AddButton onClick={addQubit} />
@@ -211,7 +194,7 @@ function CircuitPage() {
                     <Circuit key={"c"} data={data} />
                   </Grid>
                   <Grid item xs={12} style={{ textAlign: "center" }}>
-                    <ResultsBox data={data} result={myResult} />
+                    <ResultsBox data={data} result={newResult} />
                   </Grid>
                   <Grid item xs={12}>
                     <MeasureButton onClick={getResult} />
@@ -231,3 +214,18 @@ function CircuitPage() {
 }
 
 export default CircuitPage;
+
+function fetchResult(data, gates) {
+  return fetch(`http://localhost:5000/circuit-result`, {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      charset: "UTF-8",
+    },
+    method: "POST",
+    body: JSON.stringify({
+      qubitNum: `${data.length}`,
+      gates: gates,
+    }),
+  });
+}

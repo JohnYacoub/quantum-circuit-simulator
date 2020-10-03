@@ -10,7 +10,6 @@ import { Link } from "react-router-dom";
 import ListItem from "@material-ui/core/ListItem";
 import Tooltip from "@material-ui/core/Tooltip";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 import DialpadRoundedIcon from "@material-ui/icons/DialpadRounded";
 import BubbleChartOutlinedIcon from "@material-ui/icons/BubbleChartOutlined";
 import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
@@ -27,7 +26,7 @@ const StyledDrawer = styled(Drawer)`
 
 const listIconStyle = { minWidth: 0, paddingRight: 8, color: "white" };
 
-export default function Menu() {
+const Menu = () => {
   return (
     <div style={{ display: "flex" }}>
       <AppBar
@@ -73,7 +72,6 @@ export default function Menu() {
                 <AllInclusiveOutlinedIcon />
               </ListItemIcon>
             </Tooltip>
-            <ListItemText primary="Statistics" />
           </ListItem>
           <ListItem button>
             <Tooltip title="Physics">
@@ -86,4 +84,5 @@ export default function Menu() {
       </StyledDrawer>
     </div>
   );
-}
+};
+export default Menu;

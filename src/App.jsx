@@ -19,12 +19,6 @@ const App = () => {
               <Route exact path="/">
                 <CircuitPage />
               </Route>
-              <Route path="/statistics">
-                <div>S</div>
-              </Route>
-              <Route path="/physics">
-                <div>C</div>
-              </Route>
             </QuantumContextContainer>
           </Switch>
         </Router>

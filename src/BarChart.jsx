@@ -15,14 +15,13 @@ function permutations(c, r, targetLength, resultArray) {
 
 function BarChart(props) {
   const possibleStates = permutations("", "01", props.qubitNum, []);
-  console.log(possibleStates);
-  console.log(possibleStates.unshift(""));
-
+  possibleStates.unshift("");
   const chartWidth = (possibleStates.length - 1) * 75;
   const svgWidth = chartWidth + 40;
   const chartHight = 260;
   const svgHight = 300;
 
+  
   const xAxisScale = d3
     .scaleLinear()
     .domain([0, possibleStates.length - 1])
