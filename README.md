@@ -10,15 +10,15 @@
 ![material-ui](https://img.shields.io/badge/-MaterialUI-0081CB?style=flat-square&logo=material-ui&logoColor=white)
 ![python](https://img.shields.io/badge/-Python-3776AB?style=flat-square&logo=python&logoColor=white)
 
-A web application that allows the user to graphically build quantum circuits and view the results on a dashboard. This project combines **React(JavaScript)** frontend with a **Flask(Python)** backend that is the host program to call **Q#** functions to perform quantum operations.
+A web application that allows the user to graphically build quantum circuits and view the results on a dashboard. This project combines **React(JavaScript)** frontend with a **Flask(Python)** backend using **Qiskit** library to perform quantum operations.
 
-This repository contains the front end source code with additional backend logic written in JavaScript and is automated with continuous deployment on [AWS Amplify](https://aws.amazon.com/amplify/).
+This project is automated with continuous deployment on [AWS Amplify](https://aws.amazon.com/amplify/).
 
-You can visit the deployed, fully functional app [here](https://master.d2fi7ys7p5ku9u.amplifyapp.com/).
+You can visit the deployed, fully functional app [here](https://master.d3vhvy7iyx12n.amplifyapp.com/).
 
 ![app](https://quantumcircuitsimulator.s3.eu-west-2.amazonaws.com/quantumapp.gif)
 
-Backend source code can be found [here](https://github.com/XandraV/quantum-python-backend/).
+Backend source code can be found [here](https://github.com/XandraV/quantum-qiskit-flask-backend/blob/master/app/main.py) and is automated with continuous deployment on [Heroku](http://www.heroku.com/).
 
 ## Installation
 
