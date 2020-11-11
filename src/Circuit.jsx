@@ -45,7 +45,13 @@ function Circuit(props) {
   return props.data ? (
     <StyledCircuitWrapper>
       {props.data.map((qubit, i) => (
-        <svg key={i} height={40} width={3000} style={{ overflow: "visible" }}>
+        <svg
+          id={`svg-${i}`}
+          key={i}
+          height={40}
+          width={3000}
+          style={{ overflow: "visible" }}
+        >
           <line
             x1={0}
             x2={6000}
@@ -59,37 +65,9 @@ function Circuit(props) {
             }}
           ></line>
           {qubit.gates.map((gate, idx) => {
-            if (gate === "M") {
+            if (gate.name === "I") {
               return (
-                <g key={gate} style={{ maxWidth: "60vw" }}>
-                  <rect
-                    className="gateRect"
-                    x={40 + 80 * idx}
-                    y={0}
-                    ry={20}
-                    width={40}
-                    height={40}
-                    style={{ fill: "rgb(255, 0, 0)" }}
-                  ></rect>
-                  <text
-                    className="gateRect"
-                    dominantBaseline="alphabetical"
-                    x={40 + 20 + 80 * idx}
-                    y={26}
-                    style={{
-                      fontSize: 17,
-                      fontStyle: "normal",
-                      fill: "white",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    <tspan textAnchor="middle">{gate}</tspan>
-                  </text>
-                </g>
-              );
-            } else if (gate === "I") {
-              return (
-                <g key={gate} style={{ maxWidth: "60vw" }}>
+                <g key={gate.name + idx} style={{ maxWidth: "60vw" }}>
                   <line
                     className="fillerLine"
                     x1={40 + 80 * idx}
@@ -100,9 +78,9 @@ function Circuit(props) {
                   ></line>
                 </g>
               );
-            } else if (gate === "CNOTc") {
+            } else if (gate.name === "CNOT") {
               return (
-                <g key={gate}>
+                <g key={gate + idx}>
                   <line
                     className="firstLine"
                     x1={0}
@@ -140,9 +118,9 @@ function Circuit(props) {
                   />
                 </g>
               );
-            } else if (gate === "CNOTt") {
+            } else if (gate.name === "CNOTtarget") {
               return (
-                <g key={gate}>
+                <g key={gate + idx}>
                   <line
                     className="firstLine"
                     x1={0}
@@ -174,7 +152,7 @@ function Circuit(props) {
               );
             } else {
               return (
-                <g key={gate}>
+                <g key={gate.name + idx}>
                   <line
                     className="firstLine"
                     x1={0}
@@ -184,7 +162,7 @@ function Circuit(props) {
                     fill="none"
                   ></line>
                   <rect
-                    className={`${gate} gateRect`}
+                    className={`${gate.name} gateRect`}
                     x={40 + 80 * idx} //80*(elemNum-1)
                     y={0}
                     width={40}
@@ -202,7 +180,7 @@ function Circuit(props) {
                       fontWeight: "bold",
                     }}
                   >
-                    <tspan textAnchor="middle">{gate}</tspan>
+                    <tspan textAnchor="middle">{gate.name}</tspan>
                   </text>
                 </g>
               );

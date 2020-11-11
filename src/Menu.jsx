@@ -12,7 +12,6 @@ import Tooltip from "@material-ui/core/Tooltip";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import DialpadRoundedIcon from "@material-ui/icons/DialpadRounded";
 import BubbleChartOutlinedIcon from "@material-ui/icons/BubbleChartOutlined";
-import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
 import styled from "styled-components/macro";
 
 const StyledDrawer = styled(Drawer)`
@@ -63,13 +62,6 @@ const Menu = () => {
             <Tooltip title="Multiple Qubit System">
               <ListItemIcon style={listIconStyle}>
                 <DialpadRoundedIcon />
-              </ListItemIcon>
-            </Tooltip>
-          </ListItem>
-          <ListItem button>
-            <Tooltip title="Statistics">
-              <ListItemIcon style={listIconStyle}>
-                <AllInclusiveOutlinedIcon />
               </ListItemIcon>
             </Tooltip>
           </ListItem>

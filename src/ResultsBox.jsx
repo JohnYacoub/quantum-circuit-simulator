@@ -1,18 +1,7 @@
 import React from "react";
 import BarChart from "./BarChart";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import styled from "styled-components/macro";
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles(() => ({
-  legend: {
-    paddingTop: "1rem",
-    fontSize: "1rem",
-    color: "#b5b0b0",
-    fontWeight: "bold",
-  },
-}));
 
 const StyledResultBox = styled.div`
   overflow-x: auto;
@@ -22,18 +11,23 @@ const StyledResultBox = styled.div`
   }
 `;
 
-const ResultsBox = ({ ...props }) => {
-  const { data, result } = props;
-  const classes = useStyles();
+const ResultsBox = ({ data, result }) => {
   return (
     <div>
       {result !== "" ? (
         <StyledResultBox>
           <Grid item className="results" xs={12}>
             <BarChart qubitNum={data.length} result={result} />
-            <Typography className={classes.legend} noWrap>
+            <div
+              style={{
+                paddingTop: "1rem",
+                fontSize: "1rem",
+                color: "#b5b0b0",
+                fontWeight: "bold",
+              }}
+            >
               Computational basis states
-            </Typography>
+            </div>
           </Grid>
         </StyledResultBox>
       ) : (
