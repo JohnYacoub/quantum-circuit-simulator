@@ -6,7 +6,7 @@ const Divider = () => {
       style={{
         display: "flex",
         color: "white",
-        position: "absolut",
+        
         fontSize: "1.3rem",
         height: "6rem",
         backgroundColor: "#2d3553",

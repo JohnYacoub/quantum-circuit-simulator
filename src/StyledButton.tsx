@@ -1,7 +1,10 @@
-import React from "react";
+import React, { FC, MouseEvent } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import styled from "styled-components/macro";
 
+type ButtonProps = {
+  onClick: any;
+};
 const StyledBtn = styled.div`
   display: inline;
   margin-right: 1rem;
@@ -19,7 +22,7 @@ const StyledBtn = styled.div`
   }
 `;
 
-const StyledButton = ({ onClick, children }) => {
+const StyledButton: FC<ButtonProps> = ({ onClick, children }) => {
   return (
     <StyledBtn>
       <IconButton className="btn" onClick={onClick}>
