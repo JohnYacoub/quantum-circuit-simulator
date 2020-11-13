@@ -1,80 +1,183 @@
 import React from "react";
-import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import { Link } from "react-router-dom";
-import ListItem from "@material-ui/core/ListItem";
-import Tooltip from "@material-ui/core/Tooltip";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import DialpadRoundedIcon from "@material-ui/icons/DialpadRounded";
-import BubbleChartOutlinedIcon from "@material-ui/icons/BubbleChartOutlined";
-import styled from "styled-components/macro";
-
-const StyledDrawer = styled(Drawer)`
-  div.MuiDrawer-paper {
-    background: black;
-    position: relative;
-    -moz-only-whitespace: nowrap;
-    width: 3.5rem;
-  }
-`;
-
-const listIconStyle = { minWidth: 0, paddingRight: 8, color: "white" };
 
 const Menu = () => {
   return (
-    <div style={{ display: "flex" }}>
-      <AppBar
-        position="absolute"
-        style={{
-          fontFamily: "Source Code Pro, monospace",
-          fontSize: "1em",
-          height: "4em",
-          backgroundColor: "black",
-          zIndex: 1201,
-        }}
+    <AppBar
+      position="absolute"
+      style={{
+        color: "white",
+        fontSize: "1.3rem",
+        height: "6rem",
+        backgroundColor: "#2d3553",
+        zIndex: 1201,
+        fontWeight: "bold",
+        boxShadow: "none",
+      }}
+    >
+      <svg
+        id={`appbar`}
+        height={"6rem"}
+        width={"100%"}
+        style={{ overflow: "visible" }}
       >
-        <Toolbar style={{ paddingLeft: "0.9rem" }}>
-          <IconButton
-            edge="start"
-            color="primary"
-            aria-label="open drawer"
-            style={{ marginRight: 25 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            color="primary"
-            noWrap
-            style={{ fontWeight: "bold", flexGrow: 1 }}
-          >
-            Quantum Circuit Simulator
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <StyledDrawer variant="permanent">
-        <List style={{ marginTop: "4.5em", overflow: "hidden" }}>
-          <ListItem button component={Link} to="/">
-            <Tooltip title="Multiple Qubit System">
-              <ListItemIcon style={listIconStyle}>
-                <DialpadRoundedIcon />
-              </ListItemIcon>
-            </Tooltip>
-          </ListItem>
-          <ListItem button>
-            <Tooltip title="Physics">
-              <ListItemIcon style={listIconStyle}>
-                <BubbleChartOutlinedIcon />
-              </ListItemIcon>
-            </Tooltip>
-          </ListItem>
-        </List>
-      </StyledDrawer>
-    </div>
+        {/* pink straight starting on the left */}
+        <line
+          x1={0}
+          x2={100}
+          y1={"50%"}
+          y2={"50%"}
+          fill="none"
+          style={{
+            stroke: "#ff26a8",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+          }}
+        />
+        {/* pink second line up */}
+        <line
+          x1={100}
+          x2={120}
+          y1={"50%"}
+          y2={"20%"}
+          fill="none"
+          style={{
+            stroke: "#ff26a8",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+          }}
+        />
+        {/* pink line down */}
+        <line
+          x1={100}
+          x2={120}
+          y1={"50%"}
+          y2={"80%"}
+          fill="none"
+          style={{
+            stroke: "#ff26a8",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+          }}
+        />
+        {/* pink bottom straight */}
+        <line
+          x1={120}
+          x2={350}
+          y1={"80%"}
+          y2={"80%"}
+          fill="none"
+          style={{
+            stroke: "#ff26a8",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+          }}
+        />
+        {/* pink top straight */}
+        <line
+          x1={120}
+          x2={150}
+          y1={"20%"}
+          y2={"20%"}
+          fill="none"
+          style={{
+            stroke: "#ff26a8",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+          }}
+        />
+
+        {/* green top straight */}
+        <line
+          x1={150}
+          x2={350}
+          y1={"20%"}
+          y2={"20%"}
+          fill="none"
+          style={{
+            stroke: "#c9fb1e",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+          }}
+        />
+        {/* green line down */}
+        <line
+          x1={350}
+          x2={370}
+          y1={"20%"}
+          y2={"50%"}
+          fill="none"
+          style={{
+            stroke: "#c9fb1e",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+          }}
+        />
+        <line
+          x1={350}
+          x2={370}
+          y1={"80%"}
+          y2={"50%"}
+          fill="none"
+          style={{
+            stroke: "#c9fb1e",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+          }}
+        />
+
+        {/* top green circle */}
+        <circle
+          cx={150}
+          cy={"20%"}
+          r={5}
+          fill={"#2d3553"}
+          stroke={"#c9fb1e"}
+          strokeWidth={2}
+        />
+        {/* bottom pink circle */}
+        <circle
+          cx={350}
+          cy={"80%"}
+          r={5}
+          fill={"#2d3553"}
+          stroke={"#ff26a8"}
+          strokeWidth={2}
+        />
+        {/* infinite green line */}
+        <line
+          x1={370}
+          x2={"100%"}
+          y1={"50%"}
+          y2={"50%"}
+          fill="none"
+          style={{
+            stroke: "#c9fb1e",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+          }}
+        />
+        {/* green circle midway */}
+        <circle
+          cx={"50%"}
+          cy={"50%"}
+          r={5}
+          fill={"#2d3553"}
+          stroke={"#c9fb1e"}
+          strokeWidth={2}
+        />
+        <text
+          style={{
+            fontSize: 20,
+            fontStyle: "normal",
+            fill: "white",
+          }}
+          transform={"translate(130,55)"}
+        >
+          Quantum Circuit Simulator
+        </text>
+      </svg>
+    </AppBar>
   );
 };
 export default Menu;

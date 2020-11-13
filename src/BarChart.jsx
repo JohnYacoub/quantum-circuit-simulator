@@ -1,88 +1,123 @@
 import React from "react";
-import * as d3 from "d3";
+import { scaleLinear } from "d3";
+import styled from "styled-components/macro";
 
-function BarChart(props) {
-  const keys = Object.keys(props.result);
-  const values = Object.values(props.result);
+const ChartWrapper = styled.div`
+  margin-top: -3rem;
+  margin-bottom: -2rem;
+  maxwidth: 100%;
+  overflow: auto;
+`;
+
+const colours = ["#c9fb1e", "#fdb813", "#ff26a8", "#1efbfb", "#b186f7"];
+
+function BarChart({ result }) {
+  const keys = Object.keys(result);
+  const values = Object.values(result);
   const chartWidth = keys.length * 75;
   const svgWidth = chartWidth + 40;
-  const chartHeight = 260;
-  const svgHight = 300;
+  const chartHeight = 160;
+  const svgHight = 210;
 
-  const xAxisScale = d3
-    .scaleLinear()
+  const xAxisScale = scaleLinear()
     .domain([0, keys.length])
     .range([0, chartWidth]);
-  const yAxisScale = d3.scaleLinear().domain([1024, 0]).range([0, chartHeight]);
+  const yAxisScale = scaleLinear().domain([1024, 0]).range([0, chartHeight]);
 
   return (
-    <svg width={svgWidth} height={svgHight} style={{ overflow: "visible" }}>
-      <path
-        d={["M", 0, chartHeight, "v", 0, "V", -10, "v", 6].join(" ")}
-        fill="none"
-        stroke="lightgrey"
-      />
+    Object.keys(result).length > 0 && (
+      <ChartWrapper>
+        <svg
+          width={svgWidth}
+          height={svgHight}
+          style={{ overflow: "visibile" }}
+        >
+          <g transform={`translate(0,20)`}>
+            {/* <path
+              d={["M", 0, chartHeight, "v", 0, "V", 0, "v", 6].join(" ")}
+              stroke="#1efbfb"
+              strokeWidth="0.1rem"
+              stroke-dasharray="5,5"
+            /> */}
 
-      {values.map((value, idx) => {
-        return (
-          <g key={value} transform={`translate(25,0)`}>
-            <rect
-              key={"res"}
-              x={xAxisScale(idx)}
-              y={chartHeight - yAxisScale(1024 - value)}
-              height={yAxisScale(1024 - value)}
-              width={60}
-              fill={"lightblue"}
+            {values.map((value, idx) => {
+              return (
+                <g key={value} transform={`translate(25,0)`}>
+                  <rect
+                    key={"res"}
+                    x={xAxisScale(idx)}
+                    y={chartHeight - yAxisScale(1024 - value)}
+                    height={yAxisScale(1024 - value)}
+                    width={30}
+                    fill={"transparent"}
+                    rx={3}
+                    strokeWidth={2}
+                    stroke={colours[idx % 4]}
+                  />
+                  <g
+                    key={value}
+                    transform={`translate(${xAxisScale(idx)},${
+                      chartHeight - yAxisScale(1024 - value)
+                    })`}
+                  >
+                    <text
+                      key={value}
+                      style={{
+                        fontSize: "1rem",
+                        textAnchor: "middle",
+                        transform: "translate(1rem, -0.5rem)",
+                        fill: colours[idx % 4],
+                      }}
+                    >
+                      {((values[idx] / 1024) * 100).toFixed(2)}%
+                    </text>
+                  </g>
+                </g>
+              );
+            })}
+
+            <path
+              d={[
+                "M",
+                0,
+                chartHeight + 2,
+                "h",
+                0,
+                "H",
+                chartWidth,
+                "v",
+                0,
+              ].join(" ")}
+              stroke="#1efbfb"
+              strokeWidth="0.1rem"
+              stroke-dasharray="5,5"
             />
+            {xAxisScale.ticks(keys.length).map((value, idx) => {
+              return (
+                <g
+                  key={value}
+                  transform={`translate(${
+                    xAxisScale(value) + 40
+                  }, ${chartHeight})`}
+                >
+                  <text
+                    key={value}
+                    style={{
+                      fontSize: "0.9rem",
+                      textAnchor: "middle",
+                      transform: "translate(0rem, 1.5rem)",
+                      fill: colours[idx % 4],
+                    }}
+                  >
+                    {keys[idx]}
+                  </text>
+                </g>
+              );
+            })}
           </g>
-        );
-      })}
-
-      {yAxisScale.ticks(5).map((value) => (
-        <g key={value} transform={`translate(-10,${yAxisScale(value)})`}>
-          <line x1="6" x2="14" stroke="lightgrey" />
-          <text
-            key={value}
-            style={{
-              fontSize: "0.7rem",
-              textAnchor: "end",
-              transform: "translateY(3px)",
-              fill: "grey",
-            }}
-          >
-            {`${value / 10}%`}
-          </text>
-        </g>
-      ))}
-      <path
-        d={["M", 0, chartHeight, "h", 0, "H", chartWidth + 30, "v", 0].join(
-          " "
-        )}
-        stroke="#e6e6e9"
-        strokeWidth="0.1rem"
-      />
-      {xAxisScale.ticks(keys.length).map((value, idx) => {
-        return (
-          <g
-            key={value}
-            transform={`translate(${xAxisScale(value) + 50}, ${chartHeight})`}
-          >
-            {idx === keys.length ? "" : <line y2="14" stroke="lightgrey" />}
-            <text
-              key={value}
-              style={{
-                fontSize: "1rem",
-                textAnchor: "middle",
-                transform: "translate(0rem, 2rem)",
-                fill: "grey",
-              }}
-            >
-              {keys[idx]}
-            </text>
-          </g>
-        );
-      })}
-    </svg>
+        </svg>
+      </ChartWrapper>
+    )
   );
 }
 

@@ -1,42 +1,37 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
 import styled from "styled-components/macro";
 
 const StyledQubit = styled.div`
-  width: 7rem;
+  width: 4rem;
+  color: #b186f7;
+  text-align: center;
+  vertical-align: middle;
+  span {
+    font-size: 1.2rem;
+  }
   div {
-    border-radius: 3px;
-    padding-right: 1rem;
+    height: 2rem;
+    border-radius: 0.2rem;
     cursor: pointer;
+    border: 1px dashed #b186f7;
   }
   div.not-selected-qubit:hover {
-    box-shadow: 0px 0px 5px rgb(56, 225, 216);
+    background: #3f51b5;
+    box-shadow: 0px 0px 5px #b186f7;
   }
   div.selected-qubit {
-    box-shadow: 0 3px 6px 0 rgb(56, 225, 216);
+    background: #3f51b5;
+    box-shadow: 0 3px 6px 0 #b186f7;
   }
 `;
 
-const useStyles = makeStyles((theme) => ({
-  qubitInCircuit: {
-    fontSize: 15,
-    fontWeight: "bold",
-    verticalAlign: "middle",
-    paddingLeft: "1em",
-  },
-}));
-
-const CircuitQubit = ({ ...props }) => {
-  const { className, onClick, qubitIdx, qubitState } = props;
+const CircuitQubit = ({ className, onClick, qubitIdx }) => {
   return (
-    <Grid item xs={12} key={qubitIdx} style={{ marginBottom: "1.5rem" }}>
+    <Grid item xs={12} key={qubitIdx} style={{ marginBottom: "1rem" }}>
       <StyledQubit>
         <div className={className} onClick={onClick}>
-          <code className={useStyles().qubitInCircuit}>q[{qubitIdx}]</code>
-          <code id={qubitIdx} className={`${useStyles().qubitInCircuit}`}>
-            {`|${qubitState}>`}
-          </code>
+          <span>q[{qubitIdx}]</span>
         </div>
       </StyledQubit>
     </Grid>

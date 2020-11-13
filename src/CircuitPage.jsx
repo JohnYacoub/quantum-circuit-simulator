@@ -1,22 +1,24 @@
 import React, { useContext, useState } from "react";
 import AddButton from "./AddButton";
-import BinButton from "./BinButton";
+import StyledButton from "./StyledButton";
 import Circuit from "./Circuit";
 import CircuitQubit from "./CircuitQubit";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
+import Divider from "./Divider";
 import Gate from "./Gate";
 import Grid from "@material-ui/core/Grid";
-import MeasureButton from "./MeasureButton";
 import Menu from "./Menu";
 import PageWrapper from "./PageWrapper";
-import Paper from "@material-ui/core/Paper";
-import ResultsBox from "./ResultsBox";
+import BarChart from "./BarChart";
+import BlochSphere from "./BlochSphere";
+import SpeedIcon from "@material-ui/icons/Speed";
 import { QuantumContext } from "./QuantumContext";
+import Loader from "./Loader";
 
 const availableGatesList = [
   "H",
-  "S",
   "CNOT",
   "X",
   "Y",
@@ -24,6 +26,7 @@ const availableGatesList = [
   "Rx",
   "Ry",
   "Rz",
+  "S",
   "T",
 ];
 
@@ -31,14 +34,18 @@ function CircuitPage() {
   const { activeQubit, result } = useContext(QuantumContext);
   const [activeQubitIdx, setActiveQubitIdx] = activeQubit;
   const [newResult, setNewResult] = result;
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState([{ idx: 0, gates: [] }]);
 
   async function getResult() {
+    setLoading(true);
     const response = await fetchResult(data);
+    if (!response.ok) return console.log("error");
     const body = await response.json();
     const newRes = body.finalResult;
 
     setNewResult(newRes);
+    setLoading(false);
   }
 
   const selectGate = (gateName) => {
@@ -99,71 +106,87 @@ function CircuitPage() {
         <div className="appBarSpacer" />
         <Container maxWidth="lg">
           <Grid container spacing={3}>
-            {/* Gate selection */}
-            <Grid item xs={12}>
-              <Paper>
-                <h2
-                  style={{
-                    fontFamily: "Source Code Pro, monospace",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Gates
-                </h2>
-                <Grid container spacing={3}>
-                  {availableGatesList.map((g) => (
-                    <Gate key={g} g={g} selectGate={selectGate} />
-                  ))}
-                </Grid>
-              </Paper>
+            <Grid item xs={12} sm={6}>
+              <Grid container spacing={3} style={{ margin: "1rem" }}>
+                {availableGatesList.slice(0, 5).map((gate) => (
+                  <Grid key={gate} item xs={2}>
+                    <Gate gateName={gate} selectGate={selectGate} />
+                  </Grid>
+                ))}
+              </Grid>
+              <Grid container spacing={3} style={{ margin: "1rem" }}>
+                {availableGatesList.slice(5, 10).map((gate) => (
+                  <Grid key={gate} item xs={2}>
+                    <Gate gateName={gate} selectGate={selectGate} />
+                  </Grid>
+                ))}
+              </Grid>
             </Grid>
-            {/* Circuit */}
-            <Grid item xs={12}>
-              <Paper>
-              <h2
-                  style={{
-                    fontFamily: "Source Code Pro, monospace",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Circuit
-                </h2>
-                <Grid container spacing={3}>
-                  <Grid item xs={2}>
-                    {data.map((dataItem) => (
-                      <CircuitQubit
-                        key={dataItem.idx}
-                        className={
-                          activeQubitIdx === dataItem.idx
-                            ? "selected-qubit"
-                            : "not-selected-qubit"
-                        }
-                        activeQubit={activeQubitIdx}
-                        qubitIdx={dataItem.idx}
-                        qubitState={0}
-                        onClick={() => setActiveQubitIdx(dataItem.idx)}
-                      />
-                    ))}
-                    <AddButton onClick={addQubit} />
-                  </Grid>
-                  <Grid key="circuit" item xs={10}>
-                    <Circuit key={"c"} data={data} />
-                  </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                    style={{
-                      textAlign: "center",
-                    }}
-                  >
-                    <ResultsBox data={data} result={newResult} />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <MeasureButton onClick={getResult} />
-                    <BinButton onClick={resetAll} />
-                  </Grid>
+            {/* <hr
+              style={{
+                border: "1px dashed white",
+                position: "absolute",
+                border: "none",
+                borderLeft: "3px solid white",
+                width: 0,
+                height: "224px",
+              }}
+            /> */}
+            <Grid item xs={12} sm={6} style={{
+                textAlign: "center",
+              }}>
+              <BlochSphere width={300} height={280} />
+              <div
+                id="bloch"
+                style={{ marginTop: "0rem", marginBottom: "-2rem" }}
+              />
+            </Grid>
+          </Grid>
+        </Container>
+        <Divider />
+        <Container maxWidth="lg">
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={6}>
+              <div style={{ float: "right", marginTop: "-2.5rem" }}>
+                <StyledButton onClick={getResult}>
+                  <SpeedIcon style={{ fontSize: 20 }} />
+                </StyledButton>
+                <StyledButton onClick={resetAll}>
+                  <DeleteOutlinedIcon style={{ fontSize: 17 }} />
+                </StyledButton>
+              </div>
+              <Grid container spacing={2}>
+                <Grid item xs={2} style={{ textAlign: "-webkit-center" }}>
+                  {data.map((dataItem) => (
+                    <CircuitQubit
+                      key={dataItem.idx}
+                      className={
+                        activeQubitIdx === dataItem.idx
+                          ? "selected-qubit"
+                          : "not-selected-qubit"
+                      }
+                      activeQubit={activeQubitIdx}
+                      qubitIdx={dataItem.idx}
+                      qubitState={0}
+                      onClick={() => setActiveQubitIdx(dataItem.idx)}
+                    />
+                  ))}
+                  <AddButton onClick={addQubit} />
                 </Grid>
-              </Paper>
+                <Grid key="circuit" item xs={8}>
+                  <Circuit key={"c"} data={data} />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              style={{
+                textAlign: "center",
+              }}
+            >
+              {loading ? <Loader /> : <BarChart result={newResult} />}
             </Grid>
           </Grid>
         </Container>
@@ -187,4 +210,3 @@ function fetchResult(data) {
     }),
   });
 }
-

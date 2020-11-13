@@ -4,7 +4,6 @@ import styled from "styled-components/macro";
 const StyledCircuitWrapper = styled.div`
   overflow: auto;
   padding-bottom: 2rem;
-
   svg > g > rect.gateRect {
     @keyframes gatesFadeIn {
       0% {
@@ -12,39 +11,32 @@ const StyledCircuitWrapper = styled.div`
       }
     }
     animation: 2s ease-out 0s 1 gatesFadeIn;
-    }
-    .H,
-    .S,
-    .CNOT {
-      background-color: #7c4dff;
-      fill: #7c4dff;
-    }
-  
-    .T {
-      background-color: #e040fb;
-      fill: #e040fb;
-    }
-  
-    .X,
-    .Y,
-    .Z {
-      background-color: rgb(253, 184, 19);
-      fill: rgb(253, 184, 19);
-    }
-  
-    .Rx,
-    .Ry,
-    .Rz {
-      background-color: #40c4ff;
-      fill: #40c4ff;
-    }
+    }    
   }
 `;
 
-function Circuit(props) {
-  return props.data ? (
+function getColor(gateName) {
+  switch (gateName) {
+    case "H":
+      return "#b186f7";
+    case "T":
+    case "S":
+      return "#ff26a8";
+    case "X":
+    case "Y":
+    case "Z":
+      return "#fdb813";
+    case "Rx":
+    case "Ry":
+    case "Rz":
+      return "#c9fb1e";
+  }
+}
+
+function Circuit({data}) {
+  return data ? (
     <StyledCircuitWrapper>
-      {props.data.map((qubit, i) => (
+      {data.map((qubit, i) => (
         <svg
           id={`svg-${i}`}
           key={i}
@@ -59,7 +51,7 @@ function Circuit(props) {
             y2={20}
             fill="none"
             style={{
-              stroke: "lightGrey",
+              stroke: "#d3d3d38c",
               strokeWidth: 1,
               strokeLinecap: "round",
             }}
@@ -82,22 +74,6 @@ function Circuit(props) {
               return (
                 <g key={gate + idx}>
                   <line
-                    className="firstLine"
-                    x1={0}
-                    x2={40}
-                    y1={20}
-                    y2={20}
-                    fill="none"
-                  ></line>
-                  <line
-                    className="fillGapLine"
-                    x1={80 * idx + 40}
-                    x2={80 * idx + 40 + 40 - 20}
-                    y1={20}
-                    y2={20}
-                    fill="none"
-                  ></line>
-                  <line
                     className="cnotGate"
                     x1={20 + 40 + 80 * idx}
                     x2={20 + 40 + 80 * idx}
@@ -105,7 +81,7 @@ function Circuit(props) {
                     y2={60}
                     fill="none"
                     style={{
-                      stroke: "grey",
+                      stroke: "#1efbfb",
                       strokeWidth: 2,
                       strokeLinecap: "round",
                     }}
@@ -114,36 +90,32 @@ function Circuit(props) {
                     cx={20 + 40 + 80 * idx}
                     cy={20}
                     r={10}
-                    className="CNOT"
+                    fill={"#3f51b5"}
+                    strokeWidth={"2px"}
+                    stroke={"#1efbfb"}
                   />
                 </g>
               );
             } else if (gate.name === "CNOTtarget") {
               return (
                 <g key={gate + idx}>
-                  <line
-                    className="firstLine"
-                    x1={0}
-                    x2={40}
-                    y1={20}
-                    y2={20}
-                    fill="none"
-                  ></line>
                   <circle
                     cx={20 + 40 + 80 * idx}
                     cy={20}
                     r={15}
-                    className="CNOT"
+                    fill={"#3f51b5"}
+                    strokeWidth={"2px"}
+                    stroke={"#1efbfb"}
                   />
                   <text
                     className="gateRect"
                     dominantBaseline="alphabetical"
                     x={20 + 40 + 80 * idx} //20+80*elemNum
-                    y={30}
+                    y={25}
                     style={{
                       fontSize: 30,
                       fontStyle: "normal",
-                      fill: "white",
+                      fill: "#1efbfb",
                     }}
                   >
                     <tspan textAnchor="middle">{"+"}</tspan>
@@ -153,31 +125,28 @@ function Circuit(props) {
             } else {
               return (
                 <g key={gate.name + idx}>
-                  <line
-                    className="firstLine"
-                    x1={0}
-                    x2={40}
-                    y1={20}
-                    y2={20}
-                    fill="none"
-                  ></line>
                   <rect
                     className={`${gate.name} gateRect`}
                     x={40 + 80 * idx} //80*(elemNum-1)
                     y={0}
+                    rx={3}
+                    ry={3}
                     width={40}
                     height={40}
+                    fill={"#3f51b5"}
+                    strokeWidth={"2px"}
+                    stroke={getColor(gate.name)}
                   ></rect>
                   <text
-                    className="gateRect"
+                    className={`${gate.name} text`}
                     dominantBaseline="alphabetical"
                     x={40 + 20 + 80 * idx} //20+80*elemNum
                     y={26}
                     style={{
                       fontSize: 17,
                       fontStyle: "normal",
-                      fill: "white",
-                      fontWeight: "bold",
+                      strokeWidth: 0,
+                      fill: getColor(gate.name),
                     }}
                   >
                     <tspan textAnchor="middle">{gate.name}</tspan>
