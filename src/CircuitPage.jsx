@@ -1,10 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import AddButton from "./AddButton";
 import StyledButton from "./StyledButton";
 import Circuit from "./Circuit";
 import CircuitQubit from "./CircuitQubit";
 import Container from "@material-ui/core/Container";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import Divider from "./Divider";
 import Gate from "./Gate";
@@ -14,7 +13,6 @@ import PageWrapper from "./PageWrapper";
 import BarChart from "./BarChart";
 import BlochSphere from "./BlochSphere";
 import SpeedIcon from "@material-ui/icons/Speed";
-import { QuantumContext } from "./QuantumContext";
 import Loader from "./Loader";
 
 const availableGatesList = [
@@ -31,9 +29,8 @@ const availableGatesList = [
 ];
 
 function CircuitPage() {
-  const { activeQubit, result } = useContext(QuantumContext);
-  const [activeQubitIdx, setActiveQubitIdx] = activeQubit;
-  const [newResult, setNewResult] = result;
+  const [activeQubitIdx, setActiveQubitIdx] = useState(0);
+  const [newResult, setNewResult] = useState({});
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([{ idx: 0, gates: [] }]);
 
@@ -97,10 +94,9 @@ function CircuitPage() {
     setActiveQubitIdx(newQubitIndx);
     setData([...data, { idx: newQubitIndx, gates: [] }]);
   };
-  console.log(newResult);
+  
   return (
     <PageWrapper>
-      <CssBaseline />
       <Menu />
       <main>
         <div className="appBarSpacer" />
@@ -132,9 +128,14 @@ function CircuitPage() {
                 height: "224px",
               }}
             /> */}
-            <Grid item xs={12} sm={6} style={{
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              style={{
                 textAlign: "center",
-              }}>
+              }}
+            >
               <BlochSphere width={300} height={280} />
               <div
                 id="bloch"

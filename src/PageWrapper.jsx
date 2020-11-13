@@ -5,12 +5,15 @@ const StyledPageWrapper = styled.div`
   display: flex;
   main {
     flex-grow: 1;
-    height: 100vh;
+    height: 100%;
     overflow: auto;
     padding-bottom: 2rem;
   }
   main > div.appBarSpacer {
     min-height: 6rem;
+  }
+  .muigrid .container: {
+    justify-content: center;
   }
 `;
 

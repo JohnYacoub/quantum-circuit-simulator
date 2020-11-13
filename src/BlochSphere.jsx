@@ -53,7 +53,7 @@ const BlochSphere = ({ width, height }) => {
     function makeTextSprite(message, xPos, yPos, zPos) {
       const canvas = document.createElement("canvas");
       const context = canvas.getContext("2d");
-      context.font = "40px Arial";
+      context.font = "40px Iceland";
       context.strokeStyle = "rgba(255,255,255,1.0)";
 
       // text color

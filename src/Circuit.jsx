@@ -4,6 +4,9 @@ import styled from "styled-components/macro";
 const StyledCircuitWrapper = styled.div`
   overflow: auto;
   padding-bottom: 2rem;
+  svg {
+    padding-bottom: 0.8rem;
+  }
   svg > g > rect.gateRect {
     @keyframes gatesFadeIn {
       0% {
@@ -33,7 +36,7 @@ function getColor(gateName) {
   }
 }
 
-function Circuit({data}) {
+function Circuit({ data }) {
   return data ? (
     <StyledCircuitWrapper>
       {data.map((qubit, i) => (

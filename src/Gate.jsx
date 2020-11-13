@@ -3,15 +3,15 @@ import styled from "styled-components/macro";
 
 const StyledGate = styled.div`
   div.gate {
-    width: 4em;
-    height: 4em;
+    width: 3.2rem;
+    height: 3.2rem;
 
     border-radius: 0.2rem;
     text-align: center;
   }
 
   div.gate-text {
-    padding-top: 30%;
+    padding-top: 35%;
     font-weight: bold;
     font-size: 1rem;
   }

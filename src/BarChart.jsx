@@ -121,17 +121,4 @@ function BarChart({ result }) {
   );
 }
 
-// function permutations(c, r, targetLength, resultArray) {
-//   // permutations("", "01", qubitNum, []);
-//   if (c.length === targetLength) {
-//     resultArray.push(c);
-//     return 1;
-//   }
-//   let sum;
-//   for (let i = 0; i < r.length; i++) {
-//     sum += permutations(c + r.charAt(i), r, targetLength, resultArray);
-//   }
-//   return resultArray;
-// }
-
 export default BarChart;

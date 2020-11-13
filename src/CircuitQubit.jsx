@@ -5,10 +5,9 @@ import styled from "styled-components/macro";
 const StyledQubit = styled.div`
   width: 4rem;
   color: #b186f7;
-  text-align: center;
-  vertical-align: middle;
   span {
     font-size: 1.2rem;
+    line-height: 2rem;
   }
   div {
     height: 2rem;
