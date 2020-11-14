@@ -12,7 +12,7 @@
 ![material-ui](https://img.shields.io/badge/-MaterialUI-0081CB?style=flat-square&logo=material-ui&logoColor=white)
 ![python](https://img.shields.io/badge/-Python-3776AB?style=flat-square&logo=python&logoColor=white)
 
-A web application that allows the user to graphically build quantum circuits and view the results on a dashboard. This project combines **React(JavaScript)** frontend with a **Flask(Python)** backend using **Qiskit** library to perform quantum operations.
+A web application that allows the user to graphically build quantum circuits and view the results on a dashboard. This project combines **React(TypeScript)** frontend with a **Flask(Python)** backend using **Qiskit** library to perform quantum operations.
 
 This project is automated with continuous deployment on [AWS Amplify](https://aws.amazon.com/amplify/).
 
