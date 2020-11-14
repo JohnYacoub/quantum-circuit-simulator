@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import styled from "styled-components/macro";
-
+import { BounceInAnimation } from "./BounceInTopAnimation";
 type GateProps = {
   gateName: string;
   selectGate: any;
@@ -12,6 +12,12 @@ const StyledGate = styled.div`
 
     border-radius: 0.2rem;
     text-align: center;
+    transition: all 0.2s ease-in-out;
+    :hover {
+      cursor: pointer;
+      transform: scale(1.3);
+      z-index: 5;
+    }
   }
 
   div.gate-text {
@@ -53,6 +59,8 @@ const StyledGate = styled.div`
     border: 2px solid #c9fb1e;
     color: #c9fb1e;
   }
+  ${BounceInAnimation}
+  
 `;
 
 const Gate: FC<GateProps> = ({ gateName, selectGate }) => {

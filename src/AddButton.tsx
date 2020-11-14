@@ -7,6 +7,7 @@ type ButtonProps = {
 const AddButton: FC<ButtonProps> = ({ onClick }) => {
   return (
     <IconButton
+    className="btn"
       style={{
         marginTop: "1rem",
         padding: "6px",

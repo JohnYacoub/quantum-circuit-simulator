@@ -4,6 +4,7 @@ import AppBar from "@material-ui/core/AppBar";
 const Menu = () => {
   return (
     <AppBar
+      className="menu"
       position="absolute"
       style={{
         color: "white",

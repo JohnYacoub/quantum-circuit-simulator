@@ -33,7 +33,7 @@ const StyledQubit = styled.div`
 
 const CircuitQubit: FC<QubitProps> = ({ className, onClick, qubitIdx }) => {
   return (
-    <Grid item xs={12} key={qubitIdx} style={{ paddingBottom: "1.4rem" }}>
+    <Grid className="qubit" item xs={12} key={qubitIdx} style={{ paddingBottom: "1.4rem" }}>
       <StyledQubit>
         <div className={className} onClick={onClick}>
           <span>q[{qubitIdx}]</span>

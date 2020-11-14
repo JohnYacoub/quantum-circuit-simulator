@@ -2,7 +2,7 @@ import React from "react";
 
 const Divider = () => {
   return (
-    <div
+    <div className="menu"
       style={{
         display: "flex",
         color: "white",
@@ -10,12 +10,12 @@ const Divider = () => {
         fontSize: "1.3rem",
         height: "6rem",
         backgroundColor: "#2d3553",
-        zIndex: 1701,
+        zIndex: 1201,
         fontWeight: "bold",
         boxShadow: "none",
         overflow: "visible",
         marginBottom: "1rem",
-        marginTop: "-2rem",
+        marginTop: "-1.5rem",
       }}
     >
       <svg

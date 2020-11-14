@@ -18,6 +18,7 @@ const StyledCircuitWrapper = styled.div`
     animation: 2s ease-out 0s 1 gatesFadeIn;
     }    
   }
+
 `;
 
 const getColor = (gateName: string) => {
@@ -40,7 +41,7 @@ const getColor = (gateName: string) => {
 
 const Circuit: FC<CircuitProps> = ({ data }) => {
   return data ? (
-    <StyledCircuitWrapper>
+    <StyledCircuitWrapper className="circuit">
       {data.map((qubit, i) => (
         <svg
           id={`svg-${i}`}
