@@ -18,6 +18,8 @@ This project is automated with continuous deployment on [AWS Amplify](https://aw
 
 You can visit the deployed, fully functional app [here](https://master.d3vhvy7iyx12n.amplifyapp.com/).
 
+![quantum](https://general-gif-bucket.s3.eu-west-2.amazonaws.com/quantum.gif)
+
 Backend source code can be found [here](https://github.com/XandraV/quantum-qiskit-flask-backend/blob/master/app/main.py) and is automated with continuous deployment on [Heroku](http://www.heroku.com/).
 
 ## Installation
