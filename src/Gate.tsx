@@ -14,9 +14,9 @@ const StyledGate = styled.div`
     text-align: center;
     transition: all 0.2s ease-in-out;
     :hover {
+      z-index: 5;
       cursor: pointer;
       transform: scale(1.3);
-      z-index: 5;
     }
   }
 

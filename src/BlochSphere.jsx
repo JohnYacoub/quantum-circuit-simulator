@@ -11,7 +11,7 @@ const BlochSphere = ({ width, height }) => {
     scene.background = null;
 
     renderer.setSize(width, height);
-    camera.position.set(50, 30, 100);
+    camera.position.set(50, 50, 100);
     controls.update();
 
     const geometry = new THREE.SphereGeometry(15, 64, 64);
@@ -67,7 +67,7 @@ const BlochSphere = ({ width, height }) => {
 
     //arrows
     const sourcePosZ = new THREE.Vector3(0, 0, 0);
-    const targetPosZ = new THREE.Vector3(0, 20, 0);
+    const targetPosZ = new THREE.Vector3(0, 15, 0);
     const directionZ = new THREE.Vector3().sub(targetPosZ, sourcePosZ);
     const arrowHelperZ = new THREE.ArrowHelper(
       directionZ.clone().normalize(),
@@ -79,7 +79,7 @@ const BlochSphere = ({ width, height }) => {
     );
 
     const sourcePosY = new THREE.Vector3(0, 0, 0);
-    const targetPosY = new THREE.Vector3(20, 0, 0);
+    const targetPosY = new THREE.Vector3(15, 0, 0);
     const directionY = new THREE.Vector3().sub(targetPosY, sourcePosY);
     const arrowHelperY = new THREE.ArrowHelper(
       directionY.clone().normalize(),
@@ -91,7 +91,7 @@ const BlochSphere = ({ width, height }) => {
     );
 
     const sourcePosX = new THREE.Vector3(0, 0, 0);
-    const targetPosX = new THREE.Vector3(0, 0, 20);
+    const targetPosX = new THREE.Vector3(0, 0, 15);
     const directionX = new THREE.Vector3().sub(targetPosX, sourcePosY);
     const arrowHelperX = new THREE.ArrowHelper(
       directionX.clone().normalize(),
@@ -126,6 +126,13 @@ const BlochSphere = ({ width, height }) => {
     const spritePsi = makeTextSprite("|Ψ⟩", 10, 10, 5);
     spritePsi.material.map.needsUpdate = true;
     psi.add(spritePsi);
+
+    const circleGeometry = new THREE.CircleGeometry(15, 64);
+    circleGeometry.vertices.shift()
+    const circle = new THREE.LineLoop(circleGeometry, new THREE.MeshBasicMaterial({ color: 0x3b4568a6 }) )
+    scene.add( circle );
+    circle.rotation.x = Math.PI/2
+
 
     //add some lighting
     const ambientLight = new THREE.AmbientLight(0x0c0c0c);
