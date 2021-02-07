@@ -1,5 +1,3 @@
-
-![contributors](https://img.shields.io/github/contributors/XandraV/quantum-react-frontend?color=gold)
 ![commit](https://img.shields.io/github/last-commit/XandraV/quantum-react-frontend?color=cyan)
 
 # Quantum Circuit Simulator
