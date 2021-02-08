@@ -10,7 +10,7 @@
 ![material-ui](https://img.shields.io/badge/-MaterialUI-0081CB?style=flat-square&logo=material-ui&logoColor=white)
 ![python](https://img.shields.io/badge/-Python-3776AB?style=flat-square&logo=python&logoColor=white)
 
-A web application that allows the user to graphically build quantum circuits and view the results on a dashboard. This project combines **React(TypeScript)** frontend with a **Flask(Python)** backend using **Qiskit** library to perform quantum operations.
+A web application that allows the user to graphically build quantum circuits and view the results on a dashboard. This project combines **React(TypeScript)** frontend with a **Flask(Python)** [backend](https://github.com/XandraV/quantum-qiskit-flask-backend) using **Qiskit** library to perform [quantum operations](https://github.com/XandraV/quantum-qiskit-flask-backend/blob/master/app/main.py).
 
 This project is automated with continuous deployment on [AWS Amplify](https://aws.amazon.com/amplify/).
 
@@ -18,7 +18,7 @@ You can visit the deployed, fully functional app [here](https://master.d3vhvy7iy
 
 ![quantum](https://general-gif-bucket.s3.eu-west-2.amazonaws.com/quantum.gif)
 
-Backend source code can be found [here](https://github.com/XandraV/quantum-qiskit-flask-backend/blob/master/app/main.py) and is automated with continuous deployment on [Heroku](http://www.heroku.com/).
+Backend source code can be found [here](https://github.com/XandraV/quantum-qiskit-flask-backend) and is automated with continuous deployment on [Heroku](http://www.heroku.com/).
 
 ## Installation
 
